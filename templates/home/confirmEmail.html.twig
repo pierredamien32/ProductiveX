@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<style>
+     .renvoie-mail:hover{
+        text-decoration: underline;
+    }
+    @media screen and (max-width:1000px){
+        .mes-images{
+            display: none;
+        }
+    }
+</style>
+<div class="content" style="z-index:1;">
+    <div class="container">
+        <div class="row justify-content-center align-items-center" style="height: 100vh;">
+            <div class="col-md-6 contents">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="mb-4">
+                            <h3 class="mb-4 text-center">ProductiveX</h3>
+                            <p class="mb-4 text-center">Consultez votre boîte de réception pour vous connecter.</p>
+                        </div>
+                        <div class="text-center">
+                            <img src="{{asset('Arsha/assets/img/image-email.png')}}" alt="image email" >
+                        </div>
+                        <div style="margin:10px 0;">
+                            <p class="">Pour finaliser la configuration et vous connecter, 
+                                cliquez sur le lien de vérification dans l'e-mail que nous avons envoyé à l'adresse
+                            </p>
+                            <strong>exemple@gmail.com</strong>
+                        </div>
+                        <a href="" class="row justify-content-center align-items-center renvoie-mail">Renvoyer l'e-mail de vérification</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     <div style=" position:fixed; z-index:5; background:red; " class="mes-images">
+        <div class="position-fixed bottom-0 start-0">
+            <img src="{{asset('Arsha/assets/img/image-gauche.png')}}" style="float:left;">
+        </div>
+        <div class="position-fixed bottom-0 end-0">
+            <img src="{{asset('Arsha/assets/img/image-droite.png')}}" style="float:right;">
+        </div>
+    </div>
+</div>
+
+{% endblock %}

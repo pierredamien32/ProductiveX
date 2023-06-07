@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<style>
+    @media screen and (max-width:1000px){
+        .mes-images{
+            display: none;
+        }
+    }
+</style>
+<div class="content" style="z-index:1;">
+    <div class="container">
+        <div class="row justify-content-center align-items-center" style="height: 100vh;">
+            <div class="col-md-6 contents">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="mb-4">
+                            <h3 class="mb-4 text-center">ProductiveX</h3>
+                            <p class="mb-4 text-center">Connectez-vous pour continuer.</p>
+                        </div>
+                        <form action="#" method="post">
+                            <div class="form-group first">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control" id="email" placeholder="Votre E-mail...">
+                            </div>
+                            <div class="form-group last mb-4">
+                                <label for="password">Mot de passe</label>
+                                <input type="password" class="form-control" id="password" placeholder="Saisir le mot de passe">
+                            </div>
+                            <div class="d-flex mb-5 align-items-center justify-content-between" style="gap: 10px;">
+                                <div class="form-group form-check">
+                                    <input type="checkbox" class="form-check-input" id="rememberMeCheckbox">
+                                    <label class="form-check-label" for="rememberMeCheckbox">Se souvenir de moi</label>
+                                </div>
+                                <span class="ml-auto"><a href="#" class="forgot-pass">Mot de passe oublié?</a></span>
+                            </div>
+                            <div class="row justify-content-center align-items-center">
+                                <input type="submit" value="Connexion" class="btn btn-block btn-primary">
+                                <span class="d-block text-left my-4 text-muted text-center">&mdash; ou connectez-vous avec &mdash;</span>
+                                <div class="social-login text-center" style="">
+                                    <a href="#" class="facebook" style="padding:7px 10px; border-radius:100%; background:#1877F2; margin:0 10px;">
+                                        <i class="fa-brands fa-facebook-f" style="color:white;"></i>
+                                    </a>
+                                    <a href="#" class="twitter" style="padding:7px 10px; border-radius:100%; background: #1DA1F2; margin:0 10px;">
+                                        <i class="fa-brands fa-twitter" style="color:white;"></i>
+                                    </a>
+                                    <a href="#" class="google" style="padding:7px 10px; border-radius:100%; background:red; margin:0 10px;">
+                                        <i class="fa-brands fa-google" style="color:white;"></i>
+                                    </a>
+                                </div>
+                                <div style="display:flex; justify-content:space-between; margin-top:25px; ">
+                                    <p>Vous n'avez de compte?</p>
+                                    <a href="{{ path('app_blog_verifiEmail') }}">S'inscrire</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     <div style=" position:fixed; z-index:5; background:red; " class="mes-images">
+        <div class="position-fixed bottom-0 start-0">
+            <img src="{{asset('Arsha/assets/img/image-gauche.png')}}" style="float:left;">
+        </div>
+        <div class="position-fixed bottom-0 end-0">
+            <img src="{{asset('Arsha/assets/img/image-droite.png')}}" style="float:right;">
+        </div>
+    </div>
+</div>
+<script>
+    // Vérifier si le rememberMeCheckbox est déjà coché et restaurer l'état
+document.addEventListener('DOMContentLoaded', function() {
+  var rememberMeCheckbox = document.getElementById('rememberMeCheckbox');
+  
+  if (localStorage.getItem('rememberMeChecked') === 'true') {
+    rememberMeCheckbox.checked = true;
+  }
+});
+
+// Écouter les changements de la case à cocher et enregistrer l'état
+var rememberMeCheckbox = document.getElementById('rememberMeCheckbox');
+
+rememberMeCheckbox.addEventListener('change', function() {
+  if (this.checked) {
+    localStorage.setItem('rememberMeChecked', 'true');
+  } else {
+    localStorage.removeItem('rememberMeChecked');
+  }
+});
+
+</script>
+{% endblock %}
