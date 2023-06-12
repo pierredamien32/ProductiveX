@@ -45,4 +45,6 @@ class BlogController extends AbstractController
     {
         return $this->render('home/formEntreprise.html.twig');
     }
+
+    
 }

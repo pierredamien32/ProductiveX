@@ -282,7 +282,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a class="" href="{{ path('app_dashboard_viewMembres')}}">
+                        <a class="" href="{{ asset('assets/email-inbox.html')}}">
                             <i class="fa-solid fa-user-plus"></i><span class="">Membres</span>
                         </a>
                     </li>
@@ -310,7 +310,7 @@
 
             <div class="container-fluid mt-3">
                 <div class="row">
-                    <div class="col-lg-3 col-sm-6">
+                    {# <div class="col-lg-3 col-sm-6">
                         <div class="card gradient-1">
                             <div class="card-body">
                                 <h3 class="card-title text-white">Tous les projets</h3>
@@ -357,13 +357,13 @@
                                 <span class="float-right display-5 opacity-5"><i class="fa fa-heart"></i></span>
                             </div>
                         </div>
-                    </div>
+                    </div> #}
                 </div>
 
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-0 text-gray-800">Liste des projets</h1>
+                    <h1 class="h3 mb-0 text-gray-800">Liste des Membres</h1>
                     <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm gradient-4" style="border: none;" data-toggle="modal" data-target="#modalLoginForm">
-                    <i class="fa-solid fa-plus" style="margin:0 5px;"></i>Créer un nouveau projet</a>
+                    <i class="fa-solid fa-plus" style="margin:0 5px;"></i>Ajouter un membre</a>
                 </div> 
 
                 <div class="row">
@@ -551,27 +551,45 @@
     <script src="{{ asset('theme/js/dashboard/dashboard-1.js')}}"></script>
 
     {# boite modale de projet  #}
-   <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                 <div class="modal-header text-center">
-                    <h4 class="modal-title w-100 font-weight-bold">Créer un projet</h4>
+                    <h4 class="modal-title w-100 font-weight-bold">Ajouter un membres</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body mx-3">
                     <div class="md-form mb-5">
-                        <label data-error="wrong" data-success="right" for="defaultForm-email">Nom du projet</label>
+                        <label data-error="wrong" data-success="right" for="defaultForm-email">Nom du membre</label>
                         <input type="text" id="defaultForm-email" class="form-control validate">
                     </div>
                     <div class="md-form mb-5">
-                        <label data-error="wrong" data-success="right" for="defaultForm-email">Description du projet</label>
+                        <label data-error="wrong" data-success="right" for="defaultForm-email">Poste du membre</label>
                         <input type="text" id="defaultForm-email" class="form-control validate">
                     </div>
                     <div class="md-form mb-5">
-                        <label data-error="wrong" data-success="right" for="defaultForm-email">Durée en minute</label>
-                        <input type="time" id="defaultForm-email" class="form-control validate">
+                        <label data-error="wrong" data-success="right" for="defaultForm-email">Date de début du contrat</label>
+                        <input type="date" id="defaultForm-email" class="form-control validate">
+                    </div>
+                    <div class="md-form mb-5">
+                        <label data-error="wrong" data-success="right" for="defaultForm-email">Date de fin du contrat</label>
+                        <input type="date" id="defaultForm-email" class="form-control validate">
+                    </div>
+                    <div class="md-form mb-5">
+                        <label data-error="wrong" data-success="right" for="defaultForm-email">Email du membre</label>
+                        <input type="email" id="defaultForm-email" class="form-control validate">
+                    </div>
+
+                    <div class="md-form mb-4">
+                        <label data-error="wrong" data-success="right" for="defaultForm-pass">Mot de passe</label>
+                        <input type="password" id="defaultForm-pass" class="form-control validate">
+                    </div>
+
+                    <div class="md-form mb-4">
+                        <label data-error="wrong" data-success="right" for="defaultForm-pass">Confirmation du mot de passe</label>
+                        <input type="password" id="defaultForm-pass" class="form-control validate">
                     </div>
                 </div>
                 <div class="modal-footer d-flex justify-content-center">
