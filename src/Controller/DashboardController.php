@@ -11,7 +11,8 @@ class DashboardController extends AbstractController
     #[Route('/workspace/dashboard', name: 'app_dashboard')]
     public function index(): Response
     {
-        return $this->render('dashboard/index.html.twig');
+        return $this->render('dashboard/index.html.twig');// Cette fonction envoie vers la page dashboard/index.html.twig
+                                                        // cette page est la page d'accueil du compte entreprise
     }
 
     #[Route('/workspace/dashboard/hello', name: 'app_dashboard_hello')]
@@ -23,6 +24,7 @@ class DashboardController extends AbstractController
     #[Route('/workspace/dashboard/view-membres', name: 'app_dashboard_viewMembres')]
     public function viewMembres(): Response
     {
-        return $this->render('dashboard/employe.html.twig');
+        return $this->render('dashboard/employe.html.twig');// Cette fonction envoie vers la page dashboard/employe.html.twig
+                                                            // cette page est la page permet de voir tous les membres et d'en creer d'autre
     }
 }
