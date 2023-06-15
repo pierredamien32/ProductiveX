@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<style>
+    @media screen and (max-width:1000px){
+        .mes-images{
+            display: none;
+        }
+    }
+</style>
+<div class="content" style="z-index:1;">
+    <div class="container">
+        <div class="row justify-content-center align-items-center" style="height: 100vh;">
+            <div class="col-md-6 contents">
+                <div class="row justify-content-center">
+                    <div class="col-md-12">
+                        <div class="mb-4">
+                            <h3 class="mb-4 text-center">ProductiveX</h3>
+                            <p class="mb-4 text-center">Inscrivez-vous pour continuer.</p>
+                        </div>
+                        {% for flash_error in app.flashes('verify_email_error') %}
+                            <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+                        {% endfor %}
+                        {{ form_start(form,{ 'attr': {'class': 'row g-3'} }) }}
+                            <div class="form-group first mb-4 col-md-6">
+                                {{ form_row(form.sigle) }}
+                            </div>
+                            <div class="form-group last mb-4 col-md-6">
+                                {{ form_row(form.denomination) }}
+                            </div>
+                            <div class="form-group last mb-4 col-md-6">
+                                {{ form_row(form.adresse) }}
+                            </div> 
+
+                            <div class="form-group last mb-4 col-md-6">
+                                {{ form_row(form.user_id.numTel) }}
+                            </div>
+                            <div class="form-group last mb-4 col-md-6">
+                                {{ form_row(form.user_id.email) }}
+                            </div>
+                            <div class="form-group last mb-4 col-md-6">
+                                {{ form_row(form.user_id.plainPassword.first) }}
+                            </div>
+                             <div class="form-group last mb-4 col-md-12">
+                                {{ form_row(form.user_id.plainPassword.second) }}
+                            </div>
+                            <div style="margin:10px 0;">
+                                <p class="">En m'inscrivant, j'accepte les <span style="color:blue;">conditions d'utilisation de ProductiveX</span> et
+                                    je confirme avoir pris connaissance de sa <span style="color:blue;">politique de confidentialité.</span>
+                                </p>
+                            </div>
+                            <div class="row justify-content-center align-items-center">
+                                <button type="submit" class="btn btn-block btn-primary">S'inscrire</button>
+                                <span class="d-block text-left my-4 text-muted text-center">&mdash; ou inscrivez-vous avec &mdash;</span>
+                                <div class="social-login text-center" style="">
+                                    <a href="#" class="facebook" style="padding:7px 10px; border-radius:100%; background:#1877F2; margin:0 10px;">
+                                        <i class="fa-brands fa-facebook-f" style="color:white;"></i>
+                                    </a>
+                                    <a href="#" class="twitter" style="padding:7px 10px; border-radius:100%; background: #1DA1F2; margin:0 10px;">
+                                        <i class="fa-brands fa-twitter" style="color:white;"></i>
+                                    </a>
+                                    <a href="#" class="google" style="padding:7px 10px; border-radius:100%; background:red; margin:0 10px;">
+                                        <i class="fa-brands fa-google" style="color:white;"></i>
+                                    </a>
+                                </div>
+                                {{ form_end(form) }}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     <div style=" position:fixed; z-index:5; background:red; " class="mes-images">
+        <div class="position-fixed bottom-0 start-0">
+            <img src="{{asset('Arsha/assets/img/image-gauche.png')}}" style="float:left;">
+        </div>
+        <div class="position-fixed bottom-0 end-0">
+            <img src="{{asset('Arsha/assets/img/image-droite.png')}}" style="float:right;">
+        </div>
+    </div>
+</div>
+
+{% endblock %}

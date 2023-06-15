@@ -18,8 +18,8 @@
           <li><a class="nav-link scrollto" href="#services">Services</a></li>
           <li><a class="nav-link scrollto" href="#team">Equipe</a></li>
           <li><a class="nav-link scrollto" href="#pricing">Nos offres</a></li>
-          <li><a class="nav-link scrollto" href="{{ path('app_blog_verifiEmail') }}">S'inscrire</a></li>
-          <li><a class="getstarted scrollto" href="{{ path('app_blog_login') }}">Se connecter</a></li>
+          <li><a class="nav-link scrollto" href="{{ path('app_register') }}">S'inscrire</a></li>
+          <li><a class="getstarted scrollto" href="{{ path('app_login') }}">Se connecter</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
@@ -35,9 +35,9 @@
         <div class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
           <h1>ProductiveX, augmente la productivité de vos personnels et améliorer leur santé physique</h1>
           <h2>Optimisez votre journée en gérant votre temps et votre santé physique avec facilité.</h2>
-          <form class="d-flex justify-content-center align-items-center justify-content-lg-start" style="gap:12px;" action="{{ path('app_blog_verifiEmail') }}">
+          <form class="d-flex justify-content-center align-items-center justify-content-lg-start" style="gap:12px;" action="{{ path('app_register') }}">
             <div class="form-group" >
-              <input type="email" class="form-control" id="email" placeholder="Votre E-mail..." style="padding:10px 25px;">
+              <input type="email" name ="email" class="form-control" id="email" placeholder="Votre E-mail..." style="padding:10px 25px;">
             </div>
             <button type="submit" class="btn btn-primary" style="padding:10px 25px;">Inscrivez-vous maintenant</button>
           </form>
@@ -430,7 +430,7 @@
         <div class="row justify-content-center">
           <div class="col-xl-6">
             <h4>Commencez avec ProductiveX dès aujourd'hui</h4>
-            <form action="{{ path('app_blog_verifiEmail') }}" method="POST">
+            <form action="{{ path('app_register') }}" method="POST">
               <input type="email" name="email" placeholder="Votre E-mail..."><input type="submit" value="Inscrivez-vous maintenant">
             </form>
           </div>

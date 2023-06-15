@@ -23,12 +23,12 @@ class BlogController extends AbstractController
                                                     // cette page est la page d'accueil de l'app ProductiveX
     }
 
-    #[Route('/login', name: 'app_blog_login')]
-    public function login(): Response
-    {
-        return $this->render('home/login.html.twig');// Cette fonction envoie vers la page home/login.html.twig
-                                                    // cette page est la page de login de l'app
-    }
+    // #[Route('/login', name: 'app_blog_login')]
+    // public function login(): Response
+    // {
+    //     return $this->render('home/login.html.twig');// Cette fonction envoie vers la page home/login.html.twig
+    //                                                 // cette page est la page de login de l'app
+    // }
 
     #[Route('/verifi-email', name: 'app_blog_verifiEmail')]
     public function verifiEmail(): Response
@@ -37,12 +37,12 @@ class BlogController extends AbstractController
                                                         // cette page est la page qui demande juste l'email de l'employeur (compte entreprise)
     }
 
-    #[Route('/confirm-email', name: 'app_blog_confirmEmail')]
-    public function confirmEmail(): Response
-    {
-        return $this->render('home/confirmEmail.html.twig');// Cette fonction envoie vers la page home/confirmEmail.html.twig
-                                                            // cette page est la page qui envoie un email à l'employeur (compte entreprise) pour vérifie son email
-    }
+    // #[Route('/confirm-email', name: 'app_blog_confirmEmail')]
+    // public function confirmEmail(): Response
+    // {
+    //     return $this->render('home/confirmEmail.html.twig');// Cette fonction envoie vers la page home/confirmEmail.html.twig
+    //                                                         // cette page est la page qui envoie un email à l'employeur (compte entreprise) pour vérifie son email
+    // }
 
     #[Route('/registre-entreprise', name: 'app_blog_formEntreprise')]
     public function formEntreprise(): Response
