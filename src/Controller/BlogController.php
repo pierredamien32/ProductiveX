@@ -44,12 +44,12 @@ class BlogController extends AbstractController
     //                                                         // cette page est la page qui envoie un email à l'employeur (compte entreprise) pour vérifie son email
     // }
 
-    #[Route('/registre-entreprise', name: 'app_blog_formEntreprise')]
-    public function formEntreprise(): Response
-    {
-        return $this->render('home/formEntreprise.html.twig');// Cette fonction envoie vers la page home/formEntreprise.html.twig
-                                                            // cette page est la page qui pour inscrire un compte entreprise
-    }
+    // #[Route('/registre-entreprise', name: 'app_blog_formEntreprise')]
+    // public function formEntreprise(): Response
+    // {
+    //     return $this->render('home/formEntreprise.html.twig');// Cette fonction envoie vers la page home/formEntreprise.html.twig
+    //                                                         // cette page est la page qui pour inscrire un compte entreprise
+    // }
 
     
 }

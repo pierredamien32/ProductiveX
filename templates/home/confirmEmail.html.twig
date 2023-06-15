@@ -17,6 +17,14 @@
                 <div class="row justify-content-center">
                     <div class="col-md-8">
                         <div class="mb-4">
+                         {% for flash_error in app.flashes('verify_email_error') %}
+                            <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+                        {% endfor %}
+                        {% for message in app.flashes('success') %}
+                            <div class="alert alert-success" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
                             <h3 class="mb-4 text-center">ProductiveX</h3>
                             <p class="mb-4 text-center">Consultez votre boîte de réception pour vous connecter.</p>
                         </div>
@@ -27,9 +35,10 @@
                             <p class="">Pour finaliser la configuration et vous connecter, 
                                 cliquez sur le lien de vérification dans l'e-mail que nous avons envoyé à l'adresse
                             </p>
-                            <strong>{{ email }}</strong>
+                            <strong>{{ user.email }}</strong>
+                            {# {{ dump(user) }} #}
                         </div>
-                        <a href="" class="row justify-content-center align-items-center renvoie-mail">Renvoyer l'e-mail de vérification</a>
+                        <a href="{{path('app_resend_verification_email',{id: user.id})}}" class="row justify-content-center align-items-center renvoie-mail">Renvoyer l'e-mail de vérification</a>
                     </div>
                 </div>
             </div>

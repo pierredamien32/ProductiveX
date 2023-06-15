@@ -11,70 +11,67 @@
 <div class="content" style="z-index:1;">
     <div class="container">
     <div class="row justify-content-center align-items-center" style="height: 100vh;">
-
-{# 
-{% for flashMessage in app.flashes('verify_email_error') %}
-    <div class="alert alert-danger">
-        {{ flashMessage }}
-    </div>
-{% endfor %} #}
-            <div class="col-md-6 contents">
-                <div class="row justify-content-center">
-                    <div class="col-md-8">
-                        <div class="mb-4">
-                            <h3 class="mb-4 text-center">ProductiveX</h3>
-                            <p class="mb-4 text-center">Connectez-vous pour continuer.</p>
-                        </div>
-                        {% if error %}
-                            <div class="alert alert-danger"" role="alert">
-                                <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                            </div>
-                        {% endif %}
-                         
-                            <form action="{{ path('app_login') }}" method="post">
-                            <div class="form-group first">
-                                <label for="username">Email</label>
-                                <input type="email" class="form-control" id="username" name="_username" value="{{ last_username }}">
-                            </div>
-                            <div class="form-group last mb-4">
-                                <label for="password">Mot de passe</label>
-                                <input type="password" class="form-control" id="password" name="_password" >
-                            </div>
-                            <div class="d-flex mb-5 align-items-center justify-content-between" style="gap: 10px;">
-                                <div class="form-group form-check">
-                                    <input type="checkbox" class="form-check-input" id="rememberMeCheckbox">
-                                    <label class="form-check-label" for="rememberMeCheckbox">Se souvenir de moi</label>
-                                </div>
-                                <span class="ml-auto"><a href="#" class="forgot-pass">Mot de passe oublié?</a></span>
-                            </div>
-                            <div class="row justify-content-center align-items-center">
-                                <button type="submit" class="btn btn-block btn-primary">login</button>
-                                {# If you want to control the URL the user is redirected to on success #}
-                                {# <input type="hidden" name="_target_path" value="{{ path('app_dashboard') }}"> #}
-                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                        </form>
-
-                                <span class="d-block text-left my-4 text-muted text-center">&mdash; ou connectez-vous avec &mdash;</span>
-                                <div class="social-login text-center" style="">
-                                    <a href="#" class="facebook" style="padding:7px 10px; border-radius:100%; background:#1877F2; margin:0 10px;">
-                                        <i class="fa-brands fa-facebook-f" style="color:white;"></i>
-                                    </a>
-                                    <a href="#" class="twitter" style="padding:7px 10px; border-radius:100%; background: #1DA1F2; margin:0 10px;">
-                                        <i class="fa-brands fa-twitter" style="color:white;"></i>
-                                    </a>
-                                    <a href="#" class="google" style="padding:7px 10px; border-radius:100%; background:red; margin:0 10px;">
-                                        <i class="fa-brands fa-google" style="color:white;"></i>
-                                    </a>
-                                </div>
-                                <div style="display:flex; justify-content:space-between; margin-top:25px; ">
-                                    <p>Vous n'avez de compte?</p>
-                                    <a href="{{ path('app_blog_verifiEmail') }}">S'inscrire</a>
-                                </div>
-                            </div>
+        <div class="col-md-6 contents">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="mb-4">
+                        <h3 class="mb-4 text-center">ProductiveX</h3>
+                        <p class="mb-4 text-center">Connectez-vous pour continuer.</p>
                     </div>
+                    {% for message in app.flashes('error') %}
+                        <div class="alert alert-warning" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                    {% if error %}
+                        <div class="alert alert-danger" role="alert">
+                            <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        </div>
+                    {% endif %}                        
+                        <form action="{{ path('app_login') }}" method="post">
+                        <div class="form-group first">
+                            <label for="username">Email</label>
+                            <input type="email" class="form-control" id="username" name="_username" value="{{ last_username }}">
+                        </div>
+                        <div class="form-group last mb-4">
+                            <label for="password">Mot de passe</label>
+                            <input type="password" class="form-control" id="password" name="_password" >
+                        </div>
+                        <div class="d-flex mb-5 align-items-center justify-content-between" style="gap: 10px;">
+                            <div class="form-group form-check">
+                                <input type="checkbox" class="form-check-input" id="rememberMeCheckbox">
+                                <label class="form-check-label" for="rememberMeCheckbox">Se souvenir de moi</label>
+                            </div>
+                            <span class="ml-auto"><a href="#" class="forgot-pass">Mot de passe oublié?</a></span>
+                        </div>
+                        <div class="row justify-content-center align-items-center">
+                            <button type="submit" class="btn btn-block btn-primary">login</button>
+                            {# If you want to control the URL the user is redirected to on success #}
+                            {# <input type="hidden" name="_target_path" value="{{ path('app_dashboard') }}"> #}
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                    </form>
+
+                            <span class="d-block text-left my-4 text-muted text-center">&mdash; ou connectez-vous avec &mdash;</span>
+                            <div class="social-login text-center" style="">
+                                <a href="#" class="facebook" style="padding:7px 10px; border-radius:100%; background:#1877F2; margin:0 10px;">
+                                    <i class="fa-brands fa-facebook-f" style="color:white;"></i>
+                                </a>
+                                <a href="#" class="twitter" style="padding:7px 10px; border-radius:100%; background: #1DA1F2; margin:0 10px;">
+                                    <i class="fa-brands fa-twitter" style="color:white;"></i>
+                                </a>
+                                <a href="#" class="google" style="padding:7px 10px; border-radius:100%; background:red; margin:0 10px;">
+                                    <i class="fa-brands fa-google" style="color:white;"></i>
+                                </a>
+                            </div>
+                            <div style="display:flex; justify-content:space-between; margin-top:25px; ">
+                                <p>Vous n'avez de compte?</p>
+                                <a href="{{ path('app_register') }}">S'inscrire</a>
+                            </div>
+                        </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
      <div style=" position:fixed; z-index:5; background:red; " class="mes-images">
         <div class="position-fixed bottom-0 start-0">
