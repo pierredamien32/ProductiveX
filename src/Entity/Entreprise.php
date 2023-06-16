@@ -37,6 +37,9 @@ class Entreprise
     #[ORM\OneToMany(mappedBy: 'entreprise_id', targetEntity: Projet::class, orphanRemoval: true)]
     private Collection $projets;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $logo = null;
+
     public function __construct()
     {
         $this->employes = new ArrayCollection();
@@ -183,6 +186,18 @@ class Entreprise
                 $projet->setEntrepriseId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLogo(): ?string
+    {
+        return $this->logo;
+    }
+
+    public function setLogo(?string $logo): self
+    {
+        $this->logo = $logo;
 
         return $this;
     }

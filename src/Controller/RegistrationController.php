@@ -33,6 +33,9 @@ class RegistrationController extends AbstractController
         $user = new User();
         $entreprise = new Entreprise();
         $entreprise->setUserId($user);
+        $roles = ['ROLE_USER', 'ROLE_ENT'];
+        $user->setRoles($roles);
+        // $user->setRoles("ROLE_ENT");
         $form = $this->createForm(EntrepriseType::class, $entreprise);
         $form->handleRequest($request);
 
@@ -44,6 +47,18 @@ class RegistrationController extends AbstractController
                 $this->addFlash('error', 'Cet e-mail existe déjà. Veuillez vous connecter plutôt que de vous inscrire.');
                 return $this->redirectToRoute('app_login');
             }
+            $logo = $form->get('logo')->getData();
+            if ($logo) {
+                // Générez un nom de fichier unique
+                $logoName = md5(uniqid()) . '.' . $logo->guessExtension();
+                
+                $logo->move(
+                    $this->getParameter('logo_directory'),
+                    $logoName
+                );
+                $entreprise->setLogo($logoName);
+            }
+            // dd($entreprise);
             $entityManager->persist($entreprise);
             $entityManager->flush();
 
@@ -106,7 +121,7 @@ class RegistrationController extends AbstractController
      * Renvoi de l'email de verification
      */
     #[Route('/verify/email/resend/{id}', name: 'app_resend_verification_email', methods:['GET','POST'])]
-    public function resendVerificationEmail(EntityManagerInterface $manager,$id, Request $request): Response
+    public function resendVerificationEmail(EntityManagerInterface $manager,$id): Response
     {
         // Récupérer l'utilisateur depuis la requête
         $user = $manager->getRepository(User::class)->find($id);

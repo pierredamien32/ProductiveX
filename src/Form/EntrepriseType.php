@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class EntrepriseType extends AbstractType
@@ -58,6 +59,21 @@ class EntrepriseType extends AbstractType
                 'label_attr' => [
                     'class' => 'form-label'
                 ],
+            ])
+            ->add('logo', FileType::class, [
+                'required'   => false,
+                'label' => 'Image',
+                'attr' => [
+                    'class' => 'form-control'
+                ], 
+                'label_attr' => [   
+                'class' => 'form-label'
+            ],
+                // 'constraints' => [
+                //     new Assert\File([
+                //         'maxSize' => '5M',
+                //     ]),
+                // ],
             ])
             ->add('user_id', UserType::class, [
                 'label' => false,

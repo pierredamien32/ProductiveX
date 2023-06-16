@@ -58,7 +58,8 @@
                         <img src="{{ asset('assets/images/logo-text.png')}}" alt="">
                     </span> #}
                     <span class="brand-title" style="color:white;">
-                        ProductiveX
+                        {# ProductiveX #}
+                        Bienvenue {{ app.user.entreprise.sigle }}
                     </span>
                 </a>
             </div>
@@ -221,7 +222,10 @@
                         <li class="icons dropdown">
                             <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
                                 <span class="activity active"></span>
-                                <img src="{{ asset('assets/images/user/1.png')}}" height="40" width="40" alt="">
+                                {% if app.user.entreprise.logo %}
+                                    <img src="{{ asset('uploads/logo/'~ app.user.entreprise.logo)}}" height="40" width="40" alt="pas de données">
+                                {# {% else %} #}
+                                {% endif %}
                             </div>
                             <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
                                 <div class="dropdown-content-body">
@@ -239,7 +243,7 @@
                                         <li>
                                             <a href="{{ asset('assets/page-lock.html')}}"><i class="icon-lock"></i> <span>Lock Screen</span></a>
                                         </li>
-                                        <li><a href="{{ asset('assets/page-login.html')}}"><i class="icon-key"></i> <span>Logout</span></a></li>
+                                        <li><a href="{{ path('app_logout') }}"><i class="icon-key"></i> <span>Logout</span></a></li>
                                     </ul>
                                 </div>
                             </div>
