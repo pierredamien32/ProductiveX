@@ -35,7 +35,7 @@ class Projet
 
     #[ORM\ManyToOne(inversedBy: 'projets')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Status $status_id = null;
+    private ?Status $status = null;
 
     #[ORM\ManyToOne(inversedBy: 'projets')]
     #[ORM\JoinColumn(nullable: false)]
@@ -46,7 +46,6 @@ class Projet
 
     public function __construct()
     {
-        $this->createdAt = new \DateTimeImmutable();
         $this->taches = new ArrayCollection();
     }
 
@@ -127,14 +126,14 @@ class Projet
         return $this;
     }
 
-    public function getStatusId(): ?Status
+    public function getStatus(): ?Status
     {
-        return $this->status_id;
+        return $this->status;
     }
 
-    public function setStatusId(?Status $status_id): self
+    public function setStatus(?Status $status): self
     {
-        $this->status_id = $status_id;
+        $this->status = $status;
 
         return $this;
     }

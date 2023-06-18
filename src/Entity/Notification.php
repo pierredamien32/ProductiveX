@@ -25,7 +25,7 @@ class Notification
 
     #[ORM\ManyToOne(inversedBy: 'notifications')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Status $status_id = null;
+    private ?Status $status = null;
 
     public function getId(): ?int
     {
@@ -68,14 +68,14 @@ class Notification
         return $this;
     }
 
-    public function getStatusId(): ?Status
+    public function getStatus(): ?Status
     {
-        return $this->status_id;
+        return $this->status;
     }
 
-    public function setStatusId(?Status $status_id): self
+    public function setStatusId(?Status $status): self
     {
-        $this->status_id = $status_id;
+        $this->status = $status;
 
         return $this;
     }

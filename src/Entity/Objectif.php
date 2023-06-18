@@ -23,7 +23,7 @@ class Objectif
 
     #[ORM\ManyToOne(inversedBy: 'objectifs')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Status $status_id = null;
+    private ?Status $status = null;
 
     #[ORM\OneToMany(mappedBy: 'objectif_id', targetEntity: SuiviJournalier::class, orphanRemoval: true)]
     private Collection $suiviJournaliers;
@@ -62,14 +62,14 @@ class Objectif
         return $this;
     }
 
-    public function getStatusId(): ?Status
+    public function getStatus(): ?Status
     {
-        return $this->status_id;
+        return $this->status;
     }
 
-    public function setStatusId(?Status $status_id): self
+    public function setStatus(?Status $status): self
     {
-        $this->status_id = $status_id;
+        $this->status = $status;
 
         return $this;
     }

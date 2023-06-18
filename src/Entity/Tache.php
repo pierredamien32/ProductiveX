@@ -130,12 +130,12 @@ class Tache
         return $this;
     }
 
-    public function getStatusId(): ?Status
+    public function getStatus(): ?Status
     {
         return $this->status_id;
     }
 
-    public function setStatusId(?Status $status_id): self
+    public function setStatus(?Status $status_id): self
     {
         $this->status_id = $status_id;
 

@@ -53,6 +53,7 @@ class AppFixtures extends Fixture
             $img = $this->faker->image($logoPath, $width, $height, $category, $randomize, $word, $gray, $format);
             
             $filename = basename($img);
+
             $entreprise = new Entreprise();
             $entreprise->setSigle($this->faker->companySuffix())
                 ->setDenomination($this->faker->company())

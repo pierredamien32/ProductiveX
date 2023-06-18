@@ -18,16 +18,16 @@ class Status
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[ORM\OneToMany(mappedBy: 'status_id', targetEntity: Projet::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'status', targetEntity: Projet::class, orphanRemoval: true)]
     private Collection $projets;
 
-    #[ORM\OneToMany(mappedBy: 'status_id', targetEntity: Tache::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'status', targetEntity: Tache::class, orphanRemoval: true)]
     private Collection $taches;
 
-    #[ORM\OneToMany(mappedBy: 'status_id', targetEntity: Notification::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'status', targetEntity: Notification::class, orphanRemoval: true)]
     private Collection $notifications;
 
-    #[ORM\OneToMany(mappedBy: 'status_id', targetEntity: Objectif::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'status', targetEntity: Objectif::class, orphanRemoval: true)]
     private Collection $objectifs;
 
     public function __construct()
@@ -67,7 +67,7 @@ class Status
     {
         if (!$this->projets->contains($projet)) {
             $this->projets->add($projet);
-            $projet->setStatusId($this);
+            $projet->setStatus($this);
         }
 
         return $this;
@@ -77,8 +77,8 @@ class Status
     {
         if ($this->projets->removeElement($projet)) {
             // set the owning side to null (unless already changed)
-            if ($projet->getStatusId() === $this) {
-                $projet->setStatusId(null);
+            if ($projet->getStatus() === $this) {
+                $projet->setStatus(null);
             }
         }
 
@@ -127,7 +127,7 @@ class Status
     {
         if (!$this->notifications->contains($notification)) {
             $this->notifications->add($notification);
-            $notification->setStatusId($this);
+            $notification->setStatus($this);
         }
 
         return $this;
@@ -137,8 +137,8 @@ class Status
     {
         if ($this->notifications->removeElement($notification)) {
             // set the owning side to null (unless already changed)
-            if ($notification->getStatusId() === $this) {
-                $notification->setStatusId(null);
+            if ($notification->getStatus() === $this) {
+                $notification->setStatus(null);
             }
         }
 
@@ -157,7 +157,7 @@ class Status
     {
         if (!$this->objectifs->contains($objectif)) {
             $this->objectifs->add($objectif);
-            $objectif->setStatusId($this);
+            $objectif->setStatus($this);
         }
 
         return $this;
@@ -167,8 +167,8 @@ class Status
     {
         if ($this->objectifs->removeElement($objectif)) {
             // set the owning side to null (unless already changed)
-            if ($objectif->getStatusId() === $this) {
-                $objectif->setStatusId(null);
+            if ($objectif->getStatus() === $this) {
+                $objectif->setStatus(null);
             }
         }
 
