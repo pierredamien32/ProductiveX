@@ -1,4 +1,4 @@
-{% extends 'dashboard/baseDashboard.html.twig' %}
+{% extends 'baseDashboard.html.twig' %}
 
 
 {% block body %}
@@ -58,7 +58,8 @@
                         <img src="{{ asset('assets/images/logo-text.png')}}" alt="">
                     </span> #}
                     <span class="brand-title" style="color:white;">
-                        ProductiveX
+                        {# ProductiveX #}
+                        Bienvenue {{ app.user.entreprise.sigle }}
                     </span>
                 </a>
             </div>
@@ -221,7 +222,10 @@
                         <li class="icons dropdown">
                             <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
                                 <span class="activity active"></span>
-                                <img src="{{ asset('assets/images/user/1.png')}}" height="40" width="40" alt="">
+                                {% if app.user.entreprise.logo %}
+                                    <img src="{{ asset('uploads/logo/'~ app.user.entreprise.logo)}}" height="40" width="40" alt="pas de données">
+                                {# {% else %} #}
+                                {% endif %}
                             </div>
                             <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
                                 <div class="dropdown-content-body">
@@ -239,7 +243,7 @@
                                         <li>
                                             <a href="{{ asset('assets/page-lock.html')}}"><i class="icon-lock"></i> <span>Lock Screen</span></a>
                                         </li>
-                                        <li><a href="{{ asset('assets/page-login.html')}}"><i class="icon-key"></i> <span>Logout</span></a></li>
+                                        <li><a href="{{ path('app_logout') }}"><i class="icon-key"></i> <span>Logout</span></a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -259,40 +263,33 @@
             <div class="nk-nav-scroll">
                 <ul class="metismenu" id="menu">
                     <li class="nav-label">Dashboard</li>
-                    <li><a href="{{ asset('assets/index.html')}}">Tableaux de bord </a></li>
                     <li>
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Projets</span>
+                        <a href="{{ path('app_dashboard')}}">
+                            <i class="fa-solid fa-gauge"></i><span>Tableaux de bord</span>
                         </a>
-                        <ul aria-expanded="false">
-                            <li><a href="{{ asset('assets/index.html')}}">A faire </a></li>
-                            <li><a href="{{ asset('assets/index.html')}}">En cour </a></li>
-                            <li><a href="{{ asset('assets/index.html')}}">Terminée </a></li>
-                            <!-- <li><a href="{{ asset('assets/index-2.html')}}">Home 2</a></li> -->
-                        </ul>
-                    </li>
-                    <li class="mega-menu mega-menu-sm">
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-globe-alt menu-icon"></i><span class="nav-text">Taches</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="{{ asset('assets/index.html')}}">A faire </a></li>
-                            <li><a href="{{ asset('assets/index.html')}}">En cour </a></li>
-                            <li><a href="{{ asset('assets/index.html')}}">Terminée </a></li>
-                        </ul>
                     </li>
                     <li>
-                        <a class="" href="{{ asset('assets/email-inbox.html')}}">
+                        <a class="" href="{{ path('app_dashboard_addProjet')}}">
+                            <i class="fa-solid fa-layer-group"></i><span class="">Projets</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="" href="{{ path('app_dashboard_addTache')}}">
+                            <i class="fa-solid fa-list-check"></i><span class="">Tâches</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="" href="{{ path('app_dashboard_viewMembres')}}">
                             <i class="fa-solid fa-user-plus"></i><span class="">Membres</span>
                         </a>
                     </li>
                     <li>
-                        <a class="" href="{{ asset('assets/email-inbox.html')}}">
+                        <a class="" href="{{ path('app_dashboard_viewNotifs')}}">
                             <i class="fa-solid fa-bell"></i><span class="">Notifications</span>
                         </a>
                     </li>
                     <li>
-                        <a class="" href="{{ asset('assets/email-inbox.html')}}">
+                        <a class="" href="{{ path('app_dashboard_viewRappel')}}">
                             <i class="fa-solid fa-circle-exclamation"></i><span class="">Rappel</span>
                         </a>
                     </li>
@@ -307,10 +304,14 @@
             Content body start
         ***********************************-->
         <div class="content-body">
-
-            <div class="container-fluid mt-3">
+ {% for message in app.flashes('success') %}
+            <div class="alert alert-success" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+            {# <div class="container-fluid mt-3">
                 <div class="row">
-                    {# <div class="col-lg-3 col-sm-6">
+                    <div class="col-lg-3 col-sm-6">
                         <div class="card gradient-1">
                             <div class="card-body">
                                 <h3 class="card-title text-white">Tous les projets</h3>
@@ -357,13 +358,13 @@
                                 <span class="float-right display-5 opacity-5"><i class="fa fa-heart"></i></span>
                             </div>
                         </div>
-                    </div> #}
-                </div>
+                    </div>
+                </div> #}
 
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-0 text-gray-800">Liste des Membres</h1>
+                    <h1 class="h3 mb-0 text-gray-800">Liste des tâches</h1>
                     <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm gradient-4" style="border: none;" data-toggle="modal" data-target="#modalLoginForm">
-                    <i class="fa-solid fa-plus" style="margin:0 5px;"></i>Ajouter un membre</a>
+                    <i class="fa-solid fa-plus" style="margin:0 5px;"></i>Créer une nouvelle tâche</a>
                 </div> 
 
                 <div class="row">
@@ -375,119 +376,33 @@
                                         <table class="table table-xs mb-0">
                                             <thead>
                                                 <tr>
-                                                    <th>Customers</th>
-                                                    <th>Product</th>
-                                                    <th>Country</th>
+                                                    <th>Nom de la tache</th>
+                                                    <th>Projet d'appartenance</th>
+                                                    <th>Description</th>
+                                                    <th>Duree</th>
                                                     <th>Status</th>
-                                                    <th>Payment Method</th>
-                                                    <th>Activity</th>
+                                                    <th>Assigné à</th>
+                                                    <th>Créer le</th>
+                                                    <th>Modifier</th>
+                                                    <th>Supprimer</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td><img src="{{asset('theme/images/avatar/1.jpg')}}" class=" rounded-circle mr-3" alt="">Sarah Smith</td>
-                                                    <td>iPhone X</td>
-                                                    <td>
-                                                        <span>United States</span>
-                                                    </td>
-                                                    <td>
-                                                        <div>
-                                                            <div class="progress" style="height: 6px">
-                                                                <div class="progress-bar bg-success" style="width: 50%"></div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td><i class="fa fa-circle-o text-success  mr-2"></i> Paid</td>
-                                                    <td>
-                                                        <span>Last Login</span>
-                                                        <span class="m-0 pl-3">10 sec ago</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><img src="{{asset('theme/images/avatar/2.jpg')}}" class=" rounded-circle mr-3" alt="">Walter R.</td>
-                                                    <td>Pixel 2</td>
-                                                    <td><span>Canada</span></td>
-                                                    <td>
-                                                        <div>
-                                                            <div class="progress" style="height: 6px">
-                                                                <div class="progress-bar bg-success" style="width: 50%"></div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td><i class="fa fa-circle-o text-success  mr-2"></i> Paid</td>
-                                                    <td>
-                                                        <span>Last Login</span>
-                                                        <span class="m-0 pl-3">50 sec ago</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><img src="{{asset('theme/images/avatar/3.jpg')}}" class=" rounded-circle mr-3" alt="">Andrew D.</td>
-                                                    <td>OnePlus</td>
-                                                    <td><span>Germany</span></td>
-                                                    <td>
-                                                        <div>
-                                                            <div class="progress" style="height: 6px">
-                                                                <div class="progress-bar bg-warning" style="width: 50%"></div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td><i class="fa fa-circle-o text-warning  mr-2"></i> Pending</td>
-                                                    <td>
-                                                        <span>Last Login</span>
-                                                        <span class="m-0 pl-3">10 sec ago</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><img src="{{asset('theme/images/avatar/6.jpg')}}" class=" rounded-circle mr-3" alt=""> Megan S.</td>
-                                                    <td>Galaxy</td>
-                                                    <td><span>Japan</span></td>
-                                                    <td>
-                                                        <div>
-                                                            <div class="progress" style="height: 6px">
-                                                                <div class="progress-bar bg-success" style="width: 50%"></div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td><i class="fa fa-circle-o text-success  mr-2"></i> Paid</td>
-                                                    <td>
-                                                        <span>Last Login</span>
-                                                        <span class="m-0 pl-3">10 sec ago</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><img src="{{asset('theme/images/avatar/4.jpg')}}" class=" rounded-circle mr-3" alt=""> Doris R.</td>
-                                                    <td>Moto Z2</td>
-                                                    <td><span>England</span></td>
-                                                    <td>
-                                                        <div>
-                                                            <div class="progress" style="height: 6px">
-                                                                <div class="progress-bar bg-success" style="width: 50%"></div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td><i class="fa fa-circle-o text-success  mr-2"></i> Paid</td>
-                                                    <td>
-                                                        <span>Last Login</span>
-                                                        <span class="m-0 pl-3">10 sec ago</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><img src="{{asset('theme/images/avatar/5.jpg')}}" class=" rounded-circle mr-3" alt="">Elizabeth W.</td>
-                                                    <td>Notebook Asus</td>
-                                                    <td><span>China</span></td>
-                                                    <td>
-                                                        <div>
-                                                            <div class="progress" style="height: 6px">
-                                                                <div class="progress-bar bg-warning" style="width: 50%"></div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td><i class="fa fa-circle-o text-warning  mr-2"></i> Pending</td>
-                                                    <td>
-                                                        <span>Last Login</span>
-                                                        <span class="m-0 pl-3">10 sec ago</span>
-                                                    </td>
-                                                </tr>
+                                				{# {% for projet in projets %}
+                                                    <tr>
+                                                        <td>{{ projet.nom }}</td>
+                                                        <td>{{ projet.duree.format('%a days, %h hours, %i minutes') }}</td>
+                                                        <td>{{ projet.description }}</td>
+                                                        <td>{{ projet.status.nom }}</td>
+                                                        <td>{{ projet.createdAt | date('d/m/Y') }}</td>
+                                                        <td>
+                                                            <a href="{{ path('projet.edit', { id: projet.id }) }}" class="btn btn-xs btn-info">Modifier</a>
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{ path('projet.delete', { id: projet.id }) }}" class="btn btn-xs btn-warning">Supprimer</a>
+                                                        </td>                                                        
+                                                    </tr>
+					                            {% endfor %} #}
                                             </tbody>
                                         </table>
                                     </div>
@@ -551,53 +466,47 @@
     <script src="{{ asset('theme/js/dashboard/dashboard-1.js')}}"></script>
 
     {# boite modale de projet  #}
-        <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                 <div class="modal-header text-center">
-                    <h4 class="modal-title w-100 font-weight-bold">Ajouter un membres</h4>
+                    <h4 class="modal-title w-100 font-weight-bold">Créer une tâche</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body mx-3">
                     <div class="md-form mb-5">
-                        <label data-error="wrong" data-success="right" for="defaultForm-email">Nom du membre</label>
+                        <label data-error="wrong" data-success="right" for="defaultForm-email">Nom de la tache</label>
                         <input type="text" id="defaultForm-email" class="form-control validate">
                     </div>
                     <div class="md-form mb-5">
-                        <label data-error="wrong" data-success="right" for="defaultForm-email">Poste du membre</label>
+                        <label data-error="wrong" data-success="right" for="defaultForm-email">Description de la tâche</label>
                         <input type="text" id="defaultForm-email" class="form-control validate">
                     </div>
-                    <div class="md-form mb-5">
-                        <label data-error="wrong" data-success="right" for="defaultForm-email">Téléphone du membre</label>
-                        <input type="number" id="defaultForm-email" class="form-control validate">
+                    <div class="md-form mb-5 ">
+                        <label for="type">Projet d'appartenance </label>
+                        <select name="role_id" class="form-control" id="role">
+                            <option value="" ></option>
+                            <option value="" >Projet X</option>
+                            <option value="" >Projet Y</option>
+                        </select>
+                    </div>
+                    <div class="md-form mb-5 ">
+                        <label for="type">Assigné à </label>
+                        <select name="role_id" class="form-control" id="role">
+                            <option value="" ></option>
+                            <option value="" >Toto TATA</option>
+                            <option value="" >Codjo ZOU</option>
+                        </select>
                     </div>
                     <div class="md-form mb-5">
-                        <label data-error="wrong" data-success="right" for="defaultForm-email">Date de début du contrat</label>
-                        <input type="date" id="defaultForm-email" class="form-control validate">
-                    </div>
-                    <div class="md-form mb-5">
-                        <label data-error="wrong" data-success="right" for="defaultForm-email">Date de fin du contrat</label>
-                        <input type="date" id="defaultForm-email" class="form-control validate">
-                    </div>
-                    <div class="md-form mb-5">
-                        <label data-error="wrong" data-success="right" for="defaultForm-email">Email du membre</label>
-                        <input type="email" id="defaultForm-email" class="form-control validate">
-                    </div>
-
-                    <div class="md-form mb-4">
-                        <label data-error="wrong" data-success="right" for="defaultForm-pass">Mot de passe</label>
-                        <input type="password" id="defaultForm-pass" class="form-control validate">
-                    </div>
-
-                    <div class="md-form mb-4">
-                        <label data-error="wrong" data-success="right" for="defaultForm-pass">Confirmation du mot de passe</label>
-                        <input type="password" id="defaultForm-pass" class="form-control validate">
+                        <label data-error="wrong" data-success="right" for="defaultForm-email">Durée en minute</label>
+                        <input type="time" id="defaultForm-email" class="form-control validate">
                     </div>
                 </div>
                 <div class="modal-footer d-flex justify-content-center">
-                    <button class="btn btn-primary">Ajouter</button>
+                    <button class="btn btn-primary">créer</button>
                 </div>
                 </div>
             </div>

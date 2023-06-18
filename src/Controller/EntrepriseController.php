@@ -25,7 +25,7 @@ class EntrepriseController extends AbstractController
 
         $projets = $repository->findBy(['entreprise_id' => $entreprise ]); 
 
-        return $this->render('dashboard/index.html.twig', [
+        return $this->render('entreprise/dashboard/index.html.twig', [
                 'projets' => $projets
         ]); 
     }
