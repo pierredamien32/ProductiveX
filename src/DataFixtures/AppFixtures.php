@@ -5,6 +5,8 @@ namespace App\DataFixtures;
 use Faker\Factory;
 use App\Entity\User;
 use Faker\Generator;
+use App\Entity\Projet;
+use App\Entity\Status;
 use App\Entity\Entreprise;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -24,12 +26,12 @@ class AppFixtures extends Fixture
     
     public function load(ObjectManager $manager): void
     {
-
+            //Utilisateur entreprise
         // Définir le répertoire de destination pour les images
         $kernel = new \App\Kernel('dev', true);
         $logoPath = $kernel->getProjectDir() . '/public' . '/uploads' . '/logo';
 
-        $users = [];
+            //Utilisateur entreprise
         $entreprises = [];
 
         $admin = new User();
@@ -37,10 +39,9 @@ class AppFixtures extends Fixture
             ->setRoles(['ROLE_USER', 'ROLE_ADMIN'])
             ->setPlainPassword('admin123');
 
-        $users[] = $admin;
         $manager->persist($admin);
 
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 3; $i++) {
 
             $width = $this->faker->numberBetween(400, 800);
             $height = $this->faker->numberBetween(300, 600);
@@ -65,29 +66,41 @@ class AppFixtures extends Fixture
                 ->setRoles(['ROLE_USER']);
                 $entreprise->setUserId($user);
 
-            $users[] = $user;
             $entreprises[] = $entreprise;
             $manager->persist($entreprise);
             $manager->persist($user);
-            $manager->flush();
         }
-// ===============================================
-    //    $entreprise = new Entreprise();
-    //    $entreprise->setSigle('Entreprise #1')
-    //         ->setDenomination('Denomination #1')
-    //         ->setAdresse('Adresse #1');
 
-    //     $user = new User();
-    //     $user->setEmail($this->faker->email())
-    //         ->setNumtel('NumTel #1')
-    //         ->setPlainPassword('123456')
-    //         ->setRoles(['ROLE_USER']);
 
-    //     $entreprise->setUserId($user);
+        //Status
+        $statuss = [];
+        $nomTabstatus = ['A faire', 'En cours', 'Terminé'];
+        foreach ($nomTabstatus as $statusName) {
+            $status = new Status();
+            $status->setNom($statusName);
+            $statuss[] = $status;
+            $manager->persist($status);
+        }
+
+        //Projet
+        $projets = [];
+        for ($i = 0; $i < 5; $i++) {
+            $projet = new Projet();
             
-    //     $manager->persist($entreprise);
-    //     $manager->persist($user);
+            // Générer une durée aléatoire
+            $duree = new \DateInterval('P' . mt_rand(1, 10) . 'M'); // Durée de 1 à 10 mois, par exemple
+
+            $projet->setNom($this->faker->sentence())
+                ->setDuree($duree)
+                ->setDescription($this->faker->paragraph())
+                ->setEntrepriseId($entreprises[mt_rand(0, count($entreprises) - 1)])
+                ->setStatusId($statuss[mt_rand(0, count($statuss) - 1)]);
+
+            $projets[] = $projet;
+            $manager->persist($projet);
+        }      
+
+        $manager->flush();
         
-    //     $manager->flush();
     }
 }
