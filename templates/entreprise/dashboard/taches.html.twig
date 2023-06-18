@@ -376,10 +376,12 @@
                                         <table class="table table-xs mb-0">
                                             <thead>
                                                 <tr>
-                                                    <th>Nom</th>
-                                                    <th>Duree</th>
+                                                    <th>Nom de la tache</th>
+                                                    <th>Projet d'appartenance</th>
                                                     <th>Description</th>
+                                                    <th>Duree</th>
                                                     <th>Status</th>
+                                                    <th>Assigné à</th>
                                                     <th>Créer le</th>
                                                     <th>Modifier</th>
                                                     <th>Supprimer</th>
@@ -481,6 +483,22 @@
                     <div class="md-form mb-5">
                         <label data-error="wrong" data-success="right" for="defaultForm-email">Description de la tâche</label>
                         <input type="text" id="defaultForm-email" class="form-control validate">
+                    </div>
+                    <div class="md-form mb-5 ">
+                        <label for="type">Projet d'appartenance </label>
+                        <select name="role_id" class="form-control" id="role">
+                            <option value="" ></option>
+                            <option value="" >Projet X</option>
+                            <option value="" >Projet Y</option>
+                        </select>
+                    </div>
+                    <div class="md-form mb-5 ">
+                        <label for="type">Assigné à </label>
+                        <select name="role_id" class="form-control" id="role">
+                            <option value="" ></option>
+                            <option value="" >Toto TATA</option>
+                            <option value="" >Codjo ZOU</option>
+                        </select>
                     </div>
                     <div class="md-form mb-5">
                         <label data-error="wrong" data-success="right" for="defaultForm-email">Durée en minute</label>
