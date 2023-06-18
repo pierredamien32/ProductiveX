@@ -95,7 +95,7 @@ class AppFixtures extends Fixture
                 ->setDuree($duree)
                 ->setDescription($this->faker->paragraph())
                 ->setEntrepriseId($entreprises[mt_rand(0, count($entreprises) - 1)])
-                ->setStatusId($statuss[mt_rand(0, count($statuss) - 1)]);
+                ->setStatus($statuss[mt_rand(0, count($statuss) - 1)]);
 
             $projets[] = $projet;
             $manager->persist($projet);
