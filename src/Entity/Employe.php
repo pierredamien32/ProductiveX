@@ -29,13 +29,13 @@ class Employe
 
     #[ORM\OneToOne(inversedBy: 'employe', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user_id = null;
+    private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'employes')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Entreprise $entreprise_id = null;
+    private ?Entreprise $entreprise = null;
 
-    #[ORM\OneToMany(mappedBy: 'employe_id', targetEntity: Tache::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'employe', targetEntity: Tache::class, orphanRemoval: true)]
     private Collection $taches;
 
     public function __construct()
@@ -96,26 +96,26 @@ class Employe
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getUser(): ?User
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUserId(User $user_id): self
+    public function setUser(User $user): self
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
 
         return $this;
     }
 
-    public function getEntrepriseId(): ?Entreprise
+    public function getEntreprise(): ?Entreprise
     {
-        return $this->entreprise_id;
+        return $this->entreprise;
     }
 
-    public function setEntrepriseId(?Entreprise $entreprise_id): self
+    public function setEntreprise(?Entreprise $entreprise): self
     {
-        $this->entreprise_id = $entreprise_id;
+        $this->entreprise = $entreprise;
 
         return $this;
     }
@@ -132,7 +132,7 @@ class Employe
     {
         if (!$this->taches->contains($tach)) {
             $this->taches->add($tach);
-            $tach->setEmployeId($this);
+            $tach->setEmploye($this);
         }
 
         return $this;
@@ -141,9 +141,9 @@ class Employe
     public function removeTach(Tache $tach): self
     {
         if ($this->taches->removeElement($tach)) {
-            // set the owning side to null (unless already changed)
-            if ($tach->getEmployeId() === $this) {
-                $tach->setEmployeId(null);
+            // set the owning se to null (unless already changed)
+            if ($tach->getEmploye() === $this) {
+                $tach->setEmploye(null);
             }
         }
 

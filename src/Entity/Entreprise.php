@@ -26,15 +26,15 @@ class Entreprise
 
     #[ORM\OneToOne(inversedBy: 'entreprise', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user_id = null;
+    private ?User $user = null;
 
-    #[ORM\OneToMany(mappedBy: 'entreprise_id', targetEntity: Employe::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: Employe::class, orphanRemoval: true)]
     private Collection $employes;
 
-    #[ORM\OneToMany(mappedBy: 'entreprise_id', targetEntity: Abonnement::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: Abonnement::class, orphanRemoval: true)]
     private Collection $abonnements;
 
-    #[ORM\OneToMany(mappedBy: 'entreprise_id', targetEntity: Projet::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: Projet::class, orphanRemoval: true)]
     private Collection $projets;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -88,14 +88,14 @@ class Entreprise
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getUser(): ?User
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUserId(User $user_id): self
+    public function setUser(User $user): self
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
 
         return $this;
     }
@@ -112,7 +112,7 @@ class Entreprise
     {
         if (!$this->employes->contains($employe)) {
             $this->employes->add($employe);
-            $employe->setEntrepriseId($this);
+            $employe->setEntreprise($this);
         }
 
         return $this;
@@ -122,8 +122,8 @@ class Entreprise
     {
         if ($this->employes->removeElement($employe)) {
             // set the owning side to null (unless already changed)
-            if ($employe->getEntrepriseId() === $this) {
-                $employe->setEntrepriseId(null);
+            if ($employe->getEntreprise() === $this) {
+                $employe->setEntreprise(null);
             }
         }
 
@@ -142,7 +142,7 @@ class Entreprise
     {
         if (!$this->abonnements->contains($abonnement)) {
             $this->abonnements->add($abonnement);
-            $abonnement->setEntrepriseId($this);
+            $abonnement->setEntreprise($this);
         }
 
         return $this;
@@ -151,9 +151,9 @@ class Entreprise
     public function removeAbonnement(Abonnement $abonnement): self
     {
         if ($this->abonnements->removeElement($abonnement)) {
-            // set the owning side to null (unless already changed)
-            if ($abonnement->getEntrepriseId() === $this) {
-                $abonnement->setEntrepriseId(null);
+            // set the owning se to null (unless already changed)
+            if ($abonnement->getEntreprise() === $this) {
+                $abonnement->setEntreprise(null);
             }
         }
 
@@ -172,7 +172,7 @@ class Entreprise
     {
         if (!$this->projets->contains($projet)) {
             $this->projets->add($projet);
-            $projet->setEntrepriseId($this);
+            $projet->setEntreprise($this);
         }
 
         return $this;
@@ -181,9 +181,9 @@ class Entreprise
     public function removeProjet(Projet $projet): self
     {
         if ($this->projets->removeElement($projet)) {
-            // set the owning side to null (unless already changed)
-            if ($projet->getEntrepriseId() === $this) {
-                $projet->setEntrepriseId(null);
+            // set the owning se to null (unless already changed)
+            if ($projet->getEntreprise() === $this) {
+                $projet->setEntreprise(null);
             }
         }
 

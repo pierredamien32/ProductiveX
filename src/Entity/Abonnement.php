@@ -15,11 +15,11 @@ class Abonnement
 
     #[ORM\ManyToOne(inversedBy: 'abonnements')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Entreprise $entreprise_id = null;
+    private ?Entreprise $entreprise = null;
 
     #[ORM\ManyToOne(inversedBy: 'abonnements')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Formule $formule_id = null;
+    private ?Formule $formule = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $debutAt = null;
@@ -32,26 +32,26 @@ class Abonnement
         return $this->id;
     }
 
-    public function getEntrepriseId(): ?Entreprise
+    public function getEntreprise(): ?Entreprise
     {
-        return $this->entreprise_id;
+        return $this->entreprise;
     }
 
-    public function setEntrepriseId(?Entreprise $entreprise_id): self
+    public function setEntreprise(?Entreprise $entreprise): self
     {
-        $this->entreprise_id = $entreprise_id;
+        $this->entreprise = $entreprise;
 
         return $this;
     }
 
-    public function getFormuleId(): ?Formule
+    public function getFormule(): ?Formule
     {
-        return $this->formule_id;
+        return $this->formule;
     }
 
-    public function setFormuleId(?Formule $formule_id): self
+    public function setFormule(?Formule $formule): self
     {
-        $this->formule_id = $formule_id;
+        $this->formule = $formule;
 
         return $this;
     }

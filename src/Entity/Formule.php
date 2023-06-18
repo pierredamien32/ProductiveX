@@ -27,7 +27,7 @@ class Formule
     #[ORM\Column]
     private ?int $tarif = null;
 
-    #[ORM\OneToMany(mappedBy: 'formule_id', targetEntity: Abonnement::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'formule', targetEntity: Abonnement::class, orphanRemoval: true)]
     private Collection $abonnements;
 
     public function __construct()
@@ -100,7 +100,7 @@ class Formule
     {
         if (!$this->abonnements->contains($abonnement)) {
             $this->abonnements->add($abonnement);
-            $abonnement->setFormuleId($this);
+            $abonnement->setFormule($this);
         }
 
         return $this;
@@ -109,9 +109,9 @@ class Formule
     public function removeAbonnement(Abonnement $abonnement): self
     {
         if ($this->abonnements->removeElement($abonnement)) {
-            // set the owning side to null (unless already changed)
-            if ($abonnement->getFormuleId() === $this) {
-                $abonnement->setFormuleId(null);
+            // set the owning se to null (unless already changed)
+            if ($abonnement->getFormule() === $this) {
+                $abonnement->setFormule(null);
             }
         }
 

@@ -23,9 +23,9 @@ class Rappel
 
     #[ORM\ManyToOne(inversedBy: 'rappels')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user_id = null;
+    private ?User $user = null;
 
-    #[ORM\OneToMany(mappedBy: 'rappel_id', targetEntity: SuiviJournalier::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'rappel', targetEntity: SuiviJournalier::class, orphanRemoval: true)]
     private Collection $suiviJournaliers;
 
     public function __construct()
@@ -62,14 +62,14 @@ class Rappel
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getUser(): ?User
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUserId(?User $user_id): self
+    public function setUser(?User $user): self
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
 
         return $this;
     }
@@ -86,7 +86,7 @@ class Rappel
     {
         if (!$this->suiviJournaliers->contains($suiviJournalier)) {
             $this->suiviJournaliers->add($suiviJournalier);
-            $suiviJournalier->setRappelId($this);
+            $suiviJournalier->setRappel($this);
         }
 
         return $this;
@@ -95,9 +95,9 @@ class Rappel
     public function removeSuiviJournalier(SuiviJournalier $suiviJournalier): self
     {
         if ($this->suiviJournaliers->removeElement($suiviJournalier)) {
-            // set the owning side to null (unless already changed)
-            if ($suiviJournalier->getRappelId() === $this) {
-                $suiviJournalier->setRappelId(null);
+            // set the owning se to null (unless already changed)
+            if ($suiviJournalier->getRappel() === $this) {
+                $suiviJournalier->setRappel(null);
             }
         }
 

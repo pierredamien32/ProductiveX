@@ -35,17 +35,17 @@ class Tache
 
     #[ORM\ManyToOne(inversedBy: 'taches')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Status $status_id = null;
+    private ?Status $status = null;
 
     #[ORM\ManyToOne(inversedBy: 'taches')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Projet $projet_id = null;
+    private ?Projet $projet = null;
 
     #[ORM\ManyToOne(inversedBy: 'taches')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Employe $employe_id = null;
+    private ?Employe $employe = null;
 
-    #[ORM\OneToMany(mappedBy: 'tache_id', targetEntity: Commentaire::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'tache', targetEntity: Commentaire::class, orphanRemoval: true)]
     private Collection $commentaires;
 
     public function __construct()
@@ -132,36 +132,36 @@ class Tache
 
     public function getStatus(): ?Status
     {
-        return $this->status_id;
+        return $this->status;
     }
 
-    public function setStatus(?Status $status_id): self
+    public function setStatus(?Status $status): self
     {
-        $this->status_id = $status_id;
+        $this->status = $status;
 
         return $this;
     }
 
-    public function getProjetId(): ?Projet
+    public function getProjet(): ?Projet
     {
-        return $this->projet_id;
+        return $this->projet;
     }
 
-    public function setProjetId(?Projet $projet_id): self
+    public function setProjet(?Projet $projet): self
     {
-        $this->projet_id = $projet_id;
+        $this->projet = $projet;
 
         return $this;
     }
 
-    public function getEmployeId(): ?Employe
+    public function getEmploye(): ?Employe
     {
-        return $this->employe_id;
+        return $this->employe;
     }
 
-    public function setEmployeId(?Employe $employe_id): self
+    public function setEmploye(?Employe $employe): self
     {
-        $this->employe_id = $employe_id;
+        $this->employe = $employe;
 
         return $this;
     }
@@ -178,7 +178,7 @@ class Tache
     {
         if (!$this->commentaires->contains($commentaire)) {
             $this->commentaires->add($commentaire);
-            $commentaire->setTacheId($this);
+            $commentaire->setTache($this);
         }
 
         return $this;
@@ -187,9 +187,9 @@ class Tache
     public function removeCommentaire(Commentaire $commentaire): self
     {
         if ($this->commentaires->removeElement($commentaire)) {
-            // set the owning side to null (unless already changed)
-            if ($commentaire->getTacheId() === $this) {
-                $commentaire->setTacheId(null);
+            // set the owning se to null (unless already changed)
+            if ($commentaire->getTache() === $this) {
+                $commentaire->setTache(null);
             }
         }
 

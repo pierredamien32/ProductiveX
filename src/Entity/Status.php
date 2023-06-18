@@ -97,7 +97,7 @@ class Status
     {
         if (!$this->taches->contains($tach)) {
             $this->taches->add($tach);
-            $tach->setStatusId($this);
+            $tach->setStatus($this);
         }
 
         return $this;
@@ -107,8 +107,8 @@ class Status
     {
         if ($this->taches->removeElement($tach)) {
             // set the owning side to null (unless already changed)
-            if ($tach->getStatusId() === $this) {
-                $tach->setStatusId(null);
+            if ($tach->getStatus() === $this) {
+                $tach->setStatus(null);
             }
         }
 

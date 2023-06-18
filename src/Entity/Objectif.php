@@ -25,7 +25,7 @@ class Objectif
     #[ORM\JoinColumn(nullable: false)]
     private ?Status $status = null;
 
-    #[ORM\OneToMany(mappedBy: 'objectif_id', targetEntity: SuiviJournalier::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'objectif', targetEntity: SuiviJournalier::class, orphanRemoval: true)]
     private Collection $suiviJournaliers;
 
     public function __construct()
@@ -86,7 +86,7 @@ class Objectif
     {
         if (!$this->suiviJournaliers->contains($suiviJournalier)) {
             $this->suiviJournaliers->add($suiviJournalier);
-            $suiviJournalier->setObjectifId($this);
+            $suiviJournalier->setObjectif($this);
         }
 
         return $this;
@@ -95,9 +95,9 @@ class Objectif
     public function removeSuiviJournalier(SuiviJournalier $suiviJournalier): self
     {
         if ($this->suiviJournaliers->removeElement($suiviJournalier)) {
-            // set the owning side to null (unless already changed)
-            if ($suiviJournalier->getObjectifId() === $this) {
-                $suiviJournalier->setObjectifId(null);
+            // set the owning se to null (unless already changed)
+            if ($suiviJournalier->getObjectif() === $this) {
+                $suiviJournalier->setObjectif(null);
             }
         }
 

@@ -47,22 +47,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $numtel = null;
 
-    #[ORM\OneToOne(mappedBy: 'user_id', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Entreprise $entreprise = null;
 
-    #[ORM\OneToOne(mappedBy: 'user_id', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Employe $employe = null;
 
-    #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Commentaire::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Commentaire::class, orphanRemoval: true)]
     private Collection $commentaires;
 
-    #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Notification::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Notification::class, orphanRemoval: true)]
     private Collection $notifications;
 
-    #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Rappel::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Rappel::class, orphanRemoval: true)]
     private Collection $rappels;
 
-    #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: SuiviJournalier::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: SuiviJournalier::class, orphanRemoval: true)]
     private Collection $suiviJournaliers;
 
     #[ORM\Column(type: 'boolean')]
@@ -201,8 +201,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEntreprise(Entreprise $entreprise): self
     {
         // set the owning side of the relation if necessary
-        if ($entreprise->getUserId() !== $this) {
-            $entreprise->setUserId($this);
+        if ($entreprise->getUser() !== $this) {
+            $entreprise->setUser($this);
         }
 
         $this->entreprise = $entreprise;
@@ -218,8 +218,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmploye(Employe $employe): self
     {
         // set the owning side of the relation if necessary
-        if ($employe->getUserId() !== $this) {
-            $employe->setUserId($this);
+        if ($employe->getUser() !== $this) {
+            $employe->setUser($this);
         }
 
         $this->employe = $employe;
@@ -239,7 +239,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->commentaires->contains($commentaire)) {
             $this->commentaires->add($commentaire);
-            $commentaire->setUserId($this);
+            $commentaire->setUser($this);
         }
 
         return $this;
@@ -249,8 +249,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->commentaires->removeElement($commentaire)) {
             // set the owning side to null (unless already changed)
-            if ($commentaire->getUserId() === $this) {
-                $commentaire->setUserId(null);
+            if ($commentaire->getUser() === $this) {
+                $commentaire->setUser(null);
             }
         }
 
@@ -269,7 +269,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->notifications->contains($notification)) {
             $this->notifications->add($notification);
-            $notification->setUserId($this);
+            $notification->setUser($this);
         }
 
         return $this;
@@ -278,9 +278,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeNotification(Notification $notification): self
     {
         if ($this->notifications->removeElement($notification)) {
-            // set the owning side to null (unless already changed)
-            if ($notification->getUserId() === $this) {
-                $notification->setUserId(null);
+            // set the owning se to null (unless already changed)
+            if ($notification->getUser() === $this) {
+                $notification->setUser(null);
             }
         }
 
@@ -299,7 +299,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->rappels->contains($rappel)) {
             $this->rappels->add($rappel);
-            $rappel->setUserId($this);
+            $rappel->setUser($this);
         }
 
         return $this;
@@ -308,9 +308,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeRappel(Rappel $rappel): self
     {
         if ($this->rappels->removeElement($rappel)) {
-            // set the owning side to null (unless already changed)
-            if ($rappel->getUserId() === $this) {
-                $rappel->setUserId(null);
+            // set the owning se to null (unless already changed)
+            if ($rappel->getUser() === $this) {
+                $rappel->setUser(null);
             }
         }
 
@@ -329,7 +329,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->suiviJournaliers->contains($suiviJournalier)) {
             $this->suiviJournaliers->add($suiviJournalier);
-            $suiviJournalier->setUserId($this);
+            $suiviJournalier->setUser($this);
         }
 
         return $this;
@@ -338,9 +338,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeSuiviJournalier(SuiviJournalier $suiviJournalier): self
     {
         if ($this->suiviJournaliers->removeElement($suiviJournalier)) {
-            // set the owning side to null (unless already changed)
-            if ($suiviJournalier->getUserId() === $this) {
-                $suiviJournalier->setUserId(null);
+            // set the owning se to null (unless already changed)
+            if ($suiviJournalier->getUser() === $this) {
+                $suiviJournalier->setUser(null);
             }
         }
 

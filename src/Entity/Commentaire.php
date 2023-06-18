@@ -23,7 +23,7 @@ class Commentaire
 
     #[ORM\ManyToOne(inversedBy: 'commentaires')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user_id = null;
+    private ?User $user = null;
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'commentaires')]
     private ?self $parent = null;
@@ -33,7 +33,7 @@ class Commentaire
 
     #[ORM\ManyToOne(inversedBy: 'commentaires')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Tache $tache_id = null;
+    private ?Tache $tache = null;
 
     public function __construct()
     {
@@ -69,14 +69,14 @@ class Commentaire
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getUser(): ?User
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUserId(?User $user_id): self
+    public function setUser(?User $user): self
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
 
         return $this;
     }
@@ -123,14 +123,14 @@ class Commentaire
         return $this;
     }
 
-    public function getTacheId(): ?Tache
+    public function getTache(): ?Tache
     {
-        return $this->tache_id;
+        return $this->tache;
     }
 
-    public function setTacheId(?Tache $tache_id): self
+    public function setTache(?Tache $tache): self
     {
-        $this->tache_id = $tache_id;
+        $this->tache = $tache;
 
         return $this;
     }

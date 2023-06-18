@@ -39,9 +39,9 @@ class Projet
 
     #[ORM\ManyToOne(inversedBy: 'projets')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Entreprise $entreprise_id = null;
+    private ?Entreprise $entreprise = null;
 
-    #[ORM\OneToMany(mappedBy: 'projet_id', targetEntity: Tache::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'projet', targetEntity: Tache::class, orphanRemoval: true)]
     private Collection $taches;
 
     public function __construct()
@@ -139,14 +139,14 @@ class Projet
         return $this;
     }
 
-    public function getEntrepriseId(): ?Entreprise
+    public function getEntreprise(): ?Entreprise
     {
-        return $this->entreprise_id;
+        return $this->entreprise;
     }
 
-    public function setEntrepriseId(?Entreprise $entreprise_id): self
+    public function setEntreprise(?Entreprise $entreprise): self
     {
-        $this->entreprise_id = $entreprise_id;
+        $this->entreprise = $entreprise;
 
         return $this;
     }
@@ -163,7 +163,7 @@ class Projet
     {
         if (!$this->taches->contains($tach)) {
             $this->taches->add($tach);
-            $tach->setProjetId($this);
+            $tach->setProjet($this);
         }
 
         return $this;
@@ -172,9 +172,9 @@ class Projet
     public function removeTach(Tache $tach): self
     {
         if ($this->taches->removeElement($tach)) {
-            // set the owning side to null (unless already changed)
-            if ($tach->getProjetId() === $this) {
-                $tach->setProjetId(null);
+            // set the owning se to null (unless already changed)
+            if ($tach->getProjet() === $this) {
+                $tach->setProjet(null);
             }
         }
 

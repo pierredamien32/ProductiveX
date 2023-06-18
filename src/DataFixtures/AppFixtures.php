@@ -9,6 +9,7 @@ use App\Entity\Projet;
 use App\Entity\Status;
 use App\Entity\Entreprise;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\Filesystem\Filesystem;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 
 class AppFixtures extends Fixture
@@ -26,11 +27,16 @@ class AppFixtures extends Fixture
     
     public function load(ObjectManager $manager): void
     {
+        $filesystem = new Filesystem();
             //Utilisateur entreprise
         // Définir le répertoire de destination pour les images
         $kernel = new \App\Kernel('dev', true);
         $logoPath = $kernel->getProjectDir() . '/public' . '/uploads' . '/logo';
 
+                // Vérifier si le dossier "logo" existe, sinon le créer
+        if (!$filesystem->exists($logoPath)) {
+            $filesystem->mkdir($logoPath);
+        }
             //Utilisateur entreprise
         $entreprises = [];
 
@@ -65,7 +71,7 @@ class AppFixtures extends Fixture
                 ->setNumtel($this->faker->phoneNumber())
                 ->setPlainPassword('123456')
                 ->setRoles(['ROLE_USER']);
-                $entreprise->setUserId($user);
+                $entreprise->setUser($user);
 
             $entreprises[] = $entreprise;
             $manager->persist($entreprise);
@@ -94,7 +100,7 @@ class AppFixtures extends Fixture
             $projet->setNom($this->faker->sentence())
                 ->setDuree($duree)
                 ->setDescription($this->faker->paragraph())
-                ->setEntrepriseId($entreprises[mt_rand(0, count($entreprises) - 1)])
+                ->setEntreprise($entreprises[mt_rand(0, count($entreprises) - 1)])
                 ->setStatus($statuss[mt_rand(0, count($statuss) - 1)]);
 
             $projets[] = $projet;

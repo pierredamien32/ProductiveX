@@ -15,53 +15,53 @@ class SuiviJournalier
 
     #[ORM\ManyToOne(inversedBy: 'suiviJournaliers')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Objectif $objectif_id = null;
+    private ?Objectif $objectif = null;
 
     #[ORM\ManyToOne(inversedBy: 'suiviJournaliers')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Rappel $rappel_id = null;
+    private ?Rappel $rappel = null;
 
     #[ORM\ManyToOne(inversedBy: 'suiviJournaliers')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user_id = null;
+    private ?User $user = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getObjectifId(): ?Objectif
+    public function getObjectif(): ?Objectif
     {
-        return $this->objectif_id;
+        return $this->objectif;
     }
 
-    public function setObjectifId(?Objectif $objectif_id): self
+    public function setObjectif(?Objectif $objectif): self
     {
-        $this->objectif_id = $objectif_id;
+        $this->objectif = $objectif;
 
         return $this;
     }
 
-    public function getRappelId(): ?Rappel
+    public function getRappel(): ?Rappel
     {
-        return $this->rappel_id;
+        return $this->rappel;
     }
 
-    public function setRappelId(?Rappel $rappel_id): self
+    public function setRappel(?Rappel $rappel): self
     {
-        $this->rappel_id = $rappel_id;
+        $this->rappel = $rappel;
 
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getUser(): ?User
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUserId(?User $user_id): self
+    public function setUser(?User $user): self
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
 
         return $this;
     }
