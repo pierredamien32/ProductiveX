@@ -25,7 +25,35 @@ class DashboardController extends AbstractController
     #[Route('/dashboard/view-membres', name: 'app_dashboard_viewMembres')]
     public function viewMembres(): Response
     {
-        return $this->render('dashboard/employe.html.twig');// Cette fonction envoie vers la page dashboard/employe.html.twig
+        return $this->render('entreprise/dashboard/membres.html.twig');// Cette fonction envoie vers la page entreprise/dashboard/membres.html.twig
                                                             // cette page est la page permet de voir tous les membres et d'en creer d'autre
+    }
+
+    #[Route('/dashboard/add-projet', name: 'app_dashboard_addProjet')]
+    public function addProjet(): Response
+    {
+        return $this->render('entreprise/dashboard/projets.html.twig');// Cette fonction envoie vers la page entreprise/dashboard/projets.html.twig
+                                                            // cette page est la page permet de voir tous les projets et d'en creer d'autre
+    }
+
+    #[Route('/dashboard/add-tache', name: 'app_dashboard_addTache')]
+    public function addTache(): Response
+    {
+        return $this->render('entreprise/dashboard/taches.html.twig');// Cette fonction envoie vers la page entreprise/dashboard/taches.html.twig
+                                                            // cette page est la page permet de voir tous les taches et d'en creer d'autre
+    }
+
+    #[Route('/dashboard/view-notifs', name: 'app_dashboard_viewNotifs')]
+    public function viewNotifs(): Response
+    {
+        return $this->render('entreprise/dashboard/taches.html.twig');// Cette fonction envoie vers la page entreprise/dashboard/taches.html.twig
+                                                            // cette page est la page permet de voir tous les notifications
+    }
+
+    #[Route('/dashboard/view-rappel', name: 'app_dashboard_viewRappel')]
+    public function viewRappel(): Response
+    {
+        return $this->render('entreprise/dashboard/taches.html.twig');// Cette fonction envoie vers la page entreprise/dashboard/taches.html.twig
+                                                            // cette page est la page permet de voir tous les rappels
     }
 }
