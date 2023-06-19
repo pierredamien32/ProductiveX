@@ -50,6 +50,7 @@ class Tache
 
     public function __construct()
     {
+        $this->createdAt = new \DateTimeImmutable();
         $this->commentaires = new ArrayCollection();
     }
 

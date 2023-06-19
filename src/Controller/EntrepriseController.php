@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Tache;
 use App\Repository\ProjetRepository;
+use App\Repository\TacheRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -17,16 +19,17 @@ class EntrepriseController extends AbstractController
 {
     #[IsGranted('ROLE_USER')]
     #[Route('/dashboard', name: 'app_dashboard')]
-    public function index(ProjetRepository $repository): Response
+    public function index(ProjetRepository $repository,TacheRepository $repotache ): Response
     {
         // Récupérer l'entreprise de l'utilisateur connecté
         $user = $this->getUser();
         $entreprise = $user->getEntreprise();
 
-        $projets = $repository->findBy(['entreprise_id' => $entreprise ]); 
+        $projets = $repository->findBy(['entreprise' => $entreprise ]); 
+        $taches = $repotache->findBy(['projet' => $projets], ['status' => 'ASC']);
 
         return $this->render('entreprise/dashboard/index.html.twig', [
-                'projets' => $projets
+                'taches' => $taches
         ]); 
     }
 }

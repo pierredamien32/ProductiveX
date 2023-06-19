@@ -382,79 +382,34 @@
                                         <table class="table table-xs table-hover mb-0">
                                            <thead>
 										<tr>
-											<th>Name projet</th>
-                                            <th>Name tache</th>
-											<th class="d-none d-xl-table-cell">Start Date</th>
-											<th class="d-none d-xl-table-cell">End Date</th>
-											<th>Status</th>
-											<th class="d-none d-md-table-cell">Assignee</th>
-										</tr>
+										<th>Nom du projet</th>
+                                        <th>Nom de la tâche</th>
+										<th class="d-none d-xl-table-cell">Date de début</th>
+										<th class="d-none d-xl-table-cell">Date de fin</th>
+										<th>Statut</th>
+										<th class="d-none d-md-table-cell">Assigné à</th>
+									</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td>Project Apollo</td>
-                                            <td>Apollo</td>
-											<td class="d-none d-xl-table-cell">01/01/2021</td>
-											<td class="d-none d-xl-table-cell">31/06/2021</td>
-											<td><span class="badge bg-success" style="color:white; font-size:14px;">Done</span></td>
-											<td class="d-none d-md-table-cell">Vanessa Tucker</td>
-										</tr>
-										<tr>
-											<td>Project Fireball</td>
-											<td>Fireball</td>
-											<td class="d-none d-xl-table-cell">01/01/2021</td>
-											<td class="d-none d-xl-table-cell">31/06/2021</td>
-											<td><span class="badge bg-danger" style="color:white; font-size:14px;">Cancelled</span></td>
-											<td class="d-none d-md-table-cell">William Harris</td>
-										</tr>
-										<tr>
-											<td>Project Hades</td>
-											<td>Hades</td>
-											<td class="d-none d-xl-table-cell">01/01/2021</td>
-											<td class="d-none d-xl-table-cell">31/06/2021</td>
-											<td><span class="badge bg-success" style="color:white; font-size:14px;">Done</span></td>
-											<td class="d-none d-md-table-cell">Sharon Lessman</td>
-										</tr>
-										<tr>
-											<td>Project Nitro</td>
-											<td>Nitro</td>
-											<td class="d-none d-xl-table-cell">01/01/2021</td>
-											<td class="d-none d-xl-table-cell">31/06/2021</td>
-											<td><span class="badge bg-warning" style="color:white; font-size:14px;">In progress</span></td>
-											<td class="d-none d-md-table-cell">Vanessa Tucker</td>
-										</tr>
-										<tr>
-											<td>Project Phoenix</td>
-											<td>Phoenix</td>
-											<td class="d-none d-xl-table-cell">01/01/2021</td>
-											<td class="d-none d-xl-table-cell">31/06/2021</td>
-											<td><span class="badge bg-success" style="color:white; font-size:14px;">Done</span></td>
-											<td class="d-none d-md-table-cell">William Harris</td>
-										</tr>
-										<tr>
-											<td>Project X</td>
-											<td> X</td>
-											<td class="d-none d-xl-table-cell">01/01/2021</td>
-											<td class="d-none d-xl-table-cell">31/06/2021</td>
-											<td><span class="badge bg-success" style="color:white; font-size:14px;">Done</span></td>
-											<td class="d-none d-md-table-cell">Sharon Lessman</td>
-										</tr>
-										<tr>
-											<td>Project Romeo</td>
-											<td>Romeo</td>
-											<td class="d-none d-xl-table-cell">01/01/2021</td>
-											<td class="d-none d-xl-table-cell">31/06/2021</td>
-											<td><span class="badge bg-success" style="color:white; font-size:14px;">Done</span></td>
-											<td class="d-none d-md-table-cell">Christina Mason</td>
-										</tr>
-										<tr>
-											<td>Project Wombat</td>
-											<td>Wombat</td>
-											<td class="d-none d-xl-table-cell">01/01/2021</td>
-											<td class="d-none d-xl-table-cell">31/06/2021</td>
-											<td><span class="badge bg-warning" style="color:white; font-size:14px;">In progress</span></td>
-											<td class="d-none d-md-table-cell">William Harris</td>
-										</tr>
+                                    {# {{ dump(taches) }} #}
+                                        {% if taches is defined %}
+                                            {% for tache in taches %}
+                                            <tr>
+                                                <td>{{ tache.projet.nom }}</td>
+                                                <td>{{ tache.nom}}</td>
+                                                <td class="d-none d-xl-table-cell">{{ tache.debutAt|date('d/m/Y') }}</td>
+                                                <td class="d-none d-xl-table-cell">{{ tache.finAt|date('d/m/Y')  }}</td>
+                                                {% if tache.status.nom == 'Terminé'  %}
+                                                    <td><span class="badge bg-success" style="color:white; font-size:14px;">{{ tache.status.nom }}</span></td>
+                                                {% elseif tache.status.nom == 'En cours' %}
+        											<td><span class="badge bg-warning" style="color:white; font-size:14px;">{{ tache.status.nom }}</span></td>
+                                                {% else  %}
+											        <td><span class="badge bg-info" style="color:white; font-size:14px;">{{ tache.status.nom }}</span></td>
+                                                {% endif %}
+                                                <td class="d-none d-md-table-cell">{{ tache.employe.nom }}</td>
+										    </tr>
+                                            {% endfor %}
+                                        {% endif %}
 									</tbody>
                                         </table>
                                     </div>
