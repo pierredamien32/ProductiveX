@@ -361,6 +361,14 @@
                     </div>
                 </div> #}
 
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                {% for flash_error in app.flashes('error') %}
+                    <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+                {% endfor %}
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                     <h1 class="h3 mb-0 text-gray-800">Liste des tâches</h1>
                     <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm gradient-4" style="border: none;" data-toggle="modal" data-target="#modalLoginForm">
@@ -388,21 +396,29 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                				{# {% for projet in projets %}
+                                				{% for tache in taches %}
                                                     <tr>
-                                                        <td>{{ projet.nom }}</td>
-                                                        <td>{{ projet.duree.format('%a days, %h hours, %i minutes') }}</td>
-                                                        <td>{{ projet.description }}</td>
-                                                        <td>{{ projet.status.nom }}</td>
-                                                        <td>{{ projet.createdAt | date('d/m/Y') }}</td>
+                                                        <td>{{ tache.nom }}</td>
+                                                        <td>{{ tache.projet.nom }}</td>
+                                                        <td>{{ tache.description }}</td>
+                                                        <td>{{ tache.duree.format('%a days, %h hours, %i minutes') }}</td>
+                                                        {% if tache.status.nom == 'Terminé'  %}
+                                                            <td><span class="badge bg-success" style="color:white; font-size:14px;">{{ tache.status.nom }}</span></td>
+                                                        {% elseif tache.status.nom == 'En cours' %}
+                                                            <td><span class="badge bg-warning" style="color:white; font-size:14px;">{{ tache.status.nom }}</span></td>
+                                                        {% else  %}
+                                                            <td><span class="badge bg-info" style="color:white; font-size:14px;">{{ tache.status.nom }}</span></td>
+                                                        {% endif %}
+                                                        <td>{{ tache.employe.nom }}</td>
+                                                        <td>{{ tache.createdAt | date('d/m/Y') }}</td>
                                                         <td>
-                                                            <a href="{{ path('projet.edit', { id: projet.id }) }}" class="btn btn-xs btn-info">Modifier</a>
+                                                            <a href="{{ path('tache.edit', { id: tache.id }) }}" class="btn btn-xs btn-info">Modifier</a>
                                                         </td>
                                                         <td>
-                                                            <a href="{{ path('projet.delete', { id: projet.id }) }}" class="btn btn-xs btn-warning">Supprimer</a>
+                                                            <a href="{{ path('tache.delete', { id: tache.id }) }}" class="btn btn-xs btn-danger">Supprimer</a>
                                                         </td>                                                        
                                                     </tr>
-					                            {% endfor %} #}
+					                            {% endfor %}
                                             </tbody>
                                         </table>
                                     </div>
@@ -476,38 +492,33 @@
                     </button>
                 </div>
                 <div class="modal-body mx-3">
-                    <div class="md-form mb-5">
-                        <label data-error="wrong" data-success="right" for="defaultForm-email">Nom de la tache</label>
-                        <input type="text" id="defaultForm-email" class="form-control validate">
+                    {{ form_start(form,{ 'attr': {'class': 'row g-3'} }) }}
+                        <div class="col-md-6 md-form mb-5">
+                            {{ form_row(form.nom) }}
+                        </div>
+                        <div class="col-md-6 md-form mb-5">
+                            {{ form_row(form.description) }}
+                        </div>
+                        <div class="col-md-6 md-form mb-5 ">
+                            {{ form_label(form.projet) }}
+                            {{ form_widget(form.projet, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.projet) }}
+                        </div>
+                        <div class="col-md-6 md-form mb-5 ">
+                            {{ form_label(form.employe) }}
+                            {{ form_widget(form.employe, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.employe) }}
+                        </div>
+                        <div class="col-md-12 md-form mb-5">
+                            {{ form_label(form.duree, 'Durée', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.duree, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.duree) }}
+                        </div>
                     </div>
-                    <div class="md-form mb-5">
-                        <label data-error="wrong" data-success="right" for="defaultForm-email">Description de la tâche</label>
-                        <input type="text" id="defaultForm-email" class="form-control validate">
+                    <div class="modal-footer d-flex justify-content-center">
+                            {{ form_row(form.submit) }}
                     </div>
-                    <div class="md-form mb-5 ">
-                        <label for="type">Projet d'appartenance </label>
-                        <select name="role_id" class="form-control" id="role">
-                            <option value="" ></option>
-                            <option value="" >Projet X</option>
-                            <option value="" >Projet Y</option>
-                        </select>
-                    </div>
-                    <div class="md-form mb-5 ">
-                        <label for="type">Assigné à </label>
-                        <select name="role_id" class="form-control" id="role">
-                            <option value="" ></option>
-                            <option value="" >Toto TATA</option>
-                            <option value="" >Codjo ZOU</option>
-                        </select>
-                    </div>
-                    <div class="md-form mb-5">
-                        <label data-error="wrong" data-success="right" for="defaultForm-email">Durée en minute</label>
-                        <input type="time" id="defaultForm-email" class="form-control validate">
-                    </div>
-                </div>
-                <div class="modal-footer d-flex justify-content-center">
-                    <button class="btn btn-primary">créer</button>
-                </div>
+                    {{ form_end(form) }}
                 </div>
             </div>
             </div>

@@ -32,7 +32,7 @@ class RegistrationController extends AbstractController
     {
         $user = new User();
         $entreprise = new Entreprise();
-        $entreprise->setUserId($user);
+        $entreprise->setUser($user);
         $roles = ['ROLE_USER', 'ROLE_ENT'];
         $user->setRoles($roles);
         // $user->setRoles("ROLE_ENT");

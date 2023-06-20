@@ -29,19 +29,19 @@ class DashboardController extends AbstractController
                                                             // cette page est la page permet de voir tous les membres et d'en creer d'autre
     }
 
-    #[Route('/dashboard/add-projet', name: 'app_dashboard_addProjet')]
-    public function addProjet(): Response
-    {
-        return $this->render('entreprise/dashboard/projets.html.twig');// Cette fonction envoie vers la page entreprise/dashboard/projets.html.twig
-                                                            // cette page est la page permet de voir tous les projets et d'en creer d'autre
-    }
+    // #[Route('/dashboard/add-projet', name: 'app_dashboard_addProjet')]
+    // public function addProjet(): Response
+    // {
+    //     return $this->render('entreprise/dashboard/projets.html.twig');// Cette fonction envoie vers la page entreprise/dashboard/projets.html.twig
+    //                                                         // cette page est la page permet de voir tous les projets et d'en creer d'autre
+    // }
 
-    #[Route('/dashboard/add-tache', name: 'app_dashboard_addTache')]
-    public function addTache(): Response
-    {
-        return $this->render('entreprise/dashboard/taches.html.twig');// Cette fonction envoie vers la page entreprise/dashboard/taches.html.twig
-                                                            // cette page est la page permet de voir tous les taches et d'en creer d'autre
-    }
+    // #[Route('/dashboard/add-tache', name: 'app_dashboard_addTache')]
+    // public function addTache(): Response
+    // {
+    //     return $this->render('entreprise/dashboard/taches.html.twig');// Cette fonction envoie vers la page entreprise/dashboard/taches.html.twig
+    //                                                         // cette page est la page permet de voir tous les taches et d'en creer d'autre
+    // }
 
     #[Route('/dashboard/view-notifs', name: 'app_dashboard_viewNotifs')]
     public function viewNotifs(): Response

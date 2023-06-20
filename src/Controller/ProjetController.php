@@ -3,67 +3,88 @@
 namespace App\Controller;
 
 use App\Entity\Projet;
+use App\Form\ProjetType;
 use App\Repository\ProjetRepository;
+use App\Repository\StatusRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 // use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 // use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
 
 class ProjetController extends AbstractController
 {
 
-    
-    #[IsGranted('ROLE_USER')]
-    #[Route('/projet', name: 'projet.index')]
-    public function index(ProjetRepository $repository): Response
-    {
-        $projets = $repository->findBy(['user' => $this->getUser()]); 
-    
-        return $this->render('projet/index.html.twig', [
-                'projets' => $projets
-        ]);
-    }
 
-    #[Route('/projet/creation', 'projet.new')]
-    #[IsGranted('ROLE_USER')]
-    public function new(
+    /**
+     *  Cette fonction envoie vers la page entreprise/dashboard/projets.html.twig
+     *cette page est la page permet de voir tous les projets et d'en creer d'autre
+     * @return Response
+     */
+    #[Route('/workspace/entreprise/projet/add&list', name: 'app_dashboard_addProjet')]
+    public function addlistProjet(
         Request $request,
-        EntityManagerInterface $manager
+        EntityManagerInterface $manager,
+        ProjetRepository $repoProjet,
+        StatusRepository $repoStatus
     ): Response {
+
+        // =============>debut du formulaire de creation 
         $projet = new Projet();
         $form = $this->createForm(ProjetType::class, $projet);
 
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $projet = $form->getData();
-            $projet->setUser($this->getUser());
 
-            $manager->persist($projet);
-            $manager->flush();
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $projet = $form->getData();
+                $projet->setEntreprise($this->getUser()->getEntreprise());
 
-            $this->addFlash(
-                'success',
-                'Votre projet a été créé avec succès !'
-            );
+                // Récupérer l'objet Status correspondant à l'état par défaut
+                $statusParDefaut = $repoStatus->findOneBy(['nom' => 'À faire']);
+                $projet->setStatus($statusParDefaut);
+                // dd($projet);
 
-            return $this->redirectToRoute('projet.index');
+                $manager->persist($projet);
+                $manager->flush();
+
+                $this->addFlash(
+                    'success',
+                    'Votre projet a été créé avec succès !'
+                );
+            } else {
+                $this->addFlash(
+                    'error',
+                    'Une erreur s\'est produite lors de la création du projet.'
+                );
+            }
         }
+        // =============>fin du formulaire de creation 
 
-        return $this->render('pages/projet/new.html.twig', [
+        // =============>liste des projets
+        // $projets = $repoProjet->findBy(['entreprise' => 2]);
+        $projets = $repoProjet->findBy(['entreprise' => $this->getUser()->getEntreprise()], ['createdAt' => 'DESC']);
+
+        return $this->render('entreprise/dashboard/projets.html.twig', [
+            'projets' => $projets,
             'form' => $form->createView()
         ]);
     }
 
-    #[Security("is_granted('ROLE_USER') and user === projet.getUser()")]
-    #[Route('/projet/edition/{id}', 'projet.edit', methods: ['GET', 'POST'])]
-    public function edit(
+    /**
+     * Fonction de modification des projets
+     */
+    // #[Security("is_granted('ROLE_USER') and user === projet.getUser()")]
+    #[Route('/workspace/entreprise/projet/edition/{id}', 'projet.edit', methods: ['GET', 'POST'])]
+    public function editProjet(
         Projet $projet,
         Request $request,
+        ProjetRepository $repoProjet,
         EntityManagerInterface $manager
     ): Response {
         $form = $this->createForm(ProjetType::class, $projet);
@@ -79,17 +100,22 @@ class ProjetController extends AbstractController
                 'success',
                 'Votre projet a été modifié avec succès !'
             );
-
-            return $this->redirectToRoute('projet.index');
         }
+        $projets = $repoProjet->findBy(['entreprise' => $this->getUser()->getEntreprise()]);
 
-        return $this->render('pages/projet/edit.html.twig', [
+
+        return $this->render('entreprise/dashboard/projets.html.twig', [
+            'projets' => $projets,
             'form' => $form->createView()
         ]);
     }
-   
-    #[Route('/projet/suppression/{id}', 'projet.delete', methods: ['GET'])]
-    #[Security("is_granted('ROLE_USER') and user === projet.getUser()")]
+
+
+    /**
+     * Fonction de suppression des projets
+     */
+    #[Route('/workspace/entreprise/projet/suppression/{id}', name: 'projet.delete', methods: ['GET'])]
+    // #[Security("is_granted('ROLE_USER') and user === projet.getEntreprise().getUser()")]
     public function delete(
         EntityManagerInterface $manager,
         Projet $projet
@@ -102,7 +128,8 @@ class ProjetController extends AbstractController
             'Votre projet a été supprimé avec succès !'
         );
 
-        return $this->redirectToRoute('projet.index');
+        return $this->redirectToRoute('app_dashboard_addProjet');
     }
+
     
 }
