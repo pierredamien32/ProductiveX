@@ -49,7 +49,6 @@ class ProjetType extends AbstractType
                 'attr' => [
                     'class' => 'form-control validate',
                     'minlength' => '2',
-                    'maxlength' => '50'
                 ],
                 'label' => 'Description du projet',
                 'label_attr' => [

@@ -37,14 +37,14 @@ class EntrepriseType extends AbstractType
                     'placeholder' => "Ex: Ecole Supérieure de Gestion, d'Informatique et des Sciences",
                     'class' => 'form-control',
                     'minlength' => '2',
-                    'maxlength' => '50'
+                    'maxlength' => '100'
                 ],
                 'label' => 'Denomination Social',
                 'label_attr' => [
                     'class' => 'form-label '
                 ],
                 'constraints' => [
-                    new Assert\Length(['min' => 2, 'max' => 50]),
+                    new Assert\Length(['min' => 2, 'max' => 100]),
                     new Assert\NotBlank()
                 ]
             ])
@@ -53,7 +53,6 @@ class EntrepriseType extends AbstractType
                     'placeholder' => "Ex:  Boulevard de l'Ouémé Jéricho, Cotonou, Benin",
                     'class' => 'form-control',
                     'minlength' => '2',
-                    // 'maxlength' => '50'
                 ],
                 'label' => 'Adresse',
                 'label_attr' => [

@@ -56,14 +56,13 @@ class TacheType extends AbstractType
                 'attr' => [
                     'class' => 'form-control validate',
                     'minlength' => '2',
-                    'maxlength' => '50'
                 ],
                 'label' => 'Description de la tâche',
                 'label_attr' => [
                     'class' => 'form-label '
                 ],
                 'constraints' => [
-                    new Assert\Length(['min' => 2, 'max' => 50]),
+                    new Assert\Length(['min' => 2]),
                 ]
             ])
             ->add('projet', EntityType::class, [
