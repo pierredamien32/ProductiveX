@@ -56,7 +56,7 @@ class ProjetType extends AbstractType
                     'class' => 'form-label '
                 ],
                 'constraints' => [
-                    new Assert\Length(['min' => 2, 'max' => 50]),
+                    new Assert\Length(['min' => 2]),
                 ]
             ])
             ->add('submit', SubmitType::class, [
