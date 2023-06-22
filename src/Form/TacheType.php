@@ -18,12 +18,6 @@ use Symfony\Component\Form\Extension\Core\Type\DateIntervalType;
 class TacheType extends AbstractType
 {
 
-    // private $entreprise;
-
-    // public function __construct($entreprise)
-    // {
-    //     $this->entreprise = $entreprise;
-    // }
     
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

@@ -68,7 +68,7 @@ class TacheController extends AbstractController
         
         // dd($taches);
 
-        return $this->render('tache/entreprise/taches.html.twig', [
+        return $this->render('entreprise/dashboard/taches.html.twig', [
             'taches' => $taches,
             'form' => $form->createView()
         ]);
@@ -102,7 +102,7 @@ class TacheController extends AbstractController
         $taches = $repotache->findBy(['entreprise' => $this->getUser()->getEntreprise()]);
 
 
-        return $this->render('tache/entreprise/taches.html.twig', [
+        return $this->render('entreprise/dashboard/taches.html.twig', [
             'taches' => $taches,
             'form' => $form->createView()
         ]);

@@ -22,7 +22,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  *  cette page est la page d'accueil du compte entreprise 
  */
 
- #[IsGranted('ROLE_USER')]
+ #[IsGranted('ROLE_ENT')]
 #[Route('/workspace/entreprise')]
 class EntrepriseController extends AbstractController
 {

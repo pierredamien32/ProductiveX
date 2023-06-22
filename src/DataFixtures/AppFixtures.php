@@ -34,10 +34,14 @@ class AppFixtures extends Fixture
         // Définir le répertoire de destination pour les images
         $kernel = new \App\Kernel('dev', true);
         $logoPath = $kernel->getProjectDir() . '/public' . '/uploads' . '/logo';
+        $imagePath = $kernel->getProjectDir() . '/public' . '/uploads' . '/image';
 
                 // Vérifier si le dossier "logo" existe, sinon le créer
         if (!$filesystem->exists($logoPath)) {
             $filesystem->mkdir($logoPath);
+        }
+        if (!$filesystem->exists($imagePath)) {
+            $filesystem->mkdir($imagePath);
         }
 
         $admin = new User();
@@ -94,21 +98,18 @@ class AppFixtures extends Fixture
             $word = $this->faker->word;
             $gray = false;
             $format = $this->faker->randomElement(['png', 'jpg']);
-            $img = $this->faker->image($logoPath, $width, $height, $category, $randomize, $word, $gray, $format);
+            $img = $this->faker->image($imagePath, $width, $height, $category, $randomize, $word, $gray, $format);
             $filename = basename($img);
 
-            $randomDated = $this->faker->dateTimeBetween('-20 years', '+0 days');
-            $randomDateTimeImmutabled = new \DateTimeImmutable($randomDated->format('Y-m-d H:i:s'));
-            
-            $randomDatef = $this->faker->dateTimeBetween('-20 years', '+0 days');
-            $randomDateTimeImmutablef = new \DateTimeImmutable($randomDatef->format('Y-m-d H:i:s'));
+            $startDate = $this->faker->dateTimeBetween('-20 years', '+0 days');
+            $endDate = $this->faker->dateTimeBetween($startDate, '+1 year');
 
             $employe = new Employe();
             $employe->setNom($this->faker->name())
                 ->setPoste($this->faker->jobTitle())
-                ->setDebutcontratAt($randomDateTimeImmutabled)
+                ->setDebutcontratAt($startDate)
                 ->setEntreprise($entreprises[mt_rand(0, count($entreprises) - 1)])
-                ->setFincontratAt($randomDateTimeImmutablef)
+                ->setFincontratAt($endDate)
                 ->setImage($filename);
                 
             $user = new User();

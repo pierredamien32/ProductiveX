@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\EmployeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EmployeRepository::class)]
@@ -21,12 +22,6 @@ class Employe
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $poste = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $debutcontratAt = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $fincontratAt = null;
-
     #[ORM\OneToOne(inversedBy: 'employe', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
@@ -41,6 +36,13 @@ class Employe
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $debutcontratAt = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $fincontratAt = null;
+
+   
     public function __construct()
     {
         $this->taches = new ArrayCollection();
@@ -75,29 +77,6 @@ class Employe
         return $this;
     }
 
-    public function getDebutcontratAt(): ?\DateTimeImmutable
-    {
-        return $this->debutcontratAt;
-    }
-
-    public function setDebutcontratAt(?\DateTimeImmutable $debutcontratAt): self
-    {
-        $this->debutcontratAt = $debutcontratAt;
-
-        return $this;
-    }
-
-    public function getFincontratAt(): ?\DateTimeImmutable
-    {
-        return $this->fincontratAt;
-    }
-
-    public function setFincontratAt(?\DateTimeImmutable $fincontratAt): self
-    {
-        $this->fincontratAt = $fincontratAt;
-
-        return $this;
-    }
 
     public function getUser(): ?User
     {
@@ -164,4 +143,30 @@ class Employe
 
         return $this;
     }
+
+    public function getDebutcontratAt(): ?\DateTimeInterface
+    {
+        return $this->debutcontratAt;
+    }
+
+    public function setDebutcontratAt(?\DateTimeInterface $debutcontratAt): self
+    {
+        $this->debutcontratAt = $debutcontratAt;
+
+        return $this;
+    }
+
+    public function getFincontratAt(): ?\DateTimeInterface
+    {
+        return $this->fincontratAt;
+    }
+
+    public function setFincontratAt(?\DateTimeInterface $fincontratAt): self
+    {
+        $this->fincontratAt = $fincontratAt;
+
+        return $this;
+    }
+
+  
 }

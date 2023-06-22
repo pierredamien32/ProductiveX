@@ -368,119 +368,29 @@
                                         <table class="table table-xs mb-0">
                                             <thead>
                                                 <tr>
-                                                    <th>Customers</th>
-                                                    <th>Product</th>
-                                                    <th>Country</th>
-                                                    <th>Status</th>
-                                                    <th>Payment Method</th>
-                                                    <th>Activity</th>
+                                                   <th>Membres</th>
+                                                    <th>Poste</th>
+                                                    {# <th>Pays</th>
+                                                    <th>Activité</th> #}
+                                                    <th>NOTE</th>                                                   
+                                                    <th>Supprimer</th>                               
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                            {# {{ dump(employe) }} #}
+                                				{% for employe in employe %}
                                                 <tr>
-                                                    <td><img src="{{asset('theme/images/avatar/1.jpg')}}" class=" rounded-circle mr-3" alt="">Sarah Smith</td>
-                                                    <td>iPhone X</td>
+                                                    <td><img src="{{ asset('uploads/image/' ~ employe.image) }}" class="employe-image rounded-circle mr-3" alt="">{{ employe.nom }}</td>
+                                                    <td> {{ employe.poste }} </td>
                                                     <td>
-                                                        <span>United States</span>
+                                                        <span>0</span>
                                                     </td>
                                                     <td>
-                                                        <div>
-                                                            <div class="progress" style="height: 6px">
-                                                                <div class="progress-bar bg-success" style="width: 50%"></div>
-                                                            </div>
-                                                        </div>
+                                                        <a href="{{ path('employe.delete', { id: employe.id }) }}" class="btn btn-xs btn-danger">Supprimer</a>
                                                     </td>
-                                                    <td><i class="fa fa-circle-o text-success  mr-2"></i> Paid</td>
-                                                    <td>
-                                                        <span>Last Login</span>
-                                                        <span class="m-0 pl-3">10 sec ago</span>
-                                                    </td>
+                                                    
                                                 </tr>
-                                                <tr>
-                                                    <td><img src="{{asset('theme/images/avatar/2.jpg')}}" class=" rounded-circle mr-3" alt="">Walter R.</td>
-                                                    <td>Pixel 2</td>
-                                                    <td><span>Canada</span></td>
-                                                    <td>
-                                                        <div>
-                                                            <div class="progress" style="height: 6px">
-                                                                <div class="progress-bar bg-success" style="width: 50%"></div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td><i class="fa fa-circle-o text-success  mr-2"></i> Paid</td>
-                                                    <td>
-                                                        <span>Last Login</span>
-                                                        <span class="m-0 pl-3">50 sec ago</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><img src="{{asset('theme/images/avatar/3.jpg')}}" class=" rounded-circle mr-3" alt="">Andrew D.</td>
-                                                    <td>OnePlus</td>
-                                                    <td><span>Germany</span></td>
-                                                    <td>
-                                                        <div>
-                                                            <div class="progress" style="height: 6px">
-                                                                <div class="progress-bar bg-warning" style="width: 50%"></div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td><i class="fa fa-circle-o text-warning  mr-2"></i> Pending</td>
-                                                    <td>
-                                                        <span>Last Login</span>
-                                                        <span class="m-0 pl-3">10 sec ago</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><img src="{{asset('theme/images/avatar/6.jpg')}}" class=" rounded-circle mr-3" alt=""> Megan S.</td>
-                                                    <td>Galaxy</td>
-                                                    <td><span>Japan</span></td>
-                                                    <td>
-                                                        <div>
-                                                            <div class="progress" style="height: 6px">
-                                                                <div class="progress-bar bg-success" style="width: 50%"></div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td><i class="fa fa-circle-o text-success  mr-2"></i> Paid</td>
-                                                    <td>
-                                                        <span>Last Login</span>
-                                                        <span class="m-0 pl-3">10 sec ago</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><img src="{{asset('theme/images/avatar/4.jpg')}}" class=" rounded-circle mr-3" alt=""> Doris R.</td>
-                                                    <td>Moto Z2</td>
-                                                    <td><span>England</span></td>
-                                                    <td>
-                                                        <div>
-                                                            <div class="progress" style="height: 6px">
-                                                                <div class="progress-bar bg-success" style="width: 50%"></div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td><i class="fa fa-circle-o text-success  mr-2"></i> Paid</td>
-                                                    <td>
-                                                        <span>Last Login</span>
-                                                        <span class="m-0 pl-3">10 sec ago</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><img src="{{asset('theme/images/avatar/5.jpg')}}" class=" rounded-circle mr-3" alt="">Elizabeth W.</td>
-                                                    <td>Notebook Asus</td>
-                                                    <td><span>China</span></td>
-                                                    <td>
-                                                        <div>
-                                                            <div class="progress" style="height: 6px">
-                                                                <div class="progress-bar bg-warning" style="width: 50%"></div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td><i class="fa fa-circle-o text-warning  mr-2"></i> Pending</td>
-                                                    <td>
-                                                        <span>Last Login</span>
-                                                        <span class="m-0 pl-3">10 sec ago</span>
-                                                    </td>
-                                                </tr>
+					                            {% endfor %}
                                             </tbody>
                                         </table>
                                     </div>
@@ -554,11 +464,55 @@
                     </button>
                 </div>
                 <div class="modal-body mx-3">
-                    <div class="md-form mb-5">
-                        <label data-error="wrong" data-success="right" for="defaultForm-email">Nom du membre</label>
-                        <input type="text" id="defaultForm-email" class="form-control validate">
+                    {{ form_start(form,{ 'attr': {'class': 'row g-3'} }) }}
+                    <div class="md-form mb-4 col-md-6">
+                        {# <label data-error="wrong" data-success="right" for="defaultForm-email">Nom du membre</label>
+                        <input type="text" id="defaultForm-email" class="form-control validate"> #}
+                        {{ form_row(form.nom) }}
                     </div>
-                    <div class="md-form mb-5">
+                    <div class="md-form mb-4 col-md-6">
+                        {# <label data-error="wrong" data-success="right" for="defaultForm-email">Email du membre</label>
+                        <input type="email" id="defaultForm-email" class="form-control validate"> #}
+                            {{ form_row(form.user.email) }}
+                    </div>
+                      <div class="md-form mb-4 col-md-6">
+                        {# <label data-error="wrong" data-success="right" for="defaultForm-email">Email du membre</label>
+                        <input type="email" id="defaultForm-email" class="form-control validate"> #}
+                            {{ form_row(form.user.numTel) }}
+                    </div>
+
+                    <div class="md-form mb-4 col-md-6">
+                        {# <label data-error="wrong" data-success="right" for="defaultForm-pass">Mot de passe</label>
+                        <input type="password" id="defaultForm-pass" class="form-control validate"> #}
+                                {{ form_row(form.user.plainPassword.first) }}                    
+                    </div>
+
+                    <div class="md-form mb-4 col-md-6">
+                        {# <label data-error="wrong" data-success="right" for="defaultForm-pass">Confirmation du mot de passe</label>
+                        <input type="password" id="defaultForm-pass" class="form-control validate"> #}
+                                {{ form_row(form.user.plainPassword.second) }}                   
+                    </div>
+                     <div class="md-form mb-4 col-md-6">
+                        {# <label data-error="wrong" data-success="right" for="defaultForm-pass">Confirmation du mot de passe</label>
+                        <input type="password" id="defaultForm-pass" class="form-control validate"> #}
+                                {{ form_row(form.poste) }}                   
+                    </div>
+                     <div class="md-form mb-4 col-md-6">
+                        {# <label data-error="wrong" data-success="right" for="defaultForm-pass">Confirmation du mot de passe</label>
+                        <input type="password" id="defaultForm-pass" class="form-control validate"> #}
+                                {{ form_row(form.debutcontratAt) }}                   
+                    </div>
+                     <div class="md-form mb-4 col-md-6">
+                        {# <label data-error="wrong" data-success="right" for="defaultForm-pass">Confirmation du mot de passe</label>
+                        <input type="password" id="defaultForm-pass" class="form-control validate"> #}
+                                {{ form_row(form.fincontratAt) }}                   
+                    </div>
+                     <div class="md-form mb-4 col-md-6">
+                        {# <label data-error="wrong" data-success="right" for="defaultForm-pass">Confirmation du mot de passe</label>
+                        <input type="password" id="defaultForm-pass" class="form-control validate"> #}
+                                {{ form_row(form.image) }}                   
+                    </div>
+                    {# <div class="md-form mb-5">
                         <label data-error="wrong" data-success="right" for="defaultForm-email">Poste du membre</label>
                         <input type="text" id="defaultForm-email" class="form-control validate">
                     </div>
@@ -573,25 +527,15 @@
                     <div class="md-form mb-5">
                         <label data-error="wrong" data-success="right" for="defaultForm-email">Date de fin du contrat</label>
                         <input type="date" id="defaultForm-email" class="form-control validate">
-                    </div>
-                    <div class="md-form mb-5">
-                        <label data-error="wrong" data-success="right" for="defaultForm-email">Email du membre</label>
-                        <input type="email" id="defaultForm-email" class="form-control validate">
-                    </div>
-
-                    <div class="md-form mb-4">
-                        <label data-error="wrong" data-success="right" for="defaultForm-pass">Mot de passe</label>
-                        <input type="password" id="defaultForm-pass" class="form-control validate">
-                    </div>
-
-                    <div class="md-form mb-4">
-                        <label data-error="wrong" data-success="right" for="defaultForm-pass">Confirmation du mot de passe</label>
-                        <input type="password" id="defaultForm-pass" class="form-control validate">
-                    </div>
+                    </div> #}
+                    
                 </div>
                 <div class="modal-footer d-flex justify-content-center">
-                    <button class="btn btn-primary">Ajouter</button>
+                            {{ form_row(form.submit) }}
+                    {# <button class="btn btn-primary">Ajouter</button> #}
                 </div>
+                    {{ form_end(form) }}
+
                 </div>
             </div>
             </div>

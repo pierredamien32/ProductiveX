@@ -22,12 +22,12 @@ class DashboardController extends AbstractController
         return $this->render('dashboard/hello.html.twig');
     }
 
-    #[Route('/dashboard/view-membres', name: 'app_dashboard_viewMembres')]
-    public function viewMembres(): Response
-    {
-        return $this->render('entreprise/dashboard/membres.html.twig');// Cette fonction envoie vers la page entreprise/dashboard/membres.html.twig
-                                                            // cette page est la page permet de voir tous les membres et d'en creer d'autre
-    }
+    // #[Route('/dashboard/view-membres', name: 'app_dashboard_viewMembres')]
+    // public function viewMembres(): Response
+    // {
+    //     return $this->render('entreprise/dashboard/membres.html.twig');// Cette fonction envoie vers la page entreprise/dashboard/membres.html.twig
+    //                                                         // cette page est la page permet de voir tous les membres et d'en creer d'autre
+    // }
 
     // #[Route('/dashboard/add-projet', name: 'app_dashboard_addProjet')]
     // public function addProjet(): Response
