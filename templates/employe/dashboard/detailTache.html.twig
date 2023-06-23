@@ -1,0 +1,576 @@
+{% extends 'baseDashboard.html.twig' %}
+
+
+{% block body %}
+<style>
+   /* CSS pour l'animation du texte */
+    @keyframes pulse {
+    0% {
+        transform: scale(1);
+        color: #9786FF;
+    }
+    50% {
+        transform: scale(1.2);
+        color: #FF771D;
+    }
+    100% {
+        transform: scale(1);
+        color: #9786FF;
+    }
+    }
+
+    .animated-text {
+        animation: pulse 3s infinite;
+        /* animation: scale 3s infinite; */
+
+        font-size:50px;
+    }
+    .hover-effect {
+      transition: font-size 300ms ease-in-out; /* Transition de 300 millisecondes */
+    }
+
+    .hover-effect:hover {
+      font-size: 1.2em; /* Augmente la taille de la police au survol */
+    }
+
+    .bg-image {
+      background-image: url('https://gstatic.com/classroom/themes/img_learnlanguage.jpg');
+      background-size: cover;
+      /* background-position: center center; */
+      width: 100%; /* Ajustez la hauteur selon vos besoins */
+      padding:50px 0;
+    }
+</style>
+    <!--*******************
+        Preloader start
+    ********************-->
+    <div id="preloader">
+        <div class="loader">
+            <svg class="circular" viewBox="25 25 50 50">
+               <span class="animated-text">ProductiveX...</span>
+            </svg>
+        </div>
+    </div>
+    <!--*******************
+        Preloader end
+    ********************-->
+
+    
+    <!--**********************************
+        Main wrapper start
+    ***********************************-->
+    <div id="main-wrapper">
+
+        <!--**********************************
+            Nav header start
+        ***********************************-->
+        <div class="nav-header">
+            <div class="brand-logo">
+                <a href="{{ path('app_dashboard') }}">
+                    {# <b class="logo-abbr"><img src="{{ asset('assets/images/logo.png')}}" alt=""> </b>
+                    <span class="logo-compact"><img src="{{ asset('assets/images/logo-compact.png')}}" alt=""></span>
+                    <span class="brand-title">
+                        <img src="{{ asset('assets/images/logo-text.png')}}" alt="">
+                    </span> #}
+                    <span class="brand-title" style="color:white;">
+                        {# ProductiveX #}
+                        Bienvenue Jean
+                    </span>
+                </a>
+            </div>
+        </div>
+        <!--**********************************
+            Nav header end
+        ***********************************-->
+
+        <!--**********************************
+            Header start
+        ***********************************-->
+        <div class="header">    
+            <div class="header-content clearfix">
+                
+                <div class="nav-control">
+                    <div class="hamburger">
+                        <span class="toggle-icon"><i class="icon-menu"></i></span>
+                    </div>
+                </div>
+                <div class="header-left">
+                    <div class="input-group icons">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text bg-transparent border-0 pr-2 pr-sm-3" id="basic-addon1"><i class="mdi mdi-magnify"></i></span>
+                        </div>
+                        <input type="search" class="form-control" placeholder="Search Dashboard" aria-label="Search Dashboard">
+                        <div class="drop-down animated flipInX d-md-none">
+                            <form action="#">
+                                <input type="text" class="form-control" placeholder="Search">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <ul class="clearfix">
+                        <li class="icons dropdown"><a href="javascript:void(0)" data-toggle="dropdown">
+                                <i class="mdi mdi-email-outline"></i>
+                                <span class="badge badge-pill gradient-1">3</span>
+                            </a>
+                            <div class="drop-down animated fadeIn dropdown-menu">
+                                <div class="dropdown-content-heading d-flex justify-content-between">
+                                    <span class="">3 New Messages</span>  
+                                    <a href="javascript:void()" class="d-inline-block">
+                                        <span class="badge badge-pill gradient-1">3</span>
+                                    </a>
+                                </div>
+                                <div class="dropdown-content-body">
+                                    <ul>
+                                        <li class="notification-unread">
+                                            <a href="javascript:void()">
+                                                <img class="float-left mr-3 avatar-img" src="{{ asset('assets/images/avatar/1.jpg')}}" alt="">
+                                                <div class="notification-content">
+                                                    <div class="notification-heading">Saiful Islam</div>
+                                                    <div class="notification-timestamp">08 Hours ago</div>
+                                                    <div class="notification-text">Hi Teddy, Just wanted to let you ...</div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="notification-unread">
+                                            <a href="javascript:void()">
+                                                <img class="float-left mr-3 avatar-img" src="{{ asset('assets/images/avatar/2.jpg')}}" alt="">
+                                                <div class="notification-content">
+                                                    <div class="notification-heading">Adam Smith</div>
+                                                    <div class="notification-timestamp">08 Hours ago</div>
+                                                    <div class="notification-text">Can you do me a favour?</div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void()">
+                                                <img class="float-left mr-3 avatar-img" src="{{ asset('assets/images/avatar/3.jpg')}}" alt="">
+                                                <div class="notification-content">
+                                                    <div class="notification-heading">Barak Obama</div>
+                                                    <div class="notification-timestamp">08 Hours ago</div>
+                                                    <div class="notification-text">Hi Teddy, Just wanted to let you ...</div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void()">
+                                                <img class="float-left mr-3 avatar-img" src="{{ asset('assets/images/avatar/4.jpg')}}" alt="">
+                                                <div class="notification-content">
+                                                    <div class="notification-heading">Hilari Clinton</div>
+                                                    <div class="notification-timestamp">08 Hours ago</div>
+                                                    <div class="notification-text">Hello</div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    
+                                </div>
+                            </div>
+                        </li>
+                        <li class="icons dropdown"><a href="javascript:void(0)" data-toggle="dropdown">
+                                <i class="mdi mdi-bell-outline"></i>
+                                <span class="badge badge-pill gradient-2">3</span>
+                            </a>
+                            <div class="drop-down animated fadeIn dropdown-menu dropdown-notfication">
+                                <div class="dropdown-content-heading d-flex justify-content-between">
+                                    <span class="">2 New Notifications</span>  
+                                    <a href="javascript:void()" class="d-inline-block">
+                                        <span class="badge badge-pill gradient-2">5</span>
+                                    </a>
+                                </div>
+                                <div class="dropdown-content-body">
+                                    <ul>
+                                        <li>
+                                            <a href="javascript:void()">
+                                                <span class="mr-3 avatar-icon bg-success-lighten-2"><i class="icon-present"></i></span>
+                                                <div class="notification-content">
+                                                    <h6 class="notification-heading">Events near you</h6>
+                                                    <span class="notification-text">Within next 5 days</span> 
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void()">
+                                                <span class="mr-3 avatar-icon bg-danger-lighten-2"><i class="icon-present"></i></span>
+                                                <div class="notification-content">
+                                                    <h6 class="notification-heading">Event Started</h6>
+                                                    <span class="notification-text">One hour ago</span> 
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void()">
+                                                <span class="mr-3 avatar-icon bg-success-lighten-2"><i class="icon-present"></i></span>
+                                                <div class="notification-content">
+                                                    <h6 class="notification-heading">Event Ended Successfully</h6>
+                                                    <span class="notification-text">One hour ago</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void()">
+                                                <span class="mr-3 avatar-icon bg-danger-lighten-2"><i class="icon-present"></i></span>
+                                                <div class="notification-content">
+                                                    <h6 class="notification-heading">Events to Join</h6>
+                                                    <span class="notification-text">After two days</span> 
+                                                </div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    
+                                </div>
+                            </div>
+                        </li>
+                        <li class="icons dropdown d-none d-md-flex">
+                            <a href="javascript:void(0)" class="log-user"  data-toggle="dropdown">
+                                <span>English</span>  <i class="fa fa-angle-down f-s-14" aria-hidden="true"></i>
+                            </a>
+                            <div class="drop-down dropdown-language animated fadeIn  dropdown-menu">
+                                <div class="dropdown-content-body">
+                                    <ul>
+                                        <li><a href="javascript:void()">English</a></li>
+                                        <li><a href="javascript:void()">Dutch</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="icons dropdown">
+                            <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
+                                <span class="activity active"></span>
+                                {# {% if app.user.entreprise.logo %} #}
+                                    {# <img src="{{ asset('uploads/logo/'~ app.user.entreprise.logo)}}" height="40" width="40" alt="pas de données"> #}
+                                {# {% else %} #}
+                                {# {% endif %} #}
+                            </div>
+                            <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
+                                <div class="dropdown-content-body">
+                                    <ul>
+                                        <li>
+                                            <a href="app-profile.html"><i class="icon-user"></i> <span>Profile</span></a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void()">
+                                                <i class="icon-envelope-open"></i> <span>Inbox</span> <div class="badge gradient-3 badge-pill gradient-1">3</div>
+                                            </a>
+                                        </li>
+                                        
+                                        <hr class="my-2">
+                                        <li>
+                                            <a href="{{ asset('assets/page-lock.html')}}"><i class="icon-lock"></i> <span>Lock Screen</span></a>
+                                        </li>
+                                        <li><a href="{{ path('app_logout') }}"><i class="icon-key"></i> <span>Logout</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!--**********************************
+            Header end ti-comment-alt
+        ***********************************-->
+
+        <!--**********************************
+            Sidebar start
+        ***********************************-->
+        <div class="nk-sidebar">           
+            <div class="nk-nav-scroll">
+                <ul class="metismenu" id="menu">
+                    <li class="nav-label">Dashboard</li>
+                    <li>
+                        <a href="{{ path('app_dashboard_membre')}}">
+                            <i class="fa-solid fa-gauge"></i><span>Tableaux de bord</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="" href="{{ path('app_dashboard_viewTache')}}">
+                            <i class="fa-solid fa-list-check"></i><span class="">Mes tâches</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="" href="{{ path('app_dashboard_viewNotifs_membre')}}">
+                            <i class="fa-solid fa-bell"></i><span class="">Notifications</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="" href="{{ path('app_dashboard_viewRappel_membre')}}">
+                            <i class="fa-solid fa-circle-exclamation"></i><span class="">Rappel</span>
+                        </a>
+                    </li>
+                    <li class="nav-label"></li> 
+                </ul>
+            </div>
+        </div>
+        <!--**********************************
+            Sidebar end
+        ***********************************-->
+        <!--**********************************
+            Content body start
+        ***********************************-->
+        <div class="content-body">
+ {% for message in app.flashes('success') %}
+            <div class="alert alert-success" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+            {# <div class="container-fluid mt-3">
+                <div class="row">
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="card gradient-1">
+                            <div class="card-body">
+                                <h3 class="card-title text-white">Tous les projets</h3>
+                                <div class="d-inline-block">
+                                    <h2 class="text-white">4565</h2>
+                                    <p class="text-white mb-0">Jan - March 2019</p>
+                                </div>
+                                <span class="float-right display-5 opacity-5"><i class="fa fa-shopping-cart"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="card gradient-2">
+                            <div class="card-body">
+                                <h3 class="card-title text-white">Projets à faire</h3>
+                                <div class="d-inline-block">
+                                    <h2 class="text-white">$ 8541</h2>
+                                    <p class="text-white mb-0">Jan - March 2019</p>
+                                </div>
+                                <span class="float-right display-5 opacity-5"><i class="fa fa-money"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="card gradient-3">
+                            <div class="card-body">
+                                <h3 class="card-title text-white">Projets en cour</h3>
+                                <div class="d-inline-block">
+                                    <h2 class="text-white">4565</h2>
+                                    <p class="text-white mb-0">Jan - March 2019</p>
+                                </div>
+                                <span class="float-right display-5 opacity-5"><i class="fa fa-users"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="card gradient-4">
+                            <div class="card-body">
+                                <h3 class="card-title text-white">Projets terminés</h3>
+                                <div class="d-inline-block">
+                                    <h2 class="text-white">99%</h2>
+                                    <p class="text-white mb-0">Jan - March 2019</p>
+                                </div>
+                                <span class="float-right display-5 opacity-5"><i class="fa fa-heart"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div> #}
+
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                {% for flash_error in app.flashes('error') %}
+                    <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+                {% endfor %}
+                <div class="d-sm-flex align-items-center justify-content-between mt-4">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <h1 class="h3 mb-0 text-gray-800 text-center">Détail de la tâche Navbar</h1>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div> 
+            <!-- #/ container -->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <h4 class="card-title bg-image text-center text-white fw-bold" style="font-size:30px;">Tâche</h4>
+                            <div class="card-body">
+                                <div class="ico-sparkline">
+                                    <div id="sparkline9">
+                                        <p class="fw-bold" style="font-size:18px;">Nom de la tâche</p>
+                                        <p class="fw-bold" style="font-size:18px;">Projet d'appartenance</p>
+                                        <p class="fw-bold" style="font-size:18px;">Description</p>
+                                        <p class="fw-bold" style="font-size:18px;">Assigné à </p>
+                                        <p class="fw-bold" style="font-size:18px;">Créer le </p>
+                                        <p class="fw-bold" style="font-size:18px;">Status</p>
+                                        {# s'il autre attribut tu peux completer #}
+                                    </div>
+                                </div>
+                                <div>
+                                    <p class="text-center">Evolution de la tâche</p>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 50%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                                        {# <div class="progress-bar bg-warning" role="progressbar" style="width: 33%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div> #}
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <form action="#" class="form-profile">
+                                    <div class="form-group">
+                                        <textarea class="form-control" name="textarea" id="textarea" cols="30" rows="2" placeholder="Laissez un commentaire..."></textarea>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <ul class="mb-0 form-profile__icons">
+                                            <li class="d-inline-block">
+                                                <button class="btn btn-transparent p-0 mr-3"><i class="fa fa-user"></i></button>
+                                            </li>
+                                            <li class="d-inline-block">
+                                                <button class="btn btn-transparent p-0 mr-3"><i class="fa fa-paper-plane"></i></button>
+                                            </li>
+                                            <li class="d-inline-block">
+                                                <button class="btn btn-transparent p-0 mr-3"><i class="fa fa-camera"></i></button>
+                                            </li>
+                                            <li class="d-inline-block">
+                                                <button class="btn btn-transparent p-0 mr-3"><i class="fa fa-smile"></i></button>
+                                            </li>
+                                        </ul>
+                                        <button class="btn btn-primary px-3 ml-4">Commenter</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="media media-reply">
+                                    <img class="mr-3 circle-rounded" src="{{ asset('theme/images/avatar/2.jpg') }}" width="50" height="50" alt="Generic placeholder image">
+                                    <div class="media-body">
+                                        <div class="d-sm-flex justify-content-between mb-2">
+                                            <h5 class="mb-sm-0">Milan Gbah <small class="text-muted ml-3">about 3 days ago</small></h5>
+                                            <div class="media-reply__link">
+                                                <button class="btn btn-transparent p-0 mr-3"><i class="fa fa-thumbs-up"></i></button>
+                                                <button class="btn btn-transparent p-0 mr-3"><i class="fa fa-thumbs-down"></i></button>
+                                                <button class="btn btn-transparent text-dark font-weight-bold p-0 ml-2">Reply</button>
+                                            </div>
+                                        </div>
+                                        
+                                        <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
+                                        <ul>
+                                            <li class="d-inline-block"><img class="rounded" width="60" height="60" src="{{ asset('theme/images/blog/2.jpg')}}" alt=""></li>
+                                            <li class="d-inline-block"><img class="rounded" width="60" height="60" src="{{ asset('theme/images/blog/3.jpg')}}" alt=""></li>
+                                            <li class="d-inline-block"><img class="rounded" width="60" height="60" src="{{ asset('theme/images/blog/4.jpg')}}" alt=""></li>
+                                            <li class="d-inline-block"><img class="rounded" width="60" height="60" src="{{ asset('theme/images/blog/1.jpg')}}" alt=""></li>
+                                        </ul>
+
+                                        <div class="media mt-3">
+                                        <img class="mr-3 circle-rounded circle-rounded" src="{{ asset('theme/images/avatar/4.jpg') }}" width="50" height="50" alt="Generic placeholder image">
+                                        <div class="media-body">
+                                            <div class="d-sm-flex justify-content-between mb-2">
+                                                <h5 class="mb-sm-0">Milan Gbah <small class="text-muted ml-3">about 3 days ago</small></h5>
+                                                <div class="media-reply__link">
+                                                    <button class="btn btn-transparent p-0 mr-3"><i class="fa fa-thumbs-up"></i></button>
+                                                    <button class="btn btn-transparent p-0 mr-3"><i class="fa fa-thumbs-down"></i></button>
+                                                    <button class="btn btn-transparent p-0 ml-3 font-weight-bold">Reply</button>
+                                                </div>
+                                            </div>
+                                            <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="media media-reply">
+                                <img class="mr-3 circle-rounded" src="{{ asset('theme/images/avatar/2.jpg')}}" width="50" height="50" alt="Generic placeholder image">
+                                <div class="media-body">
+                                    <div class="d-sm-flex justify-content-between mb-2">
+                                        <h5 class="mb-sm-0">Milan Gbah <small class="text-muted ml-3">about 3 days ago</small></h5>
+                                        <div class="media-reply__link">
+                                            <button class="btn btn-transparent p-0 mr-3"><i class="fa fa-thumbs-up"></i></button>
+                                            <button class="btn btn-transparent p-0 mr-3"><i class="fa fa-thumbs-down"></i></button>
+                                            <button class="btn btn-transparent p-0 ml-3 font-weight-bold">Reply</button>
+                                        </div>
+                                    </div>
+                                    
+                                    <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
+                                </div>
+                            </div>
+
+                            <div class="media media-reply">
+                                <img class="mr-3 circle-rounded" src="{{ asset('theme/images/avatar/2.jpg')}}" width="50" height="50" alt="Generic placeholder image">
+                                <div class="media-body">
+                                    <div class="d-sm-flex justify-content-between mb-2">
+                                        <h5 class="mb-sm-0">Milan Gbah <small class="text-muted ml-3">about 3 days ago</small></h5>
+                                        <div class="media-reply__link">
+                                            <button class="btn btn-transparent p-0 mr-3"><i class="fa fa-thumbs-up"></i></button>
+                                            <button class="btn btn-transparent p-0 mr-3"><i class="fa fa-thumbs-down"></i></button>
+                                            <button class="btn btn-transparent p-0 ml-3 font-weight-bold">Reply</button>
+                                        </div>
+                                    </div>
+                                    
+                                    <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /# row -->
+            </div>
+        </div>
+
+        
+
+        <!--**********************************
+            Content body end
+        ***********************************-->
+
+        <!--**********************************
+            Footer start
+        ***********************************-->
+
+        <div class="footer">
+            <div class="copyright">
+                <p>Copyright &copy; Designed & Developed by <a href="">ProductiveX</a> 2023</p>
+            </div>
+        </div>
+        <!--**********************************
+            Footer end
+        ***********************************-->
+    </div>
+    <!--**********************************
+        Main wrapper end
+    ***********************************-->
+<!--**********************************
+        Scripts
+    ***********************************-->
+    <script src="{{ asset('theme/plugins/common/common.min.js')}}"></script>
+    <script src="{{ asset('theme/js/custom.min.js')}}"></script>
+    <script src="{{ asset('theme/js/settings.js')}}"></script>
+    <script src="{{ asset('theme/js/gleek.js')}}"></script>
+    <script src="{{ asset('theme/js/styleSwitcher.js')}}"></script>
+
+    <!-- Chartjs -->
+    <script src="{{ asset('theme/plugins/chart.js/Chart.bundle.min.js')}}"></script>
+    <!-- Circle progress -->
+    <script src="{{ asset('theme/plugins/circle-progress/circle-progress.min.js')}}"></script>
+    <!-- Datamap -->
+    <script src="{{ asset('theme/plugins/d3v3/index.js')}}"></script>
+    <script src="{{ asset('theme/plugins/topojson/topojson.min.js')}}"></script>
+    <script src="{{ asset('theme/plugins/datamaps/datamaps.world.min.js')}}"></script>
+    <!-- Morrisjs -->
+    <script src="{{ asset('theme/plugins/raphael/raphael.min.js')}}"></script>
+    <script src="{{ asset('theme/plugins/morris/morris.min.js')}}"></script>
+    <!-- Pignose Calender -->
+    <script src="{{ asset('theme/plugins/moment/moment.min.js')}}"></script>
+    <script src="{{ asset('theme/plugins/pg-calendar/js/pignose.calendar.min.js')}}"></script>
+    <!-- ChartistJS -->
+    <script src="{{ asset('theme/plugins/chartist/js/chartist.min.js')}}"></script>
+    <script src="{{ asset('theme/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js')}}"></script>
+
+
+
+    <script src="{{ asset('theme/js/dashboard/dashboard-1.js')}}"></script>
+
+    
+{% endblock %}
