@@ -25,12 +25,13 @@
 
         font-size:50px;
     }
-    .hover-effect {
-      transition: font-size 300ms ease-in-out; /* Transition de 300 millisecondes */
-    }
 
-    .hover-effect:hover {
-      font-size: 1.2em; /* Augmente la taille de la police au survol */
+    .bg-image {
+      background-image: url('https://gstatic.com/classroom/themes/img_learnlanguage.jpg');
+      background-size: cover;
+      /* background-position: center center; */
+      width: 100%; /* Ajustez la hauteur selon vos besoins */
+      padding:50px 0;
     }
 </style>
     <!--*******************
@@ -66,7 +67,7 @@
                     </span> #}
                     <span class="brand-title" style="color:white;">
                         {# ProductiveX #}
-                        Bienvenue {{ app.user.entreprise.sigle }}
+                        Bienvenue Jean
                     </span>
                 </a>
             </div>
@@ -229,10 +230,10 @@
                         <li class="icons dropdown">
                             <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
                                 <span class="activity active"></span>
-                                {% if app.user.entreprise.logo %}
-                                    <img src="{{ asset('uploads/logo/'~ app.user.entreprise.logo)}}" height="40" width="40" alt="pas de données">
+                                {# {% if app.user.entreprise.logo %} #}
+                                    {# <img src="{{ asset('uploads/logo/'~ app.user.entreprise.logo)}}" height="40" width="40" alt="pas de données"> #}
                                 {# {% else %} #}
-                                {% endif %}
+                                {# {% endif %} #}
                             </div>
                             <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
                                 <div class="dropdown-content-body">
@@ -271,32 +272,22 @@
                 <ul class="metismenu" id="menu">
                     <li class="nav-label">Dashboard</li>
                     <li>
-                        <a href="{{ path('app_dashboard')}}">
+                        <a href="{{ path('app_dashboard_membre')}}">
                             <i class="fa-solid fa-gauge"></i><span>Tableaux de bord</span>
                         </a>
                     </li>
                     <li>
-                        <a class="" href="{{ path('app_dashboard_addProjet')}}">
-                            <i class="fa-solid fa-layer-group"></i><span class="">Projets</span>
+                        <a class="" href="{{ path('app_dashboard_viewTache')}}">
+                            <i class="fa-solid fa-list-check"></i><span class="">Mes tâches</span>
                         </a>
                     </li>
                     <li>
-                        <a class="" href="{{ path('app_dashboard_addTache')}}">
-                            <i class="fa-solid fa-list-check"></i><span class="">Tâches</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="" href="{{ path('app_dashboard_viewMembres')}}">
-                            <i class="fa-solid fa-user-plus"></i><span class="">Membres</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="" href="{{ path('app_dashboard_viewNotifs')}}">
+                        <a class="" href="{{ path('app_dashboard_viewNotifs_membre')}}">
                             <i class="fa-solid fa-bell"></i><span class="">Notifications</span>
                         </a>
                     </li>
                     <li>
-                        <a class="" href="{{ path('app_dashboard_viewRappel')}}">
+                        <a class="" href="{{ path('app_dashboard_viewRappel_membre')}}">
                             <i class="fa-solid fa-circle-exclamation"></i><span class="">Rappel</span>
                         </a>
                     </li>
@@ -316,58 +307,7 @@
                 {{ message }}
             </div>
         {% endfor %}
-            {# <div class="container-fluid mt-3">
-                <div class="row">
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="card gradient-1">
-                            <div class="card-body">
-                                <h3 class="card-title text-white">Tous les projets</h3>
-                                <div class="d-inline-block">
-                                    <h2 class="text-white">4565</h2>
-                                    <p class="text-white mb-0">Jan - March 2019</p>
-                                </div>
-                                <span class="float-right display-5 opacity-5"><i class="fa fa-shopping-cart"></i></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="card gradient-2">
-                            <div class="card-body">
-                                <h3 class="card-title text-white">Projets à faire</h3>
-                                <div class="d-inline-block">
-                                    <h2 class="text-white">$ 8541</h2>
-                                    <p class="text-white mb-0">Jan - March 2019</p>
-                                </div>
-                                <span class="float-right display-5 opacity-5"><i class="fa fa-money"></i></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="card gradient-3">
-                            <div class="card-body">
-                                <h3 class="card-title text-white">Projets en cour</h3>
-                                <div class="d-inline-block">
-                                    <h2 class="text-white">4565</h2>
-                                    <p class="text-white mb-0">Jan - March 2019</p>
-                                </div>
-                                <span class="float-right display-5 opacity-5"><i class="fa fa-users"></i></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="card gradient-4">
-                            <div class="card-body">
-                                <h3 class="card-title text-white">Projets terminés</h3>
-                                <div class="d-inline-block">
-                                    <h2 class="text-white">99%</h2>
-                                    <p class="text-white mb-0">Jan - March 2019</p>
-                                </div>
-                                <span class="float-right display-5 opacity-5"><i class="fa fa-heart"></i></span>
-                            </div>
-                        </div>
-                    </div>
-                </div> #}
-
+            
                 {% for message in app.flashes('success') %}
                     <div class="alert alert-success" role="alert">
                         {{ message }}
@@ -376,68 +316,241 @@
                 {% for flash_error in app.flashes('error') %}
                     <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
                 {% endfor %}
-                <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-0 text-gray-800">Liste des tâches</h1>
-                    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm gradient-4" style="border: none;" data-toggle="modal" data-target="#modalLoginForm">
-                    <i class="fa-solid fa-plus" style="margin:0 5px;"></i>Créer une nouvelle tâche</a>
+                <div class="d-sm-flex align-items-center justify-content-between mt-4">
+                    <h1 class="h3 mb-0 text-gray-800">Mes tâches</h1>
+                    {# <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm gradient-4" style="border: none;" data-toggle="modal" data-target="#modalLoginForm">
+                    <i class="fa-solid fa-plus" style="margin:0 5px;"></i>Créer une nouvelle tâche</a> #}
                 </div> 
 
+                <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-4">
                         <div class="card">
+                            <h4 class="card-title bg-image text-center text-white fw-bold" style="font-size:30px;">Tâche</h4>
                             <div class="card-body">
-                                <div class="active-member">
-                                    <div class="table-responsive">
-                                        <table class="table table-xs mb-0">
-                                            <thead>
-                                                <tr>
-                                                    <th>Nom de la tache</th>
-                                                    <th>Projet d'appartenance</th>
-                                                    <th>Duree</th>
-                                                    <th>Assigné à</th>
-                                                    <th>Créer le</th>
-                                                    <th>Consulter</th>
-                                                    <th>Actions</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                				{% for tache in taches %}
-                                                    <tr>
-                                                        <td>{{ tache.nom }}</td>
-                                                        <td>{{ tache.projet.nom }}</td>
-                                                        
-                                                        <td>{{ tache.duree.format('%a days, %h hours, %i minutes') }}</td>
-                                                        <td>{{ tache.employe.nom }}</td>
-                                                        
-                                                        <td>{{ tache.createdAt | date('d/m/Y') }}</td>
-                                                        <td><a href="{{ path('app_dashboard_viewDetail_tache_employeur') }}" class="hover-effect"> Voir plus <i class="fa-solid fa-angle-right"></i> </a></td>
-                                                        <td style="display: flex; gap:5px;">
-                                                            {# Ceci est le lien pour modifier un enregistrement #}
-                                                            <a href="#" class="btn btn-sm btn-primary shadow-sm gradient-4 d-flex justify-content-center align-items-center" style="border: none;" data-toggle="modal" data-target="#modalEdit">
-                                                                <i class="fa-solid fa-pen-to-square"></i>
-                                                            </a>
-
-                                                            {# Ceci est le bouton pour supprimer un enregistrement #}
-                                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#staticBackdrop">
-                                                                <i class="fa-sharp fa-solid fa-trash"></i>
-                                                            </button>
-                                                        </td>
-                                                        {# <td>
-                                                            <a href="{{ path('tache.edit', { id: tache.id }) }}" class="btn btn-xs btn-info">Modifier</a>
-                                                        </td>
-                                                        <td>
-                                                            <a href="{{ path('tache.delete', { id: tache.id }) }}" class="btn btn-xs btn-danger">Supprimer</a>
-                                                        </td>                                                         #}
-                                                    </tr>
-					                            {% endfor %}
-                                            </tbody>
-                                        </table>
+                                <div class="ico-sparkline">
+                                    <div id="sparkline9">
+                                        <p class="fw-bold" style="font-size:14px;">Nom de la tâche</p>
+                                        <p class="fw-bold" style="font-size:14px;">Projet d'appartenance</p>
+                                        <p class="fw-bold" style="font-size:14px;">Description</p>
+                                        {# s'il autre attribut tu penses qu'on ajouter, faut ajouter alors #}
+                                    </div>
+                                </div>
+                                <div>
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <div style="display: flex; gap:5px;">
+                                            <input type="checkbox" id="startCheckbox">
+                                            <i></i>
+                                            <label for="startCheckbox">Démarrer</label>
+                                        </div>
+                                        <div style="display: flex; gap:5px;">
+                                            <input type="checkbox" id="finishCheckbox">
+                                            <i></i>
+                                            <label for="finishCheckbox">Terminé</label>
+                                        </div>
+                                    </div>
+                                    <div class="progress">
+                                        <div id="startProgressBar" class="progress-bar bg-danger" role="progressbar" style="width: 50%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div id="finishProgressBar" class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div style="display: flex; justify-content: end; margin-top:15px;">
+                                        <a href="{{ path('app_dashboard_viewDetail_tache') }}"><div style="display: flex; gap:8px; align-items:center;">Commenter <i class="fa-solid fa-comment"></i></div></a>
+                                        {# <div></div> #}
                                     </div>
                                 </div>
                             </div>
-                        </div>                        
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <h4 class="card-title bg-image text-center text-white fw-bold" style="font-size:30px;">Tâche</h4>
+                            <div class="card-body">
+                                <div class="ico-sparkline">
+                                    <div id="sparkline9">
+                                        <p class="fw-bold" style="font-size:14px;">Nom de la tâche</p>
+                                        <p class="fw-bold" style="font-size:14px;">Projet d'appartenance</p>
+                                        <p class="fw-bold" style="font-size:14px;">Description</p>
+                                        {# s'il autre attribut tu penses qu'on ajouter, faut ajouter alors #}
+                                    </div>
+                                </div>
+                                <div>
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <div style="display: flex; gap:5px;">
+                                            <input type="checkbox" id="startCheckbox">
+                                            <i></i>
+                                            <label for="startCheckbox">Démarrer</label>
+                                        </div>
+                                        <div style="display: flex; gap:5px;">
+                                            <input type="checkbox" id="finishCheckbox">
+                                            <i></i>
+                                            <label for="finishCheckbox">Terminé</label>
+                                        </div>
+                                    </div>
+                                    <div class="progress">
+                                        <div id="startProgressBar" class="progress-bar bg-danger" role="progressbar" style="width: 50%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div id="finishProgressBar" class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div style="display: flex; justify-content: end; margin-top:15px;">
+                                        <a href="{{ path('app_dashboard_viewDetail_tache') }}"><div style="display: flex; gap:8px; align-items:center;">Commenter <i class="fa-solid fa-comment"></i></div></a>
+                                        {# <div></div> #}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <h4 class="card-title bg-image text-center text-white fw-bold" style="font-size:30px;">Tâche</h4>
+                            <div class="card-body">
+                                <div class="ico-sparkline">
+                                    <div id="sparkline9">
+                                        <p class="fw-bold" style="font-size:14px;">Nom de la tâche</p>
+                                        <p class="fw-bold" style="font-size:14px;">Projet d'appartenance</p>
+                                        <p class="fw-bold" style="font-size:14px;">Description</p>
+                                        {# s'il autre attribut tu penses qu'on ajouter, faut ajouter alors #}
+                                    </div>
+                                </div>
+                                <div>
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <div style="display: flex; gap:5px;">
+                                            <input type="checkbox" id="startCheckbox">
+                                            <i></i>
+                                            <label for="startCheckbox">Démarrer</label>
+                                        </div>
+                                        <div style="display: flex; gap:5px;">
+                                            <input type="checkbox" id="finishCheckbox">
+                                            <i></i>
+                                            <label for="finishCheckbox">Terminé</label>
+                                        </div>
+                                    </div>
+                                    <div class="progress">
+                                        <div id="startProgressBar" class="progress-bar bg-danger" role="progressbar" style="width: 50%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div id="finishProgressBar" class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div style="display: flex; justify-content: end; margin-top:15px;">
+                                        <a href="{{ path('app_dashboard_viewDetail_tache') }}"><div style="display: flex; gap:8px; align-items:center;">Commenter <i class="fa-solid fa-comment"></i></div></a>
+                                        {# <div></div> #}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <!-- /# row -->
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <h4 class="card-title bg-image text-center text-white fw-bold" style="font-size:30px;">Tâche</h4>
+                            <div class="card-body">
+                                <div class="ico-sparkline">
+                                    <div id="sparkline9">
+                                        <p class="fw-bold" style="font-size:14px;">Nom de la tâche</p>
+                                        <p class="fw-bold" style="font-size:14px;">Projet d'appartenance</p>
+                                        <p class="fw-bold" style="font-size:14px;">Description</p>
+                                        {# s'il autre attribut tu penses qu'on ajouter, faut ajouter alors #}
+                                    </div>
+                                </div>
+                                <div>
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <div style="display: flex; gap:5px;">
+                                            <input type="checkbox" id="startCheckbox">
+                                            <i></i>
+                                            <label for="startCheckbox">Démarrer</label>
+                                        </div>
+                                        <div style="display: flex; gap:5px;">
+                                            <input type="checkbox" id="finishCheckbox">
+                                            <i></i>
+                                            <label for="finishCheckbox">Terminé</label>
+                                        </div>
+                                    </div>
+                                    <div class="progress">
+                                        <div id="startProgressBar" class="progress-bar bg-danger" role="progressbar" style="width: 50%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div id="finishProgressBar" class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div style="display: flex; justify-content: end; margin-top:15px;">
+                                        <a href="{{ path('app_dashboard_viewDetail_tache') }}"><div style="display: flex; gap:8px; align-items:center;">Commenter <i class="fa-solid fa-comment"></i></div></a>
+                                        {# <div></div> #}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <h4 class="card-title bg-image text-center text-white fw-bold" style="font-size:30px;">Tâche</h4>
+                            <div class="card-body">
+                                <div class="ico-sparkline">
+                                    <div id="sparkline9">
+                                        <p class="fw-bold" style="font-size:14px;">Nom de la tâche</p>
+                                        <p class="fw-bold" style="font-size:14px;">Projet d'appartenance</p>
+                                        <p class="fw-bold" style="font-size:14px;">Description</p>
+                                        {# s'il autre attribut tu penses qu'on ajouter, faut ajouter alors #}
+                                    </div>
+                                </div>
+                                <div>
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <div style="display: flex; gap:5px;">
+                                            <input type="checkbox" id="startCheckbox">
+                                            <i></i>
+                                            <label for="startCheckbox">Démarrer</label>
+                                        </div>
+                                        <div style="display: flex; gap:5px;">
+                                            <input type="checkbox" id="finishCheckbox">
+                                            <i></i>
+                                            <label for="finishCheckbox">Terminé</label>
+                                        </div>
+                                    </div>
+                                    <div class="progress">
+                                        <div id="startProgressBar" class="progress-bar bg-danger" role="progressbar" style="width: 50%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div id="finishProgressBar" class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div style="display: flex; justify-content: end; margin-top:15px;">
+                                        <a href="{{ path('app_dashboard_viewDetail_tache') }}"><div style="display: flex; gap:8px; align-items:center;">Commenter <i class="fa-solid fa-comment"></i></div></a>
+                                        {# <div></div> #}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <h4 class="card-title bg-image text-center text-white fw-bold" style="font-size:30px;">Tâche</h4>
+                            <div class="card-body">
+                                <div class="ico-sparkline">
+                                    <div id="sparkline9">
+                                        <p class="fw-bold" style="font-size:14px;">Nom de la tâche</p>
+                                        <p class="fw-bold" style="font-size:14px;">Projet d'appartenance</p>
+                                        <p class="fw-bold" style="font-size:14px;">Description</p>
+                                        {# s'il autre attribut tu penses qu'on ajouter, faut ajouter alors #}
+                                    </div>
+                                </div>
+                                <div>
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <div style="display: flex; gap:5px;">
+                                            <input type="checkbox" id="startCheckbox">
+                                            <i></i>
+                                            <label for="startCheckbox">Démarrer</label>
+                                        </div>
+                                        <div style="display: flex; gap:5px;">
+                                            <input type="checkbox" id="finishCheckbox">
+                                            <i></i>
+                                            <label for="finishCheckbox">Terminé</label>
+                                        </div>
+                                    </div>
+                                    <div class="progress">
+                                        <div id="startProgressBar" class="progress-bar bg-danger" role="progressbar" style="width: 50%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div id="finishProgressBar" class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div style="display: flex; justify-content: end; margin-top:15px;">
+                                        <a href="{{ path('app_dashboard_viewDetail_tache') }}"><div style="display: flex; gap:8px; align-items:center;">Commenter <i class="fa-solid fa-comment"></i></div></a>
+                                        {# <div></div> #}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- #/ container -->
         </div>
 
@@ -491,168 +604,28 @@
 
 
     <script src="{{ asset('theme/js/dashboard/dashboard-1.js')}}"></script>
+<script>
+  // Récupérer les éléments HTML pertinents
+  const startCheckbox = document.getElementById("startCheckbox");
+  const startProgressBar = document.getElementById("startProgressBar");
+  const finishCheckbox = document.getElementById("finishCheckbox");
+  const finishProgressBar = document.getElementById("finishProgressBar");
 
-    {# boite modale de projet  #}
-   <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                <div class="modal-header text-center">
-                    <h4 class="modal-title w-100 font-weight-bold">Créer une tâche</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body mx-3">
-                    {{ form_start(form,{ 'attr': {'class': 'row g-3'} }) }}
-                        <div class="col-md-6 md-form mb-5">
-                            {{ form_row(form.nom) }}
-                        </div>
-                        <div class="col-md-6 md-form mb-5">
-                            {{ form_row(form.description) }}
-                        </div>
-                        <div class="col-md-6 md-form mb-5 ">
-                            {{ form_label(form.projet) }}
-                            {{ form_widget(form.projet, {'attr': {'class': 'form-control'}}) }}
-                            {{ form_errors(form.projet) }}
-                        </div>
-                        <div class="col-md-6 md-form mb-5 ">
-                            {{ form_label(form.employe) }}
-                            {{ form_widget(form.employe, {'attr': {'class': 'form-control'}}) }}
-                            {{ form_errors(form.employe) }}
-                        </div>
-                        <div class="col-md-12 md-form mb-5">
-                            {{ form_label(form.duree, 'Durée', {'label_attr': {'class': 'form-label'}}) }}
-                            {{ form_widget(form.duree, {'attr': {'class': 'form-control'}}) }}
-                            {{ form_errors(form.duree) }}
-                        </div>
-                    </div>
-                    <div class="modal-footer d-flex justify-content-center">
-                            {{ form_row(form.submit) }}
-                    </div>
-                    {{ form_end(form) }}
-                </div>
-            </div>
-            </div>
+  // Ajouter les gestionnaires d'événements aux cases à cocher
+  startCheckbox.addEventListener("change", function () {
+    if (startCheckbox.checked) {
+      startProgressBar.classList.add("bg-danger");
+    } else {
+      startProgressBar.classList.remove("bg-danger");
+    }
+  });
 
-            {# <div class="text-center">
-                <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalLoginForm">Launch
-                Modal Login Form</a>
-            </div> #}
-    {# fin boite modale de projet  #}
-    {# boite modale pour modifier un membre  #}
-        <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                <div class="modal-header text-center">
-                    <h4 class="modal-title w-100 font-weight-bold">Modifier un membre</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body mx-3">
-                    {{ form_start(form,{ 'attr': {'class': 'row g-3'} }) }}
-                    <div class="md-form mb-4 col-md-6">
-                        {# <label data-error="wrong" data-success="right" for="defaultForm-email">Nom du membre</label>
-                        <input type="text" id="defaultForm-email" class="form-control validate"> #}
-                        {# {{ form_row(form.nom) }} #}
-                    </div>
-                    <div class="md-form mb-4 col-md-6">
-                        {# <label data-error="wrong" data-success="right" for="defaultForm-email">Email du membre</label>
-                        <input type="email" id="defaultForm-email" class="form-control validate"> #}
-                            {# {{ form_row(form.user.email) }} #}
-                    </div>
-                      <div class="md-form mb-4 col-md-6">
-                        {# <label data-error="wrong" data-success="right" for="defaultForm-email">Email du membre</label>
-                        <input type="email" id="defaultForm-email" class="form-control validate"> #}
-                            {# {{ form_row(form.user.numTel) }} #}
-                    </div>
-
-                    <div class="md-form mb-4 col-md-6">
-                        {# <label data-error="wrong" data-success="right" for="defaultForm-pass">Mot de passe</label>
-                        <input type="password" id="defaultForm-pass" class="form-control validate"> #}
-                                {# {{ form_row(form.user.plainPassword.first) }}                     #}
-                    </div>
-
-                    <div class="md-form mb-4 col-md-6">
-                        {# <label data-error="wrong" data-success="right" for="defaultForm-pass">Confirmation du mot de passe</label>
-                        <input type="password" id="defaultForm-pass" class="form-control validate"> #}
-                                {# {{ form_row(form.user.plainPassword.second) }}                    #}
-                    </div>
-                     <div class="md-form mb-4 col-md-6">
-                        {# <label data-error="wrong" data-success="right" for="defaultForm-pass">Confirmation du mot de passe</label>
-                        <input type="password" id="defaultForm-pass" class="form-control validate"> #}
-                                {# {{ form_row(form.poste) }}                    #}
-                    </div>
-                     <div class="md-form mb-4 col-md-6">
-                        {# <label data-error="wrong" data-success="right" for="defaultForm-pass">Confirmation du mot de passe</label>
-                        <input type="password" id="defaultForm-pass" class="form-control validate"> #}
-                                {# {{ form_row(form.debutcontratAt) }}                    #}
-                    </div>
-                     <div class="md-form mb-4 col-md-6">
-                        {# <label data-error="wrong" data-success="right" for="defaultForm-pass">Confirmation du mot de passe</label>
-                        <input type="password" id="defaultForm-pass" class="form-control validate"> #}
-                                {# {{ form_row(form.fincontratAt) }}                    #}
-                    </div>
-                     <div class="md-form mb-4 col-md-6">
-                        {# <label data-error="wrong" data-success="right" for="defaultForm-pass">Confirmation du mot de passe</label>
-                        <input type="password" id="defaultForm-pass" class="form-control validate"> #}
-                                {# {{ form_row(form.image) }}                    #}
-                    </div>
-                    {# <div class="md-form mb-5">
-                        <label data-error="wrong" data-success="right" for="defaultForm-email">Poste du membre</label>
-                        <input type="text" id="defaultForm-email" class="form-control validate">
-                    </div>
-                    <div class="md-form mb-5">
-                        <label data-error="wrong" data-success="right" for="defaultForm-email">Téléphone du membre</label>
-                        <input type="number" id="defaultForm-email" class="form-control validate">
-                    </div>
-                    <div class="md-form mb-5">
-                        <label data-error="wrong" data-success="right" for="defaultForm-email">Date de début du contrat</label>
-                        <input type="date" id="defaultForm-email" class="form-control validate">
-                    </div>
-                    <div class="md-form mb-5">
-                        <label data-error="wrong" data-success="right" for="defaultForm-email">Date de fin du contrat</label>
-                        <input type="date" id="defaultForm-email" class="form-control validate">
-                    </div> #}
-                    
-                </div>
-                <div class="modal-footer d-flex justify-content-center">
-                            {# {{ form_row(form.submit) }} #}
-                    {# <button class="btn btn-primary">Ajouter</button> #}
-                </div>
-                    {# {{ form_end(form) }} #}
-
-                </div>
-            </div>
-            </div>
-
-            {# <div class="text-center">
-                <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalLoginForm">Launch
-                Modal Login Form</a>
-            </div> #}
-    {# fin boite modale de modification d'un membre  #}
-
-    {# modal de confirmation de boite de dialogue #}
-
-<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Confirmation</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        Êtes vous sûr de vouloir supprimer ?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Anuler</button>
-        <button type="button" class="btn btn-danger">Oui, je suis sûr</button>
-      </div>
-    </div>
-  </div>
-</div>
-        
-    {# modal de confirmation de boite de dialogue #}
+  finishCheckbox.addEventListener("change", function () {
+    if (finishCheckbox.checked) {
+      finishProgressBar.classList.add("bg-success");
+    } else {
+      finishProgressBar.classList.remove("bg-success");
+    }
+  });
+</script>
 {% endblock %}

@@ -25,6 +25,14 @@
 
         font-size:50px;
     }
+
+    .hover-effect {
+      transition: font-size 300ms ease-in-out; /* Transition de 300 millisecondes */
+    }
+
+    .hover-effect:hover {
+      font-size: 15px; /* Augmente la taille de la police au survol */
+    }
 </style>
     <!--*******************
         Preloader start
@@ -302,56 +310,9 @@
         <div class="content-body">
 
             <div class="container-fluid mt-3">
-                <div class="row">
-                    {# <div class="col-lg-3 col-sm-6">
-                        <div class="card gradient-1">
-                            <div class="card-body">
-                                <h3 class="card-title text-white">Tous les projets</h3>
-                                <div class="d-inline-block">
-                                    <h2 class="text-white">4565</h2>
-                                    <p class="text-white mb-0">Jan - March 2019</p>
-                                </div>
-                                <span class="float-right display-5 opacity-5"><i class="fa fa-shopping-cart"></i></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="card gradient-2">
-                            <div class="card-body">
-                                <h3 class="card-title text-white">Projets à faire</h3>
-                                <div class="d-inline-block">
-                                    <h2 class="text-white">$ 8541</h2>
-                                    <p class="text-white mb-0">Jan - March 2019</p>
-                                </div>
-                                <span class="float-right display-5 opacity-5"><i class="fa fa-money"></i></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="card gradient-3">
-                            <div class="card-body">
-                                <h3 class="card-title text-white">Projets en cour</h3>
-                                <div class="d-inline-block">
-                                    <h2 class="text-white">4565</h2>
-                                    <p class="text-white mb-0">Jan - March 2019</p>
-                                </div>
-                                <span class="float-right display-5 opacity-5"><i class="fa fa-users"></i></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="card gradient-4">
-                            <div class="card-body">
-                                <h3 class="card-title text-white">Projets terminés</h3>
-                                <div class="d-inline-block">
-                                    <h2 class="text-white">99%</h2>
-                                    <p class="text-white mb-0">Jan - March 2019</p>
-                                </div>
-                                <span class="float-right display-5 opacity-5"><i class="fa fa-heart"></i></span>
-                            </div>
-                        </div>
-                    </div> #}
-                </div>
+                {# <div class="row">
+                    
+                </div> #}
 
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                     <h1 class="h3 mb-0 text-gray-800">Liste des Membres</h1>
@@ -368,12 +329,12 @@
                                         <table class="table table-xs mb-0">
                                             <thead>
                                                 <tr>
-                                                   <th>Membres</th>
+                                                   <th>Photo</th>
+                                                    <th>Nom</th>
                                                     <th>Poste</th>
-                                                    {# <th>Pays</th>
-                                                    <th>Activité</th> #}
-                                                    <th>NOTE</th>                                                   
-                                                    <th>Supprimer</th>                               
+                                                    <th>Date de début contrat</th>
+                                                    <th>Date de fin contrat</th> 
+                                                    <th>Actions</th>                                                 
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -385,8 +346,19 @@
                                                     <td>
                                                         <span>0</span>
                                                     </td>
-                                                    <td>
-                                                        <a href="{{ path('employe.delete', { id: employe.id }) }}" class="btn btn-xs btn-danger">Supprimer</a>
+                                                    <td>21-06-2021</td> {#exemple#}
+                                                    <td>21-06-2023</td> {#exemple#}
+                                                    <td style="display: flex; gap:5px;">
+                                                        {# Ceci est le lien pour modifier un enregistrement #}
+                                                        <a href="#" class="btn btn-sm btn-primary shadow-sm gradient-4 d-flex justify-content-center align-items-center" style="border: none;" data-toggle="modal" data-target="#modalEdit">
+                                                            <i class="fa-solid fa-pen-to-square"></i>
+                                                        </a>
+
+                                                        {# Ceci est le bouton pour supprimer un enregistrement #}
+                                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#staticBackdrop">
+                                                            <i class="fa-sharp fa-solid fa-trash"></i>
+                                                        </button>
+                                                        {# <a href="{{ path('employe.delete', { id: employe.id }) }}" class="btn btn-xs btn-danger"><i class="fa-sharp fa-solid fa-trash"></i></a> #}
                                                     </td>
                                                     
                                                 </tr>
@@ -545,4 +517,121 @@
                 Modal Login Form</a>
             </div> #}
     {# fin boite modale de projet  #}
+
+    {# boite modale pour modifier un membre  #}
+        <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">Modifier un membre</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mx-3">
+                    {{ form_start(form,{ 'attr': {'class': 'row g-3'} }) }}
+                    <div class="md-form mb-4 col-md-6">
+                        {# <label data-error="wrong" data-success="right" for="defaultForm-email">Nom du membre</label>
+                        <input type="text" id="defaultForm-email" class="form-control validate"> #}
+                        {# {{ form_row(form.nom) }} #}
+                    </div>
+                    <div class="md-form mb-4 col-md-6">
+                        {# <label data-error="wrong" data-success="right" for="defaultForm-email">Email du membre</label>
+                        <input type="email" id="defaultForm-email" class="form-control validate"> #}
+                            {# {{ form_row(form.user.email) }} #}
+                    </div>
+                      <div class="md-form mb-4 col-md-6">
+                        {# <label data-error="wrong" data-success="right" for="defaultForm-email">Email du membre</label>
+                        <input type="email" id="defaultForm-email" class="form-control validate"> #}
+                            {# {{ form_row(form.user.numTel) }} #}
+                    </div>
+
+                    <div class="md-form mb-4 col-md-6">
+                        {# <label data-error="wrong" data-success="right" for="defaultForm-pass">Mot de passe</label>
+                        <input type="password" id="defaultForm-pass" class="form-control validate"> #}
+                                {# {{ form_row(form.user.plainPassword.first) }}                     #}
+                    </div>
+
+                    <div class="md-form mb-4 col-md-6">
+                        {# <label data-error="wrong" data-success="right" for="defaultForm-pass">Confirmation du mot de passe</label>
+                        <input type="password" id="defaultForm-pass" class="form-control validate"> #}
+                                {# {{ form_row(form.user.plainPassword.second) }}                    #}
+                    </div>
+                     <div class="md-form mb-4 col-md-6">
+                        {# <label data-error="wrong" data-success="right" for="defaultForm-pass">Confirmation du mot de passe</label>
+                        <input type="password" id="defaultForm-pass" class="form-control validate"> #}
+                                {# {{ form_row(form.poste) }}                    #}
+                    </div>
+                     <div class="md-form mb-4 col-md-6">
+                        {# <label data-error="wrong" data-success="right" for="defaultForm-pass">Confirmation du mot de passe</label>
+                        <input type="password" id="defaultForm-pass" class="form-control validate"> #}
+                                {# {{ form_row(form.debutcontratAt) }}                    #}
+                    </div>
+                     <div class="md-form mb-4 col-md-6">
+                        {# <label data-error="wrong" data-success="right" for="defaultForm-pass">Confirmation du mot de passe</label>
+                        <input type="password" id="defaultForm-pass" class="form-control validate"> #}
+                                {# {{ form_row(form.fincontratAt) }}                    #}
+                    </div>
+                     <div class="md-form mb-4 col-md-6">
+                        {# <label data-error="wrong" data-success="right" for="defaultForm-pass">Confirmation du mot de passe</label>
+                        <input type="password" id="defaultForm-pass" class="form-control validate"> #}
+                                {# {{ form_row(form.image) }}                    #}
+                    </div>
+                    {# <div class="md-form mb-5">
+                        <label data-error="wrong" data-success="right" for="defaultForm-email">Poste du membre</label>
+                        <input type="text" id="defaultForm-email" class="form-control validate">
+                    </div>
+                    <div class="md-form mb-5">
+                        <label data-error="wrong" data-success="right" for="defaultForm-email">Téléphone du membre</label>
+                        <input type="number" id="defaultForm-email" class="form-control validate">
+                    </div>
+                    <div class="md-form mb-5">
+                        <label data-error="wrong" data-success="right" for="defaultForm-email">Date de début du contrat</label>
+                        <input type="date" id="defaultForm-email" class="form-control validate">
+                    </div>
+                    <div class="md-form mb-5">
+                        <label data-error="wrong" data-success="right" for="defaultForm-email">Date de fin du contrat</label>
+                        <input type="date" id="defaultForm-email" class="form-control validate">
+                    </div> #}
+                    
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                            {# {{ form_row(form.submit) }} #}
+                    {# <button class="btn btn-primary">Ajouter</button> #}
+                </div>
+                    {# {{ form_end(form) }} #}
+
+                </div>
+            </div>
+            </div>
+
+            {# <div class="text-center">
+                <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalLoginForm">Launch
+                Modal Login Form</a>
+            </div> #}
+    {# fin boite modale de modification d'un membre  #}
+
+    {# modal de confirmation de boite de dialogue #}
+
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Confirmation</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Êtes vous sûr de vouloir supprimer ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Anuler</button>
+        <button type="button" class="btn btn-danger">Oui, je suis sûr</button>
+      </div>
+    </div>
+  </div>
+</div>
+        
+    {# modal de confirmation de boite de dialogue #}
 {% endblock %}
