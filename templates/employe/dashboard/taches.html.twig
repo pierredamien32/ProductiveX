@@ -25,14 +25,6 @@
 
         font-size:50px;
     }
-
-    .hover-effect {
-      transition: font-size 300ms ease-in-out; /* Transition de 300 millisecondes */
-    }
-
-    .hover-effect:hover {
-      font-size: 15px; /* Augmente la taille de la police au survol */
-    }
 </style>
     <!--*******************
         Preloader start
@@ -312,6 +304,11 @@
             Content body start
         ***********************************-->
         <div class="content-body">
+ {% for message in app.flashes('success') %}
+            <div class="alert alert-success" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
             {# <div class="container-fluid mt-3">
                 <div class="row">
                     <div class="col-lg-3 col-sm-6">
@@ -363,18 +360,19 @@
                         </div>
                     </div>
                 </div> #}
-                    {% for message in app.flashes('success') %}
-                        <div class="alert alert-success" role="alert">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                    {% for flash_error in app.flashes('error') %}
-                        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-                    {% endfor %}
+
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                {% for flash_error in app.flashes('error') %}
+                    <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+                {% endfor %}
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-0 text-gray-800">Liste des projets</h1>
+                    <h1 class="h3 mb-0 text-gray-800">Liste des tâches</h1>
                     <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm gradient-4" style="border: none;" data-toggle="modal" data-target="#modalLoginForm">
-                    <i class="fa-solid fa-plus" style="margin:0 5px;"></i>Créer un nouveau projet</a>
+                    <i class="fa-solid fa-plus" style="margin:0 5px;"></i>Créer une nouvelle tâche</a>
                 </div> 
 
                 <div class="row">
@@ -386,46 +384,39 @@
                                         <table class="table table-xs mb-0">
                                             <thead>
                                                 <tr>
-                                                    <th>Nom</th>
+                                                    <th>Nom de la tache</th>
+                                                    <th>Projet d'appartenance</th>
+                                                    <th>Description</th>
                                                     <th>Duree</th>
                                                     <th>Status</th>
+                                                    <th>Assigné à</th>
                                                     <th>Créer le</th>
-                                                    <th>Consulter</th>
-                                                    <th>Actions</th>
+                                                    <th>Modifier</th>
+                                                    <th>Supprimer</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                				{% for projet in projets %}
+                                				{% for tache in taches %}
                                                     <tr>
-                                                        <td>{{ projet.nom }}</td>
-                                                        <td>{{ projet.duree.format('%a days, %h hours, %i minutes') }}</td>
-                                                        {# <td>{{ projet.description }}</td> #}
-                                                        {% if projet.status.nom == 'Terminé'  %}
-                                                            <td><span class="badge bg-success" style="color:white; font-size:14px;">{{ projet.status.nom }}</span></td>
-                                                        {% elseif projet.status.nom == 'En cours' %}
-                                                            <td><span class="badge bg-warning" style="color:white; font-size:14px;">{{ projet.status.nom }}</span></td>
+                                                        <td>{{ tache.nom }}</td>
+                                                        <td>{{ tache.projet.nom }}</td>
+                                                        <td>{{ tache.description }}</td>
+                                                        <td>{{ tache.duree.format('%a days, %h hours, %i minutes') }}</td>
+                                                        {% if tache.status.nom == 'Terminé'  %}
+                                                            <td><span class="badge bg-success" style="color:white; font-size:14px;">{{ tache.status.nom }}</span></td>
+                                                        {% elseif tache.status.nom == 'En cours' %}
+                                                            <td><span class="badge bg-warning" style="color:white; font-size:14px;">{{ tache.status.nom }}</span></td>
                                                         {% else  %}
-                                                            <td><span class="badge bg-info" style="color:white; font-size:14px;">{{ projet.status.nom }}</span></td>
+                                                            <td><span class="badge bg-info" style="color:white; font-size:14px;">{{ tache.status.nom }}</span></td>
                                                         {% endif %}
-                                                        <td>{{ projet.createdAt | date('d/m/Y') }}</td>
-                                                        <td><a href="{{ path('app_dashboard_viewDetail_tache') }}" class="hover-effect"> Voir plus <i class="fa-solid fa-angle-right"></i> </a></td>
-                                                        <td style="display: flex; gap:5px;">
-                                                            {# Ceci est le lien pour modifier un enregistrement #}
-                                                            <a href="#" class="btn btn-sm btn-primary shadow-sm gradient-4 d-flex justify-content-center align-items-center" style="border: none;" data-toggle="modal" data-target="#modalEdit">
-                                                                <i class="fa-solid fa-pen-to-square"></i>
-                                                            </a>
-
-                                                            {# Ceci est le bouton pour supprimer un enregistrement #}
-                                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#staticBackdrop">
-                                                                <i class="fa-sharp fa-solid fa-trash"></i>
-                                                            </button>
-                                                        </td>
-                                                        {# <td>
-                                                            <a href="{{ path('projet.edit', { id: projet.id }) }}" class="btn btn-xs btn-info">Modifier</a>
+                                                        <td>{{ tache.employe.nom }}</td>
+                                                        <td>{{ tache.createdAt | date('d/m/Y') }}</td>
+                                                        <td>
+                                                            <a href="{{ path('tache.edit', { id: tache.id }) }}" class="btn btn-xs btn-info">Modifier</a>
                                                         </td>
                                                         <td>
-                                                            <a href="{{ path('projet.delete', { id: projet.id }) }}" class="btn btn-xs btn-danger">Supprimer</a>
-                                                        </td>                                                         #}
+                                                            <a href="{{ path('tache.delete', { id: tache.id }) }}" class="btn btn-xs btn-danger">Supprimer</a>
+                                                        </td>                                                        
                                                     </tr>
 					                            {% endfor %}
                                             </tbody>
@@ -490,124 +481,44 @@
 
     <script src="{{ asset('theme/js/dashboard/dashboard-1.js')}}"></script>
 
-
-
     {# boite modale de projet  #}
-    <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header text-center">
-                    <h4 class="modal-title w-100 font-weight-bold">Créer un projet</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                {{ form_start(form) }}
-                    <div class="modal-body mx-3">
-                        <div class="md-form mb-5">
-                            {{ form_row(form.nom) }}
-                        </div>
-                        <div class="md-form mb-5">
-                            {{ form_row(form.description) }}
-
-                        </div>
-                        <div class="md-form mb-5">
-                            {{ form_row(form.duree) }}
-                        </div>
-                        <div class="modal-footer d-flex justify-content-center">
-                            {{ form_row(form.submit) }}
-                        </div>
-                    </div>
-                   
-                {{ form_end(form) }}
-                </div>
-        </div>
-    </div>
-    {# fin boite moale projet #}
-
-     {# boite modale pour modifier un membre  #}
-        <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                 <div class="modal-header text-center">
-                    <h4 class="modal-title w-100 font-weight-bold">Modifier un membre</h4>
+                    <h4 class="modal-title w-100 font-weight-bold">Créer une tâche</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body mx-3">
                     {{ form_start(form,{ 'attr': {'class': 'row g-3'} }) }}
-                    <div class="md-form mb-4 col-md-6">
-                        {# <label data-error="wrong" data-success="right" for="defaultForm-email">Nom du membre</label>
-                        <input type="text" id="defaultForm-email" class="form-control validate"> #}
-                        {# {{ form_row(form.nom) }} #}
+                        <div class="col-md-6 md-form mb-5">
+                            {{ form_row(form.nom) }}
+                        </div>
+                        <div class="col-md-6 md-form mb-5">
+                            {{ form_row(form.description) }}
+                        </div>
+                        <div class="col-md-6 md-form mb-5 ">
+                            {{ form_label(form.projet) }}
+                            {{ form_widget(form.projet, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.projet) }}
+                        </div>
+                        <div class="col-md-6 md-form mb-5 ">
+                            {{ form_label(form.employe) }}
+                            {{ form_widget(form.employe, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.employe) }}
+                        </div>
+                        <div class="col-md-12 md-form mb-5">
+                            {{ form_label(form.duree, 'Durée', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.duree, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.duree) }}
+                        </div>
                     </div>
-                    <div class="md-form mb-4 col-md-6">
-                        {# <label data-error="wrong" data-success="right" for="defaultForm-email">Email du membre</label>
-                        <input type="email" id="defaultForm-email" class="form-control validate"> #}
-                            {# {{ form_row(form.user.email) }} #}
+                    <div class="modal-footer d-flex justify-content-center">
+                            {{ form_row(form.submit) }}
                     </div>
-                      <div class="md-form mb-4 col-md-6">
-                        {# <label data-error="wrong" data-success="right" for="defaultForm-email">Email du membre</label>
-                        <input type="email" id="defaultForm-email" class="form-control validate"> #}
-                            {# {{ form_row(form.user.numTel) }} #}
-                    </div>
-
-                    <div class="md-form mb-4 col-md-6">
-                        {# <label data-error="wrong" data-success="right" for="defaultForm-pass">Mot de passe</label>
-                        <input type="password" id="defaultForm-pass" class="form-control validate"> #}
-                                {# {{ form_row(form.user.plainPassword.first) }}                     #}
-                    </div>
-
-                    <div class="md-form mb-4 col-md-6">
-                        {# <label data-error="wrong" data-success="right" for="defaultForm-pass">Confirmation du mot de passe</label>
-                        <input type="password" id="defaultForm-pass" class="form-control validate"> #}
-                                {# {{ form_row(form.user.plainPassword.second) }}                    #}
-                    </div>
-                     <div class="md-form mb-4 col-md-6">
-                        {# <label data-error="wrong" data-success="right" for="defaultForm-pass">Confirmation du mot de passe</label>
-                        <input type="password" id="defaultForm-pass" class="form-control validate"> #}
-                                {# {{ form_row(form.poste) }}                    #}
-                    </div>
-                     <div class="md-form mb-4 col-md-6">
-                        {# <label data-error="wrong" data-success="right" for="defaultForm-pass">Confirmation du mot de passe</label>
-                        <input type="password" id="defaultForm-pass" class="form-control validate"> #}
-                                {# {{ form_row(form.debutcontratAt) }}                    #}
-                    </div>
-                     <div class="md-form mb-4 col-md-6">
-                        {# <label data-error="wrong" data-success="right" for="defaultForm-pass">Confirmation du mot de passe</label>
-                        <input type="password" id="defaultForm-pass" class="form-control validate"> #}
-                                {# {{ form_row(form.fincontratAt) }}                    #}
-                    </div>
-                     <div class="md-form mb-4 col-md-6">
-                        {# <label data-error="wrong" data-success="right" for="defaultForm-pass">Confirmation du mot de passe</label>
-                        <input type="password" id="defaultForm-pass" class="form-control validate"> #}
-                                {# {{ form_row(form.image) }}                    #}
-                    </div>
-                    {# <div class="md-form mb-5">
-                        <label data-error="wrong" data-success="right" for="defaultForm-email">Poste du membre</label>
-                        <input type="text" id="defaultForm-email" class="form-control validate">
-                    </div>
-                    <div class="md-form mb-5">
-                        <label data-error="wrong" data-success="right" for="defaultForm-email">Téléphone du membre</label>
-                        <input type="number" id="defaultForm-email" class="form-control validate">
-                    </div>
-                    <div class="md-form mb-5">
-                        <label data-error="wrong" data-success="right" for="defaultForm-email">Date de début du contrat</label>
-                        <input type="date" id="defaultForm-email" class="form-control validate">
-                    </div>
-                    <div class="md-form mb-5">
-                        <label data-error="wrong" data-success="right" for="defaultForm-email">Date de fin du contrat</label>
-                        <input type="date" id="defaultForm-email" class="form-control validate">
-                    </div> #}
-                    
-                </div>
-                <div class="modal-footer d-flex justify-content-center">
-                            {# {{ form_row(form.submit) }} #}
-                    {# <button class="btn btn-primary">Ajouter</button> #}
-                </div>
-                    {# {{ form_end(form) }} #}
-
+                    {{ form_end(form) }}
                 </div>
             </div>
             </div>
@@ -616,29 +527,5 @@
                 <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalLoginForm">Launch
                 Modal Login Form</a>
             </div> #}
-    {# fin boite modale de modification d'un membre  #}
-
-    {# modal de confirmation de boite de dialogue #}
-
-<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Confirmation</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        Êtes vous sûr de vouloir supprimer ?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Anuler</button>
-        <button type="button" class="btn btn-danger">Oui, je suis sûr</button>
-      </div>
-    </div>
-  </div>
-</div>
-        
-    {# modal de confirmation de boite de dialogue #}
+    {# fin boite modale de projet  #}
 {% endblock %}

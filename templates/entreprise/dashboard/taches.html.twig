@@ -25,6 +25,13 @@
 
         font-size:50px;
     }
+    .hover-effect {
+      transition: font-size 300ms ease-in-out; /* Transition de 300 millisecondes */
+    }
+
+    .hover-effect:hover {
+      font-size: 1.2em; /* Augmente la taille de la police au survol */
+    }
 </style>
     <!--*******************
         Preloader start
@@ -386,13 +393,11 @@
                                                 <tr>
                                                     <th>Nom de la tache</th>
                                                     <th>Projet d'appartenance</th>
-                                                    <th>Description</th>
                                                     <th>Duree</th>
-                                                    <th>Status</th>
                                                     <th>Assigné à</th>
                                                     <th>Créer le</th>
-                                                    <th>Modifier</th>
-                                                    <th>Supprimer</th>
+                                                    <th>Consulter</th>
+                                                    <th>Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -400,23 +405,29 @@
                                                     <tr>
                                                         <td>{{ tache.nom }}</td>
                                                         <td>{{ tache.projet.nom }}</td>
-                                                        <td>{{ tache.description }}</td>
+                                                        
                                                         <td>{{ tache.duree.format('%a days, %h hours, %i minutes') }}</td>
-                                                        {% if tache.status.nom == 'Terminé'  %}
-                                                            <td><span class="badge bg-success" style="color:white; font-size:14px;">{{ tache.status.nom }}</span></td>
-                                                        {% elseif tache.status.nom == 'En cours' %}
-                                                            <td><span class="badge bg-warning" style="color:white; font-size:14px;">{{ tache.status.nom }}</span></td>
-                                                        {% else  %}
-                                                            <td><span class="badge bg-info" style="color:white; font-size:14px;">{{ tache.status.nom }}</span></td>
-                                                        {% endif %}
                                                         <td>{{ tache.employe.nom }}</td>
+                                                        
                                                         <td>{{ tache.createdAt | date('d/m/Y') }}</td>
-                                                        <td>
+                                                        <td><a href="{{ path('app_dashboard_viewDetail_tache') }}" class="hover-effect"> Voir plus <i class="fa-solid fa-angle-right"></i> </a></td>
+                                                        <td style="display: flex; gap:5px;">
+                                                            {# Ceci est le lien pour modifier un enregistrement #}
+                                                            <a href="#" class="btn btn-sm btn-primary shadow-sm gradient-4 d-flex justify-content-center align-items-center" style="border: none;" data-toggle="modal" data-target="#modalEdit">
+                                                                <i class="fa-solid fa-pen-to-square"></i>
+                                                            </a>
+
+                                                            {# Ceci est le bouton pour supprimer un enregistrement #}
+                                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#staticBackdrop">
+                                                                <i class="fa-sharp fa-solid fa-trash"></i>
+                                                            </button>
+                                                        </td>
+                                                        {# <td>
                                                             <a href="{{ path('tache.edit', { id: tache.id }) }}" class="btn btn-xs btn-info">Modifier</a>
                                                         </td>
                                                         <td>
                                                             <a href="{{ path('tache.delete', { id: tache.id }) }}" class="btn btn-xs btn-danger">Supprimer</a>
-                                                        </td>                                                        
+                                                        </td>                                                         #}
                                                     </tr>
 					                            {% endfor %}
                                             </tbody>
@@ -528,4 +539,120 @@
                 Modal Login Form</a>
             </div> #}
     {# fin boite modale de projet  #}
+    {# boite modale pour modifier un membre  #}
+        <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">Modifier un membre</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mx-3">
+                    {{ form_start(form,{ 'attr': {'class': 'row g-3'} }) }}
+                    <div class="md-form mb-4 col-md-6">
+                        {# <label data-error="wrong" data-success="right" for="defaultForm-email">Nom du membre</label>
+                        <input type="text" id="defaultForm-email" class="form-control validate"> #}
+                        {# {{ form_row(form.nom) }} #}
+                    </div>
+                    <div class="md-form mb-4 col-md-6">
+                        {# <label data-error="wrong" data-success="right" for="defaultForm-email">Email du membre</label>
+                        <input type="email" id="defaultForm-email" class="form-control validate"> #}
+                            {# {{ form_row(form.user.email) }} #}
+                    </div>
+                      <div class="md-form mb-4 col-md-6">
+                        {# <label data-error="wrong" data-success="right" for="defaultForm-email">Email du membre</label>
+                        <input type="email" id="defaultForm-email" class="form-control validate"> #}
+                            {# {{ form_row(form.user.numTel) }} #}
+                    </div>
+
+                    <div class="md-form mb-4 col-md-6">
+                        {# <label data-error="wrong" data-success="right" for="defaultForm-pass">Mot de passe</label>
+                        <input type="password" id="defaultForm-pass" class="form-control validate"> #}
+                                {# {{ form_row(form.user.plainPassword.first) }}                     #}
+                    </div>
+
+                    <div class="md-form mb-4 col-md-6">
+                        {# <label data-error="wrong" data-success="right" for="defaultForm-pass">Confirmation du mot de passe</label>
+                        <input type="password" id="defaultForm-pass" class="form-control validate"> #}
+                                {# {{ form_row(form.user.plainPassword.second) }}                    #}
+                    </div>
+                     <div class="md-form mb-4 col-md-6">
+                        {# <label data-error="wrong" data-success="right" for="defaultForm-pass">Confirmation du mot de passe</label>
+                        <input type="password" id="defaultForm-pass" class="form-control validate"> #}
+                                {# {{ form_row(form.poste) }}                    #}
+                    </div>
+                     <div class="md-form mb-4 col-md-6">
+                        {# <label data-error="wrong" data-success="right" for="defaultForm-pass">Confirmation du mot de passe</label>
+                        <input type="password" id="defaultForm-pass" class="form-control validate"> #}
+                                {# {{ form_row(form.debutcontratAt) }}                    #}
+                    </div>
+                     <div class="md-form mb-4 col-md-6">
+                        {# <label data-error="wrong" data-success="right" for="defaultForm-pass">Confirmation du mot de passe</label>
+                        <input type="password" id="defaultForm-pass" class="form-control validate"> #}
+                                {# {{ form_row(form.fincontratAt) }}                    #}
+                    </div>
+                     <div class="md-form mb-4 col-md-6">
+                        {# <label data-error="wrong" data-success="right" for="defaultForm-pass">Confirmation du mot de passe</label>
+                        <input type="password" id="defaultForm-pass" class="form-control validate"> #}
+                                {# {{ form_row(form.image) }}                    #}
+                    </div>
+                    {# <div class="md-form mb-5">
+                        <label data-error="wrong" data-success="right" for="defaultForm-email">Poste du membre</label>
+                        <input type="text" id="defaultForm-email" class="form-control validate">
+                    </div>
+                    <div class="md-form mb-5">
+                        <label data-error="wrong" data-success="right" for="defaultForm-email">Téléphone du membre</label>
+                        <input type="number" id="defaultForm-email" class="form-control validate">
+                    </div>
+                    <div class="md-form mb-5">
+                        <label data-error="wrong" data-success="right" for="defaultForm-email">Date de début du contrat</label>
+                        <input type="date" id="defaultForm-email" class="form-control validate">
+                    </div>
+                    <div class="md-form mb-5">
+                        <label data-error="wrong" data-success="right" for="defaultForm-email">Date de fin du contrat</label>
+                        <input type="date" id="defaultForm-email" class="form-control validate">
+                    </div> #}
+                    
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                            {# {{ form_row(form.submit) }} #}
+                    {# <button class="btn btn-primary">Ajouter</button> #}
+                </div>
+                    {# {{ form_end(form) }} #}
+
+                </div>
+            </div>
+            </div>
+
+            {# <div class="text-center">
+                <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalLoginForm">Launch
+                Modal Login Form</a>
+            </div> #}
+    {# fin boite modale de modification d'un membre  #}
+
+    {# modal de confirmation de boite de dialogue #}
+
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Confirmation</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Êtes vous sûr de vouloir supprimer ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Anuler</button>
+        <button type="button" class="btn btn-danger">Oui, je suis sûr</button>
+      </div>
+    </div>
+  </div>
+</div>
+        
+    {# modal de confirmation de boite de dialogue #}
 {% endblock %}
