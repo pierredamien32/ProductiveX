@@ -57,7 +57,7 @@ class DashboardController extends AbstractController
                                                             // cette page est la page permet de voir tous les rappels
     }
 
-    #[Route('/dashboard/view/detail-projet', name: 'app_dashboard_viewDetail_projet')]
+    #[Route('/dashboard/view/detail-projet', name: 'app_dashboard_viewDetail_projet_employeur')]
     public function viewDetail_projet(): Response
     {
         return $this->render('entreprise/dashboard/detailProjet.html.twig');// Cette fonction envoie vers la page entreprise/dashboard/taches.html.twig
