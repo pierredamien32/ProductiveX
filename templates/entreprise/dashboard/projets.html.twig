@@ -400,7 +400,7 @@
                                                         {% else  %}
                                                             <td><span class="badge bg-info" style="color:white; font-size:14px;">{{ projet.status.nom }}</span></td>
                                                         {% endif %}
-                                                        <td>{{ projet.createdAt | date('d/m/Y') }}</td>
+                                                        <td>{{ projet.createdAt | date('d/m/Y') }}</td> 
                                                         <td>
                                                             <a href="{{ path('projet.edit', { id: projet.id }) }}" class="btn btn-xs btn-info">Modifier</a>
                                                         </td>
