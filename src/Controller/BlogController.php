@@ -30,12 +30,12 @@ class BlogController extends AbstractController
     //                                                 // cette page est la page de login de l'app
     // }
 
-    #[Route('/verifi-email', name: 'app_blog_verifiEmail')]
-    public function verifiEmail(): Response
-    {
-        return $this->render('home/verifiEmail.html.twig');// Cette fonction envoie vers la page home/verifiEmail.html.twig
-                                                        // cette page est la page qui demande juste l'email de l'employeur (compte entreprise)
-    }
+    // #[Route('/verifi-email', name: 'app_blog_verifiEmail')]
+    // public function verifiEmail(): Response
+    // {
+    //     return $this->render('home/verifiEmail.html.twig');// Cette fonction envoie vers la page home/verifiEmail.html.twig
+    //                                                     // cette page est la page qui demande juste l'email de l'employeur (compte entreprise)
+    // }
 
     // #[Route('/confirm-email', name: 'app_blog_confirmEmail')]
     // public function confirmEmail(): Response

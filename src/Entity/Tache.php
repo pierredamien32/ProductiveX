@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\TacheRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TacheRepository::class)]
@@ -22,20 +23,19 @@ class Tache
     private ?\DateInterval $duree = null;
 
     #[ORM\Column]
+    private ?int $note = null;
+
+    #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $debutAt = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $debutAt = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $finAt = null;
-
-    #[ORM\ManyToOne(inversedBy: 'taches')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Status $status = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $finAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'taches')]
     #[ORM\JoinColumn(nullable: false)]
@@ -48,10 +48,15 @@ class Tache
     #[ORM\OneToMany(mappedBy: 'tache', targetEntity: Commentaire::class, orphanRemoval: true)]
     private Collection $commentaires;
 
+    #[ORM\OneToMany(mappedBy: 'tache', targetEntity: TacheStatus::class, orphanRemoval: true)]
+    private Collection $tacheStatuses;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->commentaires = new ArrayCollection();
+        $this->tacheStatuses = new ArrayCollection();
+     
     }
 
     public function getId(): ?int
@@ -64,7 +69,7 @@ class Tache
         return $this->nom;
     }
 
-    public function setNom(string $nom): self
+    public function setNom(string $nom): static
     {
         $this->nom = $nom;
 
@@ -76,9 +81,21 @@ class Tache
         return $this->duree;
     }
 
-    public function setDuree(\DateInterval $duree): self
+    public function setDuree(\DateInterval $duree): static
     {
         $this->duree = $duree;
+
+        return $this;
+    }
+
+    public function getNote(): ?int
+    {
+        return $this->note;
+    }
+
+    public function setNote(int $note): static
+    {
+        $this->note = $note;
 
         return $this;
     }
@@ -88,7 +105,7 @@ class Tache
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
 
@@ -100,45 +117,33 @@ class Tache
         return $this->description;
     }
 
-    public function setDescription(?string $description): self
+    public function setDescription(?string $description): static
     {
         $this->description = $description;
 
         return $this;
     }
 
-    public function getDebutAt(): ?\DateTimeImmutable
+    public function getDebutAt(): ?\DateTimeInterface
     {
         return $this->debutAt;
     }
 
-    public function setDebutAt(?\DateTimeImmutable $debutAt): self
+    public function setDebutAt(?\DateTimeInterface $debutAt): static
     {
         $this->debutAt = $debutAt;
 
         return $this;
     }
 
-    public function getFinAt(): ?\DateTimeImmutable
+    public function getFinAt(): ?\DateTimeInterface
     {
         return $this->finAt;
     }
 
-    public function setFinAt(?\DateTimeImmutable $finAt): self
+    public function setFinAt(?\DateTimeInterface $finAt): static
     {
         $this->finAt = $finAt;
-
-        return $this;
-    }
-
-    public function getStatus(): ?Status
-    {
-        return $this->status;
-    }
-
-    public function setStatus(?Status $status): self
-    {
-        $this->status = $status;
 
         return $this;
     }
@@ -148,7 +153,7 @@ class Tache
         return $this->projet;
     }
 
-    public function setProjet(?Projet $projet): self
+    public function setProjet(?Projet $projet): static
     {
         $this->projet = $projet;
 
@@ -160,7 +165,7 @@ class Tache
         return $this->employe;
     }
 
-    public function setEmploye(?Employe $employe): self
+    public function setEmploye(?Employe $employe): static
     {
         $this->employe = $employe;
 
@@ -175,7 +180,7 @@ class Tache
         return $this->commentaires;
     }
 
-    public function addCommentaire(Commentaire $commentaire): self
+    public function addCommentaire(Commentaire $commentaire): static
     {
         if (!$this->commentaires->contains($commentaire)) {
             $this->commentaires->add($commentaire);
@@ -185,10 +190,10 @@ class Tache
         return $this;
     }
 
-    public function removeCommentaire(Commentaire $commentaire): self
+    public function removeCommentaire(Commentaire $commentaire): static
     {
         if ($this->commentaires->removeElement($commentaire)) {
-            // set the owning se to null (unless already changed)
+            // set the owning side to null (unless already changed)
             if ($commentaire->getTache() === $this) {
                 $commentaire->setTache(null);
             }
@@ -196,4 +201,44 @@ class Tache
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, TacheStatus>
+     */
+    public function getTacheStatuses(): Collection
+    {
+        return $this->tacheStatuses;
+    }
+
+    public function addTacheStatus(TacheStatus $tacheStatus): self
+    {
+        if (!$this->tacheStatuses->contains($tacheStatus)) {
+            $this->tacheStatuses->add($tacheStatus);
+            $tacheStatus->setTache($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTacheStatus(TacheStatus $tacheStatus): self
+    {
+        if ($this->tacheStatuses->removeElement($tacheStatus)) {
+            // set the owning side to null (unless already changed)
+            if ($tacheStatus->getTache() === $this) {
+                $tacheStatus->setTache(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function tempsrestant(): ?\DateInterval
+    {
+        $now = new \DateTime();
+        $datefuture = $this->getCreatedAt()->add($this->getDuree());
+        $timerestant = $datefuture->diff($now);
+
+        return $timerestant;
+    }
+
 }

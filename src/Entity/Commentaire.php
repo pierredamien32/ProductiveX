@@ -23,22 +23,24 @@ class Commentaire
 
     #[ORM\ManyToOne(inversedBy: 'commentaires')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
-
-    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'commentaires')]
-    private ?self $parent = null;
-
-    #[ORM\OneToMany(mappedBy: 'parent', targetEntity: self::class)]
-    private Collection $commentaires;
+    private ?User $userid = null;
 
     #[ORM\ManyToOne(inversedBy: 'commentaires')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Tache $tache = null;
 
+    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'reponses')]
+    private ?self $parent = null;
+
+    #[ORM\OneToMany(mappedBy: 'parent', targetEntity: self::class)]
+    private Collection $reponses;
+
     public function __construct()
     {
-        $this->commentaires = new ArrayCollection();
+        $this->createdAt = new \DateTimeImmutable();
+        $this->reponses = new ArrayCollection();
     }
+
 
     public function getId(): ?int
     {
@@ -50,7 +52,7 @@ class Commentaire
         return $this->contenu;
     }
 
-    public function setContenu(string $contenu): self
+    public function setContenu(string $contenu): static
     {
         $this->contenu = $contenu;
 
@@ -62,63 +64,21 @@ class Commentaire
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getUserid(): ?User
     {
-        return $this->user;
+        return $this->userid;
     }
 
-    public function setUser(?User $user): self
+    public function setUserid(?User $userid): static
     {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    public function getParent(): ?self
-    {
-        return $this->parent;
-    }
-
-    public function setParent(?self $parent): self
-    {
-        $this->parent = $parent;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, self>
-     */
-    public function getCommentaires(): Collection
-    {
-        return $this->commentaires;
-    }
-
-    public function addCommentaire(self $commentaire): self
-    {
-        if (!$this->commentaires->contains($commentaire)) {
-            $this->commentaires->add($commentaire);
-            $commentaire->setParent($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCommentaire(self $commentaire): self
-    {
-        if ($this->commentaires->removeElement($commentaire)) {
-            // set the owning side to null (unless already changed)
-            if ($commentaire->getParent() === $this) {
-                $commentaire->setParent(null);
-            }
-        }
+        $this->userid = $userid;
 
         return $this;
     }
@@ -128,9 +88,51 @@ class Commentaire
         return $this->tache;
     }
 
-    public function setTache(?Tache $tache): self
+    public function setTache(?Tache $tache): static
     {
         $this->tache = $tache;
+
+        return $this;
+    }
+
+    public function getParent(): ?self
+    {
+        return $this->parent;
+    }
+
+    public function setParent(?self $parent): static
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getReponses(): Collection
+    {
+        return $this->reponses;
+    }
+
+    public function addReponse(self $reponse): static
+    {
+        if (!$this->reponses->contains($reponse)) {
+            $this->reponses->add($reponse);
+            $reponse->setParent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReponse(self $reponse): static
+    {
+        if ($this->reponses->removeElement($reponse)) {
+            // set the owning side to null (unless already changed)
+            if ($reponse->getParent() === $this) {
+                $reponse->setParent(null);
+            }
+        }
 
         return $this;
     }

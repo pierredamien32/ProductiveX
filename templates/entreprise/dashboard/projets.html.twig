@@ -387,30 +387,34 @@
                                             <thead>
                                                 <tr>
                                                     <th>Nom</th>
-                                                    <th>Duree</th>
+                                                    <th>Temps restant</th>
                                                     <th>Status</th>
-                                                    <th>Créer le</th>
                                                     <th>Consulter</th>
                                                     <th>Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                				{% for projet in projets %}
+                                            {# {{ dump(projstatus) }} #}
+                                            {# {{ dump(projets) }} #}
+                                            {# {{ dump(ps) }} #}
+                                				{% for projstatus in projstatus %}
                                                     <tr>
-                                                        <td>{{ projet.nom }}</td>
-                                                        <td>{{ projet.duree.format('%a days, %h hours, %i minutes') }}</td>
-                                                        {# <td>{{ projet.description }}</td> #}
-                                                        {% if projet.status.nom == 'Terminé'  %}
-                                                            <td><span class="badge bg-success" style="color:white; font-size:14px;">{{ projet.status.nom }}</span></td>
-                                                        {% elseif projet.status.nom == 'En cours' %}
-                                                            <td><span class="badge bg-warning" style="color:white; font-size:14px;">{{ projet.status.nom }}</span></td>
-                                                        {% else  %}
-                                                            <td><span class="badge bg-info" style="color:white; font-size:14px;">{{ projet.status.nom }}</span></td>
+                                                        <td>{{ projstatus.projet.nom }}</td>
+                                                        
+                                                        <td>{{ projstatus.projet.tempsrestant() | dateIntervalFormat}}</td>
+                                                        
+                                                        {% if projstatus.status.nom == 'Terminé'  %}
+                                                            <td><span class="badge bg-success" style="color:white; font-size:14px;">{{ projstatus.status.nom }}</span></td>
+                                                        {% elseif projstatus.status.nom == 'En cours' %}
+                                                            <td><span class="badge bg-warning" style="color:white; font-size:14px;">{{ projstatus.status.nom }}</span></td>
+                                                        {% elseif projstatus.status.nom == 'A faire'%}
+                                                            <td><span class="badge bg-info" style="color:white; font-size:14px;">{{ projstatus.status.nom }}</span></td>
+                                                        {% else %}
+                                                            <td><span class="badge bg-danger" style="color:white; font-size:14px;">{{ projstatus.status.nom }}</span></td>
                                                         {% endif %}
-                                                        <td>{{ projet.createdAt | date('d/m/Y') }}</td> 
-                                                        <td>
-                                                        <td>{{ projet.createdAt | date('d/m/Y') }}</td>
+                                                        
                                                         <td><a href="{{ path('app_dashboard_viewDetail_projet_employeur') }}" class="hover-effect"> Voir plus <i class="fa-solid fa-angle-right"></i> </a></td>
+                                                        
                                                         <td style="display: flex; gap:5px;">
                                                             {# Ceci est le lien pour modifier un enregistrement #}
                                                             <a href="#" class="btn btn-sm btn-primary shadow-sm gradient-4 d-flex justify-content-center align-items-center" style="border: none;" data-toggle="modal" data-target="#modalEdit">
@@ -418,7 +422,7 @@
                                                             </a>
 
                                                             {# Ceci est le bouton pour supprimer un enregistrement #}
-                                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#staticBackdrop">
+                                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-projet-id="{{ projstatus.projet.id }}" data-target="#exampleModal">
                                                                 <i class="fa-sharp fa-solid fa-trash"></i>
                                                             </button>
                                                         </td>
@@ -622,7 +626,7 @@
 
     {# modal de confirmation de boite de dialogue #}
 
-<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -636,11 +640,36 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-dismiss="modal">Anuler</button>
-        <button type="button" class="btn btn-danger">Oui, je suis sûr</button>
+        {# <button type="button" class="btn btn-danger">Oui, je suis sûr</button>  #}
+        <a  class="btn btn-danger" href="{{ path('projet.delete', { id: '__projetId__' }) }}">Oui, je suis sûr</a>
       </div>
     </div>
   </div>
 </div>
         
     {# modal de confirmation de boite de dialogue #}
+
+
+    <script>
+       $(document).ready(function() {
+        $('#exampleModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget); // Bouton qui a déclenché l'ouverture du modal
+            var projetId = button.data('projet-id'); // Récupère la valeur de data-projet-id
+            console.log(projetId);
+
+            // Mettre à jour le lien d'association dans le modal avec l'projetId
+            $(this).find('a').attr('href', function() {
+            return $(this).attr('href').replace('__projetId__', projetId);
+            });
+        });
+
+        // Réinitialiser le contenu du modal lorsqu'il est fermé
+        $('#exampleModal').on('hidden.bs.modal', function() {
+            $(this).find('a').attr('href', function() {
+            return $(this).attr('href').replace('__projetId__', '');
+            });
+        });
+        });
+
+    </script>
 {% endblock %}

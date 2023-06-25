@@ -75,7 +75,7 @@ class EmployeController extends AbstractController
 
         // =============>liste des taches
 
-        $employes = $repoEmp->findBy(['entreprise' => $entreprise], );
+        $employes = $repoEmp->findBy(['entreprise' => $entreprise], ['id' => 'DESC']);
 
         // dd($employes);
 

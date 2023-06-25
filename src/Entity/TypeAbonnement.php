@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\FormuleRepository;
+use App\Repository\TypeAbonnementRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: FormuleRepository::class)]
-class Formule
+#[ORM\Entity(repositoryClass: TypeAbonnementRepository::class)]
+class TypeAbonnement
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -21,13 +21,13 @@ class Formule
     #[ORM\Column]
     private ?\DateInterval $duree = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $description = null;
-
     #[ORM\Column]
     private ?int $tarif = null;
 
-    #[ORM\OneToMany(mappedBy: 'formule', targetEntity: Abonnement::class, orphanRemoval: true)]
+    #[ORM\Column(length: 255)]
+    private ?string $description = null;
+
+    #[ORM\OneToMany(mappedBy: 'typeabonnement', targetEntity: Abonnement::class, orphanRemoval: true)]
     private Collection $abonnements;
 
     public function __construct()
@@ -45,7 +45,7 @@ class Formule
         return $this->nom;
     }
 
-    public function setNom(string $nom): self
+    public function setNom(string $nom): static
     {
         $this->nom = $nom;
 
@@ -57,21 +57,9 @@ class Formule
         return $this->duree;
     }
 
-    public function setDuree(\DateInterval $duree): self
+    public function setDuree(\DateInterval $duree): static
     {
         $this->duree = $duree;
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): self
-    {
-        $this->description = $description;
 
         return $this;
     }
@@ -81,9 +69,21 @@ class Formule
         return $this->tarif;
     }
 
-    public function setTarif(int $tarif): self
+    public function setTarif(int $tarif): static
     {
         $this->tarif = $tarif;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): static
+    {
+        $this->description = $description;
 
         return $this;
     }
@@ -96,25 +96,26 @@ class Formule
         return $this->abonnements;
     }
 
-    public function addAbonnement(Abonnement $abonnement): self
+    public function addAbonnement(Abonnement $abonnement): static
     {
         if (!$this->abonnements->contains($abonnement)) {
             $this->abonnements->add($abonnement);
-            $abonnement->setFormule($this);
+            $abonnement->setTypeabonnement($this);
         }
 
         return $this;
     }
 
-    public function removeAbonnement(Abonnement $abonnement): self
+    public function removeAbonnement(Abonnement $abonnement): static
     {
         if ($this->abonnements->removeElement($abonnement)) {
-            // set the owning se to null (unless already changed)
-            if ($abonnement->getFormule() === $this) {
-                $abonnement->setFormule(null);
+            // set the owning side to null (unless already changed)
+            if ($abonnement->getTypeabonnement() === $this) {
+                $abonnement->setTypeabonnement(null);
             }
         }
 
         return $this;
     }
+
 }

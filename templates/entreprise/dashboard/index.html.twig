@@ -232,7 +232,6 @@
                                 <span class="activity active"></span>
                                 {% if app.user.entreprise.logo %}
                                     <img src="{{ asset('uploads/logo/'~ app.user.entreprise.logo)}}" height="40" width="40" alt="pas de données">
-                                {# {% else %} #}
                                 {% endif %}
                             </div>
                             <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
@@ -396,14 +395,19 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                        {# {% for item in items %}
+                                            {% if employes %}
+                                                {% set i = 0 %}
                                             <tr>
-                                                <th>1</th>
+                                                <th>{{ i++ }}</th>
                                                 <td>Kolor Tea Shirt For Man</td>
                                                 <td><span class="badge badge-primary px-2">10 pts</span>
                                                 </td>
                                                 <td>January 22</td>
                                                 <td class="color-primary"><a href="{{ path('app_dashboard_viewDetail_tache') }}" class="hover-effect"> Voir plus </a></td>
                                             </tr>
+                                        {% endif %} 
+                                        {% endfor %} #}
                                         </tbody>
                                     </table>
                                 </div>
@@ -429,14 +433,17 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <th>1</th>
-                                                <td>Kolor Tea Shirt For Man</td>
-                                                <td><span class="badge badge-primary px-2">Sale</span>
-                                                </td>
-                                                <td>January 22</td>
-                                                <td class="color-primary"><a href="{{ path('app_dashboard_viewDetail_projet_employeur') }}" class="hover-effect"> Voir plus</a></td>
-                                            </tr>
+                                            {% set i = 0 %}
+                                            {# {% for projet in projets %} #}
+                                                <tr>
+                                                    <th>{{ i }}</th>
+                                                    <td>bobo</td>
+                                                    <td><span class="badge badge-primary px-2">en retard</span></td>
+                                                    <td>January 22</td>
+                                                    <td class="color-primary"><a href="{{ path('app_dashboard_viewDetail_projet_employeur') }}" class="hover-effect"> Voir plus</a></td>
+                                                </tr>
+                                                  {% set i = i + 1 %}
+                                            {# {% endfor %} #}
                                         </tbody>
                                     </table>
                                 </div>

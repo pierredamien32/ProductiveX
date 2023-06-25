@@ -393,24 +393,38 @@
                                                 <tr>
                                                     <th>Nom de la tache</th>
                                                     <th>Projet d'appartenance</th>
-                                                    <th>Duree</th>
+                                                    <th>Temps restant</th>
+                                                    <th>Status</th>
                                                     <th>Assigné à</th>
-                                                    <th>Créer le</th>
                                                     <th>Consulter</th>
                                                     <th>Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                				{% for tache in taches %}
+                                				{% for tachestatus in tachestatus %}
                                                     <tr>
-                                                        <td>{{ tache.nom }}</td>
-                                                        <td>{{ tache.projet.nom }}</td>
+                                                        <td>{{ tachestatus.tache.nom }}</td>
                                                         
-                                                        <td>{{ tache.duree.format('%a days, %h hours, %i minutes') }}</td>
-                                                        <td>{{ tache.employe.nom }}</td>
+                                                        <td>{{ tachestatus.tache.projet.nom }}</td>
                                                         
-                                                        <td>{{ tache.createdAt | date('d/m/Y') }}</td>
+                                                        {# <td>{{ tachestatus.tache.duree| date("m/d/Y")  }}</td> #}
+                                                     
+                                                        <td>{{   tachestatus.tache.tempsrestant() | dateIntervalFormat }}</td>
+                                                        
+                                                         {% if tachestatus.status.nom == 'Terminé'  %}
+                                                            <td><span class="badge bg-success" style="color:white; font-size:14px;">{{ tachestatus.status.nom }}</span></td>
+                                                        {% elseif tachestatus.status.nom == 'En cours' %}
+                                                            <td><span class="badge bg-warning" style="color:white; font-size:14px;">{{ tachestatus.status.nom }}</span></td>
+                                                        {% elseif tachestatus.status.nom == 'A faire'%}
+                                                            <td><span class="badge bg-info" style="color:white; font-size:14px;">{{ tachestatus.status.nom }}</span></td>
+                                                        {% else %}
+                                                            <td><span class="badge bg-danger" style="color:white; font-size:14px;">{{ tachestatus.status.nom }}</span></td>
+                                                        {% endif %}
+                                                        
+                                                        <td>{{ tachestatus.tache.employe.nom }}</td>
+
                                                         <td><a href="{{ path('app_dashboard_viewDetail_tache_employeur') }}" class="hover-effect"> Voir plus <i class="fa-solid fa-angle-right"></i> </a></td>
+                                                        
                                                         <td style="display: flex; gap:5px;">
                                                             {# Ceci est le lien pour modifier un enregistrement #}
                                                             <a href="#" class="btn btn-sm btn-primary shadow-sm gradient-4 d-flex justify-content-center align-items-center" style="border: none;" data-toggle="modal" data-target="#modalEdit">
@@ -418,7 +432,7 @@
                                                             </a>
 
                                                             {# Ceci est le bouton pour supprimer un enregistrement #}
-                                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#staticBackdrop">
+                                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-tache-id="{{ tachestatus.tache.id }}" data-target="#exampleModal">
                                                                 <i class="fa-sharp fa-solid fa-trash"></i>
                                                             </button>
                                                         </td>
@@ -634,25 +648,49 @@
 
     {# modal de confirmation de boite de dialogue #}
 
-<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Confirmation</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        Êtes vous sûr de vouloir supprimer ?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Anuler</button>
-        <button type="button" class="btn btn-danger">Oui, je suis sûr</button>
-      </div>
+<div class="modal fade" id="exampleModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal-dialog">
+<div class="modal-content">
+    <div class="modal-header">
+    <h5 class="modal-title" id="staticBackdropLabel">Confirmation</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
     </div>
-  </div>
+    <div class="modal-body">
+    Êtes vous sûr de vouloir supprimer ?
+    </div>
+    <div class="modal-footer">
+    <button type="button" class="btn btn-primary" data-dismiss="modal">Anuler</button>
+    {# <button type="button" class="btn btn-danger">Oui, je suis sûr</button>  #}
+    <a  class="btn btn-danger" href="{{ path('tache.delete', { id: '__tacheId__' }) }}">Oui, je suis sûr</a>
+    </div>
 </div>
-        
+</div>
+</div>
+           
     {# modal de confirmation de boite de dialogue #}
+
+    <script>
+       $(document).ready(function() {
+        $('#exampleModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget); // Bouton qui a déclenché l'ouverture du modal
+            var tacheId = button.data('tache-id'); // Récupère la valeur de data-tache-id
+            console.log(tacheId);
+
+            // Mettre à jour le lien d'association dans le modal avec l'tacheId
+            $(this).find('a').attr('href', function() {
+            return $(this).attr('href').replace('__tacheId__', tacheId);
+            });
+        });
+
+        // Réinitialiser le contenu du modal lorsqu'il est fermé
+        $('#exampleModal').on('hidden.bs.modal', function() {
+            $(this).find('a').attr('href', function() {
+            return $(this).attr('href').replace('__tacheId__', '');
+            });
+        });
+        });
+
+    </script>
 {% endblock %}

@@ -314,6 +314,14 @@
                     
                 </div> #}
 
+                   {% for message in app.flashes('success') %}
+                    <div class="alert alert-success" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                {% for flash_error in app.flashes('error') %}
+                    <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+                {% endfor %}
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                     <h1 class="h3 mb-0 text-gray-800">Liste des Membres</h1>
                     <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm gradient-4" style="border: none;" data-toggle="modal" data-target="#modalLoginForm">
@@ -341,13 +349,13 @@
                                             {# {{ dump(employe) }} #}
                                 				{% for employe in employe %}
                                                 <tr>
-                                                    <td><img src="{{ asset('uploads/image/' ~ employe.image) }}" class="employe-image rounded-circle mr-3" alt="">{{ employe.nom }}</td>
+                                                    <td><img src="{{ asset('uploads/image/' ~ employe.image) }}" class="employe-image rounded-circle mr-3" alt=""></td>
+                                                    
+                                                    <td> {{ employe.nom }} </td>
                                                     <td> {{ employe.poste }} </td>
-                                                    <td>
-                                                        <span>0</span>
-                                                    </td>
-                                                    <td>21-06-2021</td> {#exemple#}
-                                                    <td>21-06-2023</td> {#exemple#}
+                                                    <td> {{ employe.debutcontratAt | date('j/m/Y') }} </td>
+                                                    <td> {{ employe.fincontratAt | date('j/m/Y') }} </td>
+                                                   
                                                     <td style="display: flex; gap:5px;">
                                                         {# Ceci est le lien pour modifier un enregistrement #}
                                                         <a href="#" class="btn btn-sm btn-primary shadow-sm gradient-4 d-flex justify-content-center align-items-center" style="border: none;" data-toggle="modal" data-target="#modalEdit">
@@ -355,9 +363,9 @@
                                                         </a>
 
                                                         {# Ceci est le bouton pour supprimer un enregistrement #}
-                                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#staticBackdrop">
-                                                            <i class="fa-sharp fa-solid fa-trash"></i>
-                                                        </button>
+                                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-employe-id="{{ employe.id }}" data-target="#exampleModal">
+                                                                <i class="fa-sharp fa-solid fa-trash"></i>
+                                                            </button>
                                                         {# <a href="{{ path('employe.delete', { id: employe.id }) }}" class="btn btn-xs btn-danger"><i class="fa-sharp fa-solid fa-trash"></i></a> #}
                                                     </td>
                                                     
@@ -445,24 +453,24 @@
                     <div class="md-form mb-4 col-md-6">
                         {# <label data-error="wrong" data-success="right" for="defaultForm-email">Email du membre</label>
                         <input type="email" id="defaultForm-email" class="form-control validate"> #}
-                            {{ form_row(form.user.email) }}
+                            {{ form_row(form.userid.email) }}
                     </div>
                       <div class="md-form mb-4 col-md-6">
                         {# <label data-error="wrong" data-success="right" for="defaultForm-email">Email du membre</label>
                         <input type="email" id="defaultForm-email" class="form-control validate"> #}
-                            {{ form_row(form.user.numTel) }}
+                            {{ form_row(form.userid.numTel) }}
                     </div>
 
                     <div class="md-form mb-4 col-md-6">
                         {# <label data-error="wrong" data-success="right" for="defaultForm-pass">Mot de passe</label>
                         <input type="password" id="defaultForm-pass" class="form-control validate"> #}
-                                {{ form_row(form.user.plainPassword.first) }}                    
+                                {{ form_row(form.userid.plainPassword.first) }}                    
                     </div>
 
                     <div class="md-form mb-4 col-md-6">
                         {# <label data-error="wrong" data-success="right" for="defaultForm-pass">Confirmation du mot de passe</label>
                         <input type="password" id="defaultForm-pass" class="form-control validate"> #}
-                                {{ form_row(form.user.plainPassword.second) }}                   
+                                {{ form_row(form.userid.plainPassword.second) }}                   
                     </div>
                      <div class="md-form mb-4 col-md-6">
                         {# <label data-error="wrong" data-success="right" for="defaultForm-pass">Confirmation du mot de passe</label>
@@ -538,24 +546,24 @@
                     <div class="md-form mb-4 col-md-6">
                         {# <label data-error="wrong" data-success="right" for="defaultForm-email">Email du membre</label>
                         <input type="email" id="defaultForm-email" class="form-control validate"> #}
-                            {# {{ form_row(form.user.email) }} #}
+                            {# {{ form_row(form.userid.email) }} #}
                     </div>
                       <div class="md-form mb-4 col-md-6">
                         {# <label data-error="wrong" data-success="right" for="defaultForm-email">Email du membre</label>
                         <input type="email" id="defaultForm-email" class="form-control validate"> #}
-                            {# {{ form_row(form.user.numTel) }} #}
+                            {# {{ form_row(form.userid.numTel) }} #}
                     </div>
 
                     <div class="md-form mb-4 col-md-6">
                         {# <label data-error="wrong" data-success="right" for="defaultForm-pass">Mot de passe</label>
                         <input type="password" id="defaultForm-pass" class="form-control validate"> #}
-                                {# {{ form_row(form.user.plainPassword.first) }}                     #}
+                                {# {{ form_row(form.userid.plainPassword.first) }}                     #}
                     </div>
 
                     <div class="md-form mb-4 col-md-6">
                         {# <label data-error="wrong" data-success="right" for="defaultForm-pass">Confirmation du mot de passe</label>
                         <input type="password" id="defaultForm-pass" class="form-control validate"> #}
-                                {# {{ form_row(form.user.plainPassword.second) }}                    #}
+                                {# {{ form_row(form.userid.plainPassword.second) }}                    #}
                     </div>
                      <div class="md-form mb-4 col-md-6">
                         {# <label data-error="wrong" data-success="right" for="defaultForm-pass">Confirmation du mot de passe</label>
@@ -613,7 +621,7 @@
 
     {# modal de confirmation de boite de dialogue #}
 
-<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -627,11 +635,35 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-dismiss="modal">Anuler</button>
-        <button type="button" class="btn btn-danger">Oui, je suis sûr</button>
+        {# <button type="button" class="btn btn-danger">Oui, je suis sûr</button>  #}
+        <a  class="btn btn-danger" href="{{ path('employe.delete', { id: '__employeId__' }) }}">Oui, je suis sûr</a>
       </div>
     </div>
   </div>
 </div>
         
     {# modal de confirmation de boite de dialogue #}
+
+    <script>
+       $(document).ready(function() {
+        $('#exampleModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget); // Bouton qui a déclenché l'ouverture du modal
+            var employeId = button.data('employe-id'); // Récupère la valeur de data-employe-id
+            console.log(employeId);
+
+            // Mettre à jour le lien d'association dans le modal avec l'employeId
+            $(this).find('a').attr('href', function() {
+            return $(this).attr('href').replace('__employeId__', employeId);
+            });
+        });
+
+        // Réinitialiser le contenu du modal lorsqu'il est fermé
+        $('#exampleModal').on('hidden.bs.modal', function() {
+            $(this).find('a').attr('href', function() {
+            return $(this).attr('href').replace('__employeId__', '');
+            });
+        });
+        });
+
+    </script>
 {% endblock %}

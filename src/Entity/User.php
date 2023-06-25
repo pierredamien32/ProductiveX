@@ -2,12 +2,8 @@
 
 namespace App\Entity;
 
-use App\Entity\Rappel;
 use App\Entity\Employe;
 use App\Entity\Entreprise;
-use App\Entity\Commentaire;
-use App\Entity\Notification;
-use App\Entity\SuiviJournalier;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
@@ -17,6 +13,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity('email')]
 #[ORM\Table(name: '`user`')]
 #[ORM\EntityListeners(['App\EntityListener\UserListener'])]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
@@ -41,41 +38,32 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $numtel = null;
 
-    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'userid', cascade: ['persist', 'remove'])]
     private ?Entreprise $entreprise = null;
 
-    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'userid', cascade: ['persist', 'remove'])]
     private ?Employe $employe = null;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Commentaire::class, orphanRemoval: true)]
-    private Collection $commentaires;
-
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Notification::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'userid', targetEntity: Notification::class, orphanRemoval: true)]
     private Collection $notifications;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Rappel::class, orphanRemoval: true)]
-    private Collection $rappels;
+    #[ORM\OneToMany(mappedBy: 'userid', targetEntity: Commentaire::class, orphanRemoval: true)]
+    private Collection $commentaires;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: SuiviJournalier::class, orphanRemoval: true)]
-    private Collection $suiviJournaliers;
+    #[ORM\OneToMany(mappedBy: 'userid', targetEntity: Rappel::class, orphanRemoval: true)]
+    private Collection $rappels;
 
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
-    
     public function __construct()
     {
-        $this->createdAt = new \DateTimeImmutable();
-        $this->commentaires = new ArrayCollection();
         $this->notifications = new ArrayCollection();
+        $this->commentaires = new ArrayCollection();
         $this->rappels = new ArrayCollection();
-        $this->suiviJournaliers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -88,7 +76,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): self
+    public function setEmail(string $email): static
     {
         $this->email = $email;
 
@@ -117,33 +105,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles): self
+    public function setRoles(array $roles): static
     {
         $this->roles = $roles;
 
         return $this;
     }
 
-    /**
-     * Get the value of plainPassword
-     */
-    public function getPlainPassword()
-    {
-        return $this->plainPassword;
-    }
-
-    /**
-     * Set the value of plainPassword
-     *
-     * @return  self
-     */
-    public function setPlainPassword($plainPassword)
-    {
-        $this->plainPassword = $plainPassword;
-
-        return $this;
-    }
-    
     /**
      * @see PasswordAuthenticatedUserInterface
      */
@@ -152,30 +120,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->password;
     }
 
-    public function setPassword(string $password): self
+    public function setPassword(string $password): static
     {
         $this->password = $password;
 
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-
     /**
      * @see UserInterface
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
@@ -186,7 +141,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->numtel;
     }
 
-    public function setNumtel(?string $numtel): self
+    public function setNumtel(?string $numtel): static
     {
         $this->numtel = $numtel;
 
@@ -198,11 +153,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->entreprise;
     }
 
-    public function setEntreprise(Entreprise $entreprise): self
+    public function setEntreprise(Entreprise $entreprise): static
     {
         // set the owning side of the relation if necessary
-        if ($entreprise->getUser() !== $this) {
-            $entreprise->setUser($this);
+        if ($entreprise->getUserid() !== $this) {
+            $entreprise->setUserid($this);
         }
 
         $this->entreprise = $entreprise;
@@ -215,44 +170,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->employe;
     }
 
-    public function setEmploye(Employe $employe): self
+    public function setEmploye(Employe $employe): static
     {
         // set the owning side of the relation if necessary
-        if ($employe->getUser() !== $this) {
-            $employe->setUser($this);
+        if ($employe->getUserid() !== $this) {
+            $employe->setUserid($this);
         }
 
         $this->employe = $employe;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Commentaire>
-     */
-    public function getCommentaires(): Collection
-    {
-        return $this->commentaires;
-    }
-
-    public function addCommentaire(Commentaire $commentaire): self
-    {
-        if (!$this->commentaires->contains($commentaire)) {
-            $this->commentaires->add($commentaire);
-            $commentaire->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCommentaire(Commentaire $commentaire): self
-    {
-        if ($this->commentaires->removeElement($commentaire)) {
-            // set the owning side to null (unless already changed)
-            if ($commentaire->getUser() === $this) {
-                $commentaire->setUser(null);
-            }
-        }
 
         return $this;
     }
@@ -265,22 +190,52 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->notifications;
     }
 
-    public function addNotification(Notification $notification): self
+    public function addNotification(Notification $notification): static
     {
         if (!$this->notifications->contains($notification)) {
             $this->notifications->add($notification);
-            $notification->setUser($this);
+            $notification->setUserid($this);
         }
 
         return $this;
     }
 
-    public function removeNotification(Notification $notification): self
+    public function removeNotification(Notification $notification): static
     {
         if ($this->notifications->removeElement($notification)) {
-            // set the owning se to null (unless already changed)
-            if ($notification->getUser() === $this) {
-                $notification->setUser(null);
+            // set the owning side to null (unless already changed)
+            if ($notification->getUserid() === $this) {
+                $notification->setUserid(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Commentaire>
+     */
+    public function getCommentaires(): Collection
+    {
+        return $this->commentaires;
+    }
+
+    public function addCommentaire(Commentaire $commentaire): static
+    {
+        if (!$this->commentaires->contains($commentaire)) {
+            $this->commentaires->add($commentaire);
+            $commentaire->setUserid($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentaire(Commentaire $commentaire): static
+    {
+        if ($this->commentaires->removeElement($commentaire)) {
+            // set the owning side to null (unless already changed)
+            if ($commentaire->getUserid() === $this) {
+                $commentaire->setUserid(null);
             }
         }
 
@@ -295,22 +250,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->rappels;
     }
 
-    public function addRappel(Rappel $rappel): self
+    public function addRappel(Rappel $rappel): static
     {
         if (!$this->rappels->contains($rappel)) {
             $this->rappels->add($rappel);
-            $rappel->setUser($this);
+            $rappel->setUserid($this);
         }
 
         return $this;
     }
 
-    public function removeRappel(Rappel $rappel): self
+    public function removeRappel(Rappel $rappel): static
     {
         if ($this->rappels->removeElement($rappel)) {
-            // set the owning se to null (unless already changed)
-            if ($rappel->getUser() === $this) {
-                $rappel->setUser(null);
+            // set the owning side to null (unless already changed)
+            if ($rappel->getUserid() === $this) {
+                $rappel->setUserid(null);
             }
         }
 
@@ -318,31 +273,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, SuiviJournalier>
-     */
-    public function getSuiviJournaliers(): Collection
+     * Get the value of plainPassword
+     */ 
+    public function getPlainPassword()
     {
-        return $this->suiviJournaliers;
+        return $this->plainPassword;
     }
 
-    public function addSuiviJournalier(SuiviJournalier $suiviJournalier): self
+    /**
+     * Set the value of plainPassword
+     *
+     * @return  self
+     */ 
+    public function setPlainPassword($plainPassword)
     {
-        if (!$this->suiviJournaliers->contains($suiviJournalier)) {
-            $this->suiviJournaliers->add($suiviJournalier);
-            $suiviJournalier->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSuiviJournalier(SuiviJournalier $suiviJournalier): self
-    {
-        if ($this->suiviJournaliers->removeElement($suiviJournalier)) {
-            // set the owning se to null (unless already changed)
-            if ($suiviJournalier->getUser() === $this) {
-                $suiviJournalier->setUser(null);
-            }
-        }
+        $this->plainPassword = $plainPassword;
 
         return $this;
     }
@@ -358,5 +303,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-   
+
 }

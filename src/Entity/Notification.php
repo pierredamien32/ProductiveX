@@ -21,11 +21,16 @@ class Notification
 
     #[ORM\ManyToOne(inversedBy: 'notifications')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
+    private ?User $userid = null;
 
     #[ORM\ManyToOne(inversedBy: 'notifications')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Status $status = null;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -37,7 +42,7 @@ class Notification
         return $this->contenu;
     }
 
-    public function setContenu(string $contenu): self
+    public function setContenu(string $contenu): static
     {
         $this->contenu = $contenu;
 
@@ -49,21 +54,21 @@ class Notification
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getUserid(): ?User
     {
-        return $this->user;
+        return $this->userid;
     }
 
-    public function setUser(?User $user): self
+    public function setUserid(?User $userid): static
     {
-        $this->user = $user;
+        $this->userid = $userid;
 
         return $this;
     }
@@ -73,7 +78,7 @@ class Notification
         return $this->status;
     }
 
-    public function setStatus(?Status $status): self
+    public function setStatus(?Status $status): static
     {
         $this->status = $status;
 

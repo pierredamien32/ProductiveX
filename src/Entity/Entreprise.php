@@ -15,7 +15,7 @@ class Entreprise
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $sigle = null;
 
     #[ORM\Column(length: 255)]
@@ -24,18 +24,21 @@ class Entreprise
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $adresse = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $description = null;
+
     #[ORM\OneToOne(inversedBy: 'entreprise', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
+    private ?User $userid = null;
 
     #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: Employe::class, orphanRemoval: true)]
     private Collection $employes;
 
-    #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: Abonnement::class, orphanRemoval: true)]
-    private Collection $abonnements;
-
     #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: Projet::class, orphanRemoval: true)]
     private Collection $projets;
+
+    #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: Abonnement::class, orphanRemoval: true)]
+    private Collection $abonnements;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $logo = null;
@@ -43,8 +46,8 @@ class Entreprise
     public function __construct()
     {
         $this->employes = new ArrayCollection();
-        $this->abonnements = new ArrayCollection();
         $this->projets = new ArrayCollection();
+        $this->abonnements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -57,7 +60,7 @@ class Entreprise
         return $this->sigle;
     }
 
-    public function setSigle(string $sigle): self
+    public function setSigle(?string $sigle): static
     {
         $this->sigle = $sigle;
 
@@ -69,7 +72,7 @@ class Entreprise
         return $this->denomination;
     }
 
-    public function setDenomination(string $denomination): self
+    public function setDenomination(string $denomination): static
     {
         $this->denomination = $denomination;
 
@@ -81,21 +84,33 @@ class Entreprise
         return $this->adresse;
     }
 
-    public function setAdresse(?string $adresse): self
+    public function setAdresse(?string $adresse): static
     {
         $this->adresse = $adresse;
 
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getDescription(): ?string
     {
-        return $this->user;
+        return $this->description;
     }
 
-    public function setUser(User $user): self
+    public function setDescription(?string $description): static
     {
-        $this->user = $user;
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getUserid(): ?User
+    {
+        return $this->userid;
+    }
+
+    public function setUserid(User $userid): static
+    {
+        $this->userid = $userid;
 
         return $this;
     }
@@ -108,7 +123,7 @@ class Entreprise
         return $this->employes;
     }
 
-    public function addEmploye(Employe $employe): self
+    public function addEmploye(Employe $employe): static
     {
         if (!$this->employes->contains($employe)) {
             $this->employes->add($employe);
@@ -118,42 +133,12 @@ class Entreprise
         return $this;
     }
 
-    public function removeEmploye(Employe $employe): self
+    public function removeEmploye(Employe $employe): static
     {
         if ($this->employes->removeElement($employe)) {
             // set the owning side to null (unless already changed)
             if ($employe->getEntreprise() === $this) {
                 $employe->setEntreprise(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Abonnement>
-     */
-    public function getAbonnements(): Collection
-    {
-        return $this->abonnements;
-    }
-
-    public function addAbonnement(Abonnement $abonnement): self
-    {
-        if (!$this->abonnements->contains($abonnement)) {
-            $this->abonnements->add($abonnement);
-            $abonnement->setEntreprise($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAbonnement(Abonnement $abonnement): self
-    {
-        if ($this->abonnements->removeElement($abonnement)) {
-            // set the owning se to null (unless already changed)
-            if ($abonnement->getEntreprise() === $this) {
-                $abonnement->setEntreprise(null);
             }
         }
 
@@ -168,7 +153,7 @@ class Entreprise
         return $this->projets;
     }
 
-    public function addProjet(Projet $projet): self
+    public function addProjet(Projet $projet): static
     {
         if (!$this->projets->contains($projet)) {
             $this->projets->add($projet);
@@ -178,12 +163,42 @@ class Entreprise
         return $this;
     }
 
-    public function removeProjet(Projet $projet): self
+    public function removeProjet(Projet $projet): static
     {
         if ($this->projets->removeElement($projet)) {
-            // set the owning se to null (unless already changed)
+            // set the owning side to null (unless already changed)
             if ($projet->getEntreprise() === $this) {
                 $projet->setEntreprise(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Abonnement>
+     */
+    public function getAbonnements(): Collection
+    {
+        return $this->abonnements;
+    }
+
+    public function addAbonnement(Abonnement $abonnement): static
+    {
+        if (!$this->abonnements->contains($abonnement)) {
+            $this->abonnements->add($abonnement);
+            $abonnement->setEntreprise($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAbonnement(Abonnement $abonnement): static
+    {
+        if ($this->abonnements->removeElement($abonnement)) {
+            // set the owning side to null (unless already changed)
+            if ($abonnement->getEntreprise() === $this) {
+                $abonnement->setEntreprise(null);
             }
         }
 

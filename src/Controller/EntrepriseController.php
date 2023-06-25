@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Tache;
 use App\Entity\Projet;
 use App\Form\ProjetType;
+use App\Repository\EmployeRepository;
 use App\Repository\TacheRepository;
 use App\Repository\ProjetRepository;
 use App\Repository\StatusRepository;
@@ -27,17 +28,25 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class EntrepriseController extends AbstractController
 {
     #[Route('/', name: 'app_dashboard')]
-    public function index(ProjetRepository $repository,TacheRepository $repotache ): Response
+    public function index(EmployeRepository $repoemploye,TacheRepository $repotache,ProjetRepository $repoprojet): Response
     {
+        
         // Récupérer l'entreprise de l'utilisateur connecté
         $user = $this->getUser();
         $entreprise = $user->getEntreprise();
+        
+        // $employes = $repoemploye->findBy(['entreprise' => $entreprise]);
+        // $taches = $repotache->findBy(['employe' => $employes]);
+        
+        // $projets = $repoprojet->findBy(['entreprise' => $entreprise]);
 
-        $projets = $repository->findBy(['entreprise' => $entreprise ]); 
-        $taches = $repotache->findBy(['projet' => $projets], ['createdAt' => 'DESC']);
+        // dd($projets);
+
+
 
         return $this->render('entreprise/dashboard/index.html.twig', [
-                'taches' => $taches
+                // 'projets' => $projets,
+                // 'employes' => $employes
         ]); 
     }
     

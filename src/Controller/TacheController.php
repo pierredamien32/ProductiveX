@@ -4,10 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Tache;
 use App\Form\TacheType;
-use App\Repository\ProjetRepository;
+use App\Entity\TacheStatus;
 use App\Repository\TacheRepository;
+use App\Repository\ProjetRepository;
 use App\Repository\StatusRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\TacheStatusRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,8 +18,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class TacheController extends AbstractController
 {
     /**
-     *  Cette fonction envoie vers la page entreprise/dashboard/projets.html.twig
-     *cette page est la page permet de voir tous les projets et d'en creer d'autre
+     *  Cette fonction envoie vers la page entreprise/dashboard/taches.html.twig
+     *cette page est la page permet de voir tous les taches et d'en creer d'autre
      * @return Response
      */
     #[Route('/tache/add&list', name: 'app_dashboard_addTache')]
@@ -26,26 +28,33 @@ class TacheController extends AbstractController
         EntityManagerInterface $manager,
         tacheRepository $repoTache,
         ProjetRepository $repoProjet,
-        StatusRepository $repoStatus
+        StatusRepository $repoStatus,
+        TacheStatusRepository $repotachestatus
     ): Response {
 
         // =============>debut du formulaire de creation 
         $tache = new Tache();
+        $tache->setNote(0);
         $entreprise = $this->getUser()->getEntreprise();
         $form = $this->createForm(TacheType::class,$tache,['entreprise' => $entreprise]);
-
+        
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
                 $tache = $form->getData();
-                
-                // Récupérer l'objet Status correspondant à l'état par défaut
+
+
+                // Enregistrement du status par defaut
                 $statusParDefaut = $repoStatus->findOneBy(['nom' => 'À faire']);
-                $tache->setStatus($statusParDefaut);
-                // dd($tache);
+
+                $tacheStatus = new TacheStatus();
+                $tacheStatus->settache($tache);
+                $tacheStatus->setStatus($statusParDefaut);
+                // dd($tacheStatus);
 
                 $manager->persist($tache);
+                $manager->persist($tacheStatus);
                 $manager->flush();
 
                 $this->addFlash(
@@ -62,14 +71,20 @@ class TacheController extends AbstractController
         // =============>fin du formulaire de creation 
 
         // =============>liste des taches
-        
-        $projets = $repoProjet->findBy(['entreprise' => $this->getUser()->getEntreprise()]);
+
+        $projets = $repoProjet->findBy(['entreprise' => $this->getUser()->getEntreprise()], ['createdAt' => 'DESC']);
         $taches = $repoTache->findBy(['projet' => $projets], ['createdAt' => 'DESC']);
-        
-        // dd($taches);
+
+        $tachestatus = [];
+
+        foreach ($taches as $tache) {
+            $ps = $repotachestatus->findBy(['tache' => $tache], ['createdAt' => 'DESC'], 1);
+            $firstRecord = count($ps) > 0 ? $ps[0] : null;
+            $tachestatus[] = $firstRecord;
+        }
 
         return $this->render('entreprise/dashboard/taches.html.twig', [
-            'taches' => $taches,
+            'tachestatus' => $tachestatus,
             'form' => $form->createView()
         ]);
     }

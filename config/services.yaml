@@ -6,7 +6,7 @@
 parameters:
     logo_directory: '%kernel.project_dir%/public/uploads/logo'
     image_directory: '%kernel.project_dir%/public/uploads/image'
-
+    App\Twig\DateExtension: ~
 services:
     # default configuration for services in *this* file
     _defaults:

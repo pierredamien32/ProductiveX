@@ -75,7 +75,7 @@ class EmployeType extends AbstractType
                 //     ]),
                 // ],
             ])
-            ->add('user', UserType::class, [
+            ->add('userid', UserType::class, [
                 'label' => false,
             ])
             ->add('submit', SubmitType::class, [

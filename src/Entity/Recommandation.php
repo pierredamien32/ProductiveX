@@ -29,7 +29,7 @@ class Recommandation
         return $this->question;
     }
 
-    public function setQuestion(string $question): self
+    public function setQuestion(string $question): static
     {
         $this->question = $question;
 
@@ -41,7 +41,7 @@ class Recommandation
         return $this->conseil;
     }
 
-    public function setConseil(string $conseil): self
+    public function setConseil(string $conseil): static
     {
         $this->conseil = $conseil;
 

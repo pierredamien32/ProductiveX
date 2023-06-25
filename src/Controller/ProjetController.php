@@ -2,21 +2,26 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Projet;
 use App\Form\ProjetType;
+use App\Entity\ProjetStatus;
+use Doctrine\ORM\Query\Expr\Join;
 use App\Repository\ProjetRepository;
+use App\Repository\ProjetStatusRepository;
 use App\Repository\StatusRepository;
 use Doctrine\ORM\EntityManagerInterface;
+// use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+// use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-// use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-// use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-
+ #[IsGranted('ROLE_ENT')]
+#[Route('/workspace/entreprise')]
 class ProjetController extends AbstractController
 {
 
@@ -26,11 +31,12 @@ class ProjetController extends AbstractController
      *cette page est la page permet de voir tous les projets et d'en creer d'autre
      * @return Response
      */
-    #[Route('/workspace/entreprise/projet/add&list', name: 'app_dashboard_addProjet')]
+    #[Route('/projet/add&list', name: 'app_dashboard_addProjet')]
     public function addlistProjet(
         Request $request,
         EntityManagerInterface $manager,
         ProjetRepository $repoProjet,
+        ProjetStatusRepository $repoprojetstatus,
         StatusRepository $repoStatus
     ): Response {
 
@@ -45,12 +51,18 @@ class ProjetController extends AbstractController
                 $projet = $form->getData();
                 $projet->setEntreprise($this->getUser()->getEntreprise());
 
-                // Récupérer l'objet Status correspondant à l'état par défaut
-                $statusParDefaut = $repoStatus->findOneBy(['nom' => 'À faire']);
-                $projet->setStatus($statusParDefaut);
-                // dd($projet);
 
+                // Enregistrement du status par defaut
+                $statusParDefaut = $repoStatus->findOneBy(['nom' => 'À faire']);
+
+                $projetStatus = new ProjetStatus();
+                $projetStatus->setProjet($projet);
+                $projetStatus->setStatus($statusParDefaut);
+                // dd($projetStatus);
+                
                 $manager->persist($projet);
+                $manager->persist($projetStatus);
+   
                 $manager->flush();
 
                 $this->addFlash(
@@ -67,11 +79,19 @@ class ProjetController extends AbstractController
         // =============>fin du formulaire de creation 
 
         // =============>liste des projets
-        // $projets = $repoProjet->findBy(['entreprise' => 2]);
+
         $projets = $repoProjet->findBy(['entreprise' => $this->getUser()->getEntreprise()], ['createdAt' => 'DESC']);
 
+        $projstatus = [];
+
+        foreach ($projets as $projet) {
+            $ps = $repoprojetstatus->findBy(['projet' => $projet], ['createdAt' => 'DESC'], 1);
+            $firstRecord = count($ps) > 0 ? $ps[0] : null;
+            $projstatus[] = $firstRecord;    
+    
+        }
         return $this->render('entreprise/dashboard/projets.html.twig', [
-            'projets' => $projets,
+            'projstatus' => $projstatus,
             'form' => $form->createView()
         ]);
     }
@@ -80,7 +100,7 @@ class ProjetController extends AbstractController
      * Fonction de modification des projets
      */
     // #[Security("is_granted('ROLE_USER') and user === projet.getUser()")]
-    #[Route('/workspace/entreprise/projet/edition/{id}', 'projet.edit', methods: ['GET', 'POST'])]
+    #[Route('/projet/edition/{id}', 'projet.edit', methods: ['GET', 'POST'])]
     public function editProjet(
         Projet $projet,
         Request $request,
@@ -114,7 +134,7 @@ class ProjetController extends AbstractController
     /**
      * Fonction de suppression des projets
      */
-    #[Route('/workspace/entreprise/projet/suppression/{id}', name: 'projet.delete', methods: ['GET'])]
+    #[Route('/projet/suppression/{id}', name: 'projet.delete', methods: ['GET'])]
     // #[Security("is_granted('ROLE_USER') and user === projet.getEntreprise().getUser()")]
     public function delete(
         EntityManagerInterface $manager,

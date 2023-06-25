@@ -18,24 +18,21 @@ class Status
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[ORM\OneToMany(mappedBy: 'status', targetEntity: Projet::class, orphanRemoval: true)]
-    private Collection $projets;
-
-    #[ORM\OneToMany(mappedBy: 'status', targetEntity: Tache::class, orphanRemoval: true)]
-    private Collection $taches;
-
     #[ORM\OneToMany(mappedBy: 'status', targetEntity: Notification::class, orphanRemoval: true)]
     private Collection $notifications;
 
-    #[ORM\OneToMany(mappedBy: 'status', targetEntity: Objectif::class, orphanRemoval: true)]
-    private Collection $objectifs;
+    #[ORM\OneToMany(mappedBy: 'status', targetEntity: ProjetStatus::class, orphanRemoval: true)]
+    private Collection $projetStatuses;
+
+    #[ORM\OneToMany(mappedBy: 'status', targetEntity: TacheStatus::class, orphanRemoval: true)]
+    private Collection $tacheStatuses;
+
 
     public function __construct()
     {
-        $this->projets = new ArrayCollection();
-        $this->taches = new ArrayCollection();
         $this->notifications = new ArrayCollection();
-        $this->objectifs = new ArrayCollection();
+        $this->projetStatuses = new ArrayCollection();
+        $this->tacheStatuses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -48,69 +45,9 @@ class Status
         return $this->nom;
     }
 
-    public function setNom(string $nom): self
+    public function setNom(string $nom): static
     {
         $this->nom = $nom;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Projet>
-     */
-    public function getProjets(): Collection
-    {
-        return $this->projets;
-    }
-
-    public function addProjet(Projet $projet): self
-    {
-        if (!$this->projets->contains($projet)) {
-            $this->projets->add($projet);
-            $projet->setStatus($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProjet(Projet $projet): self
-    {
-        if ($this->projets->removeElement($projet)) {
-            // set the owning side to null (unless already changed)
-            if ($projet->getStatus() === $this) {
-                $projet->setStatus(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Tache>
-     */
-    public function getTaches(): Collection
-    {
-        return $this->taches;
-    }
-
-    public function addTach(Tache $tach): self
-    {
-        if (!$this->taches->contains($tach)) {
-            $this->taches->add($tach);
-            $tach->setStatus($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTach(Tache $tach): self
-    {
-        if ($this->taches->removeElement($tach)) {
-            // set the owning side to null (unless already changed)
-            if ($tach->getStatus() === $this) {
-                $tach->setStatus(null);
-            }
-        }
 
         return $this;
     }
@@ -123,7 +60,7 @@ class Status
         return $this->notifications;
     }
 
-    public function addNotification(Notification $notification): self
+    public function addNotification(Notification $notification): static
     {
         if (!$this->notifications->contains($notification)) {
             $this->notifications->add($notification);
@@ -133,7 +70,7 @@ class Status
         return $this;
     }
 
-    public function removeNotification(Notification $notification): self
+    public function removeNotification(Notification $notification): static
     {
         if ($this->notifications->removeElement($notification)) {
             // set the owning side to null (unless already changed)
@@ -146,32 +83,63 @@ class Status
     }
 
     /**
-     * @return Collection<int, Objectif>
+     * @return Collection<int, ProjetStatus>
      */
-    public function getObjectifs(): Collection
+    public function getProjetStatuses(): Collection
     {
-        return $this->objectifs;
+        return $this->projetStatuses;
     }
 
-    public function addObjectif(Objectif $objectif): self
+    public function addProjetStatus(ProjetStatus $projetStatus): self
     {
-        if (!$this->objectifs->contains($objectif)) {
-            $this->objectifs->add($objectif);
-            $objectif->setStatus($this);
+        if (!$this->projetStatuses->contains($projetStatus)) {
+            $this->projetStatuses->add($projetStatus);
+            $projetStatus->setStatus($this);
         }
 
         return $this;
     }
 
-    public function removeObjectif(Objectif $objectif): self
+    public function removeProjetStatus(ProjetStatus $projetStatus): self
     {
-        if ($this->objectifs->removeElement($objectif)) {
+        if ($this->projetStatuses->removeElement($projetStatus)) {
             // set the owning side to null (unless already changed)
-            if ($objectif->getStatus() === $this) {
-                $objectif->setStatus(null);
+            if ($projetStatus->getStatus() === $this) {
+                $projetStatus->setStatus(null);
             }
         }
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, TacheStatus>
+     */
+    public function getTacheStatuses(): Collection
+    {
+        return $this->tacheStatuses;
+    }
+
+    public function addTacheStatus(TacheStatus $tacheStatus): self
+    {
+        if (!$this->tacheStatuses->contains($tacheStatus)) {
+            $this->tacheStatuses->add($tacheStatus);
+            $tacheStatus->setStatus($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTacheStatus(TacheStatus $tacheStatus): self
+    {
+        if ($this->tacheStatuses->removeElement($tacheStatus)) {
+            // set the owning side to null (unless already changed)
+            if ($tacheStatus->getStatus() === $this) {
+                $tacheStatus->setStatus(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

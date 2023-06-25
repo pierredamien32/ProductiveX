@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\AbonnementRepository;
+use App\Entity\TypeAbonnement;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\AbonnementRepository;
 
 #[ORM\Entity(repositoryClass: AbonnementRepository::class)]
 class Abonnement
@@ -13,45 +14,33 @@ class Abonnement
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\Column]
+    private ?\DateTimeImmutable $finAt = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $debutAt = null;
+
     #[ORM\ManyToOne(inversedBy: 'abonnements')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Entreprise $entreprise = null;
 
     #[ORM\ManyToOne(inversedBy: 'abonnements')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Formule $formule = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $debutAt = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $finAt = null;
+    private ?TypeAbonnement $typeabonnement = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getEntreprise(): ?Entreprise
+    public function getFinAt(): ?\DateTimeImmutable
     {
-        return $this->entreprise;
+        return $this->finAt;
     }
 
-    public function setEntreprise(?Entreprise $entreprise): self
+    public function setFinAt(\DateTimeImmutable $finAt): static
     {
-        $this->entreprise = $entreprise;
-
-        return $this;
-    }
-
-    public function getFormule(): ?Formule
-    {
-        return $this->formule;
-    }
-
-    public function setFormule(?Formule $formule): self
-    {
-        $this->formule = $formule;
+        $this->finAt = $finAt;
 
         return $this;
     }
@@ -61,21 +50,33 @@ class Abonnement
         return $this->debutAt;
     }
 
-    public function setDebutAt(\DateTimeImmutable $debutAt): self
+    public function setDebutAt(\DateTimeImmutable $debutAt): static
     {
         $this->debutAt = $debutAt;
 
         return $this;
     }
 
-    public function getFinAt(): ?\DateTimeImmutable
+    public function getEntreprise(): ?Entreprise
     {
-        return $this->finAt;
+        return $this->entreprise;
     }
 
-    public function setFinAt(\DateTimeImmutable $finAt): self
+    public function setEntreprise(?Entreprise $entreprise): static
     {
-        $this->finAt = $finAt;
+        $this->entreprise = $entreprise;
+
+        return $this;
+    }
+
+    public function getTypeabonnement(): ?TypeAbonnement
+    {
+        return $this->typeabonnement;
+    }
+
+    public function setTypeabonnement(?TypeAbonnement $typeabonnement): static
+    {
+        $this->typeabonnement = $typeabonnement;
 
         return $this;
     }

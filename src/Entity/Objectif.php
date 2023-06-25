@@ -3,8 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ObjectifRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ObjectifRepository::class)]
@@ -16,90 +15,66 @@ class Objectif
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $objectif = null;
+    private ?string $titre = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $description = null;
 
-    #[ORM\ManyToOne(inversedBy: 'objectifs')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Status $status = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $debutAt = null;
 
-    #[ORM\OneToMany(mappedBy: 'objectif', targetEntity: SuiviJournalier::class, orphanRemoval: true)]
-    private Collection $suiviJournaliers;
-
-    public function __construct()
-    {
-        $this->suiviJournaliers = new ArrayCollection();
-    }
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $finAt = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getObjectif(): ?string
+    public function getTitre(): ?string
     {
-        return $this->objectif;
+        return $this->titre;
     }
 
-    public function setObjectif(string $objectif): self
+    public function setTitre(string $titre): static
     {
-        $this->objectif = $objectif;
+        $this->titre = $titre;
 
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getDescription(): ?string
     {
-        return $this->createdAt;
+        return $this->description;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    public function setDescription(?string $description): static
     {
-        $this->createdAt = $createdAt;
+        $this->description = $description;
 
         return $this;
     }
 
-    public function getStatus(): ?Status
+    public function getDebutAt(): ?\DateTimeInterface
     {
-        return $this->status;
+        return $this->debutAt;
     }
 
-    public function setStatus(?Status $status): self
+    public function setDebutAt(?\DateTimeInterface $debutAt): static
     {
-        $this->status = $status;
+        $this->debutAt = $debutAt;
 
         return $this;
     }
 
-    /**
-     * @return Collection<int, SuiviJournalier>
-     */
-    public function getSuiviJournaliers(): Collection
+    public function getFinAt(): ?\DateTimeInterface
     {
-        return $this->suiviJournaliers;
+        return $this->finAt;
     }
 
-    public function addSuiviJournalier(SuiviJournalier $suiviJournalier): self
+    public function setFinAt(?\DateTimeInterface $finAt): static
     {
-        if (!$this->suiviJournaliers->contains($suiviJournalier)) {
-            $this->suiviJournaliers->add($suiviJournalier);
-            $suiviJournalier->setObjectif($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSuiviJournalier(SuiviJournalier $suiviJournalier): self
-    {
-        if ($this->suiviJournaliers->removeElement($suiviJournalier)) {
-            // set the owning se to null (unless already changed)
-            if ($suiviJournalier->getObjectif() === $this) {
-                $suiviJournalier->setObjectif(null);
-            }
-        }
+        $this->finAt = $finAt;
 
         return $this;
     }

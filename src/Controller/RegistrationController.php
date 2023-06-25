@@ -32,10 +32,10 @@ class RegistrationController extends AbstractController
     {
         $user = new User();
         $entreprise = new Entreprise();
-        $entreprise->setUser($user);
+        $entreprise->setUserid($user);
         $roles = ['ROLE_USER', 'ROLE_ENT'];
         $user->setRoles($roles);
-        // $user->setRoles("ROLE_ENT");
+        $user->setRoles(['ROLE_USER', 'ROLE_ENT']);
         $form = $this->createForm(EntrepriseType::class, $entreprise);
         $form->handleRequest($request);
 
@@ -51,7 +51,7 @@ class RegistrationController extends AbstractController
             if ($logo) {
                 // Générez un nom de fichier unique
                 $logoName = md5(uniqid()) . '.' . $logo->guessExtension();
-                
+
                 $logo->move(
                     $this->getParameter('logo_directory'),
                     $logoName
@@ -63,7 +63,9 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+            $this->emailVerifier->sendEmailConfirmation(
+                'app_verify_email',
+                $user,
                 (new TemplatedEmail())
                     ->from(new Address('teamproductivex@gmail.com', 'ProductiveX Team\'s'))
                     ->to($user->getEmail())
@@ -88,8 +90,7 @@ class RegistrationController extends AbstractController
     #[Route('/confirm-email', name: 'app_blog_confirmEmail')]
     public function confirmEmail(): Response
     {
-        return $this->render('home/confirmEmail.html.twig'); 
-                                                            
+        return $this->render('home/confirmEmail.html.twig');
     }
 
     #[Route('/verify/email', name: 'app_verify_email')]
@@ -120,26 +121,24 @@ class RegistrationController extends AbstractController
     /**
      * Renvoi de l'email de verification
      */
-    #[Route('/verify/email/resend/{id}', name: 'app_resend_verification_email', methods:['GET','POST'])]
-    public function resendVerificationEmail(EntityManagerInterface $manager,$id): Response
+    #[Route('/verify/email/resend/{id}', name: 'app_resend_verification_email', methods: ['GET', 'POST'])]
+    public function resendVerificationEmail(EntityManagerInterface $manager, $id): Response
     {
         // Récupérer l'utilisateur depuis la requête
         $user = $manager->getRepository(User::class)->find($id);
-        
+
         // generate a signed url and email it to the user
         $this->emailVerifier->sendEmailConfirmation(
             'app_verify_email',
             $user,
             (new TemplatedEmail())
-            ->from(new Address('teamproductivex@gmail.com', 'ProductiveX Team\'s'))
-            ->to($user->getEmail())
-            ->subject('Please Confirm your Email')
-            ->htmlTemplate('registration/confirmation_email.html.twig')
+                ->from(new Address('teamproductivex@gmail.com', 'ProductiveX Team\'s'))
+                ->to($user->getEmail())
+                ->subject('Please Confirm your Email')
+                ->htmlTemplate('registration/confirmation_email.html.twig')
         );
 
         $this->addFlash('success', "L'e-mail de vérification a été renvoyé. Allez verifier votre boite email");
         return $this->render('home/confirmEmail.html.twig', ['user' => $user]);
     }
-
-    
 }

@@ -16,15 +16,21 @@ class Employe
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $poste = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $debutcontratAt = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $fincontratAt = null;
 
     #[ORM\OneToOne(inversedBy: 'employe', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
+    private ?User $userid = null;
 
     #[ORM\ManyToOne(inversedBy: 'employes')]
     #[ORM\JoinColumn(nullable: false)]
@@ -36,13 +42,6 @@ class Employe
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $debutcontratAt = null;
-
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $fincontratAt = null;
-
-   
     public function __construct()
     {
         $this->taches = new ArrayCollection();
@@ -58,7 +57,7 @@ class Employe
         return $this->nom;
     }
 
-    public function setNom(?string $nom): self
+    public function setNom(string $nom): static
     {
         $this->nom = $nom;
 
@@ -70,22 +69,45 @@ class Employe
         return $this->poste;
     }
 
-    public function setPoste(?string $poste): self
+    public function setPoste(string $poste): static
     {
         $this->poste = $poste;
 
         return $this;
     }
 
-
-    public function getUser(): ?User
+    public function getDebutcontratAt(): ?\DateTimeInterface
     {
-        return $this->user;
+        return $this->debutcontratAt;
     }
 
-    public function setUser(User $user): self
+    public function setDebutcontratAt(\DateTimeInterface $debutcontratAt): static
     {
-        $this->user = $user;
+        $this->debutcontratAt = $debutcontratAt;
+
+        return $this;
+    }
+
+    public function getFincontratAt(): ?\DateTimeInterface
+    {
+        return $this->fincontratAt;
+    }
+
+    public function setFincontratAt(?\DateTimeInterface $fincontratAt): static
+    {
+        $this->fincontratAt = $fincontratAt;
+
+        return $this;
+    }
+
+    public function getUserid(): ?User
+    {
+        return $this->userid;
+    }
+
+    public function setUserid(User $userid): static
+    {
+        $this->userid = $userid;
 
         return $this;
     }
@@ -95,7 +117,7 @@ class Employe
         return $this->entreprise;
     }
 
-    public function setEntreprise(?Entreprise $entreprise): self
+    public function setEntreprise(?Entreprise $entreprise): static
     {
         $this->entreprise = $entreprise;
 
@@ -110,7 +132,7 @@ class Employe
         return $this->taches;
     }
 
-    public function addTach(Tache $tach): self
+    public function addTach(Tache $tach): static
     {
         if (!$this->taches->contains($tach)) {
             $this->taches->add($tach);
@@ -120,10 +142,10 @@ class Employe
         return $this;
     }
 
-    public function removeTach(Tache $tach): self
+    public function removeTach(Tache $tach): static
     {
         if ($this->taches->removeElement($tach)) {
-            // set the owning se to null (unless already changed)
+            // set the owning side to null (unless already changed)
             if ($tach->getEmploye() === $this) {
                 $tach->setEmploye(null);
             }
@@ -143,30 +165,4 @@ class Employe
 
         return $this;
     }
-
-    public function getDebutcontratAt(): ?\DateTimeInterface
-    {
-        return $this->debutcontratAt;
-    }
-
-    public function setDebutcontratAt(?\DateTimeInterface $debutcontratAt): self
-    {
-        $this->debutcontratAt = $debutcontratAt;
-
-        return $this;
-    }
-
-    public function getFincontratAt(): ?\DateTimeInterface
-    {
-        return $this->fincontratAt;
-    }
-
-    public function setFincontratAt(?\DateTimeInterface $fincontratAt): self
-    {
-        $this->fincontratAt = $fincontratAt;
-
-        return $this;
-    }
-
-  
 }

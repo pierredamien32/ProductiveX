@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\RappelRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RappelRepository::class)]
@@ -15,22 +13,19 @@ class Rappel
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $rappelAt = null;
-
     #[ORM\Column(length: 255)]
     private ?string $contenu = null;
 
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
+
     #[ORM\ManyToOne(inversedBy: 'rappels')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
-
-    #[ORM\OneToMany(mappedBy: 'rappel', targetEntity: SuiviJournalier::class, orphanRemoval: true)]
-    private Collection $suiviJournaliers;
+    private ?User $userid = null;
 
     public function __construct()
     {
-        $this->suiviJournaliers = new ArrayCollection();
+        $this->createdAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -38,68 +33,38 @@ class Rappel
         return $this->id;
     }
 
-    public function getRappelAt(): ?\DateTimeImmutable
-    {
-        return $this->rappelAt;
-    }
-
-    public function setRappelAt(\DateTimeImmutable $rappelAt): self
-    {
-        $this->rappelAt = $rappelAt;
-
-        return $this;
-    }
-
     public function getContenu(): ?string
     {
         return $this->contenu;
     }
 
-    public function setContenu(string $contenu): self
+    public function setContenu(string $contenu): static
     {
         $this->contenu = $contenu;
 
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->user;
+        return $this->createdAt;
     }
 
-    public function setUser(?User $user): self
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
-        $this->user = $user;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    /**
-     * @return Collection<int, SuiviJournalier>
-     */
-    public function getSuiviJournaliers(): Collection
+    public function getUserid(): ?User
     {
-        return $this->suiviJournaliers;
+        return $this->userid;
     }
 
-    public function addSuiviJournalier(SuiviJournalier $suiviJournalier): self
+    public function setUserid(?User $userid): static
     {
-        if (!$this->suiviJournaliers->contains($suiviJournalier)) {
-            $this->suiviJournaliers->add($suiviJournalier);
-            $suiviJournalier->setRappel($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSuiviJournalier(SuiviJournalier $suiviJournalier): self
-    {
-        if ($this->suiviJournaliers->removeElement($suiviJournalier)) {
-            // set the owning se to null (unless already changed)
-            if ($suiviJournalier->getRappel() === $this) {
-                $suiviJournalier->setRappel(null);
-            }
-        }
+        $this->userid = $userid;
 
         return $this;
     }
