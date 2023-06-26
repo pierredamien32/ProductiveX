@@ -409,7 +409,11 @@
                                                         
                                                         {# <td>{{ tachestatus.tache.duree| date("m/d/Y")  }}</td> #}
                                                      
-                                                        <td>{{   tachestatus.tache.tempsrestant() | dateIntervalFormat }}</td>
+                                                        {% if tachestatus.tache.tempsrestant() %}
+                                                            <td>{{   tachestatus.tache.tempsrestant() | dateIntervalFormat }}</td>
+                                                        {% else %}
+                                                            <td>{{   tachestatus.tache.duree() | dateIntervalFormat }}</td>
+                                                        {% endif %}
                                                         
                                                          {% if tachestatus.status.nom == 'Terminé'  %}
                                                             <td><span class="badge bg-success" style="color:white; font-size:14px;">{{ tachestatus.status.nom }}</span></td>

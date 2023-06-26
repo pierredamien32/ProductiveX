@@ -5,16 +5,17 @@ namespace App\Controller;
 use App\Entity\Tache;
 use App\Entity\Projet;
 use App\Form\ProjetType;
-use App\Repository\EmployeRepository;
 use App\Repository\TacheRepository;
 use App\Repository\ProjetRepository;
 use App\Repository\StatusRepository;
+use App\Repository\EmployeRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Request;
+use App\Repository\ProjetStatusRepository;
 // use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -28,25 +29,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class EntrepriseController extends AbstractController
 {
     #[Route('/', name: 'app_dashboard')]
-    public function index(EmployeRepository $repoemploye,TacheRepository $repotache,ProjetRepository $repoprojet): Response
+    public function index(ProjetStatusRepository $repoprojetstatus,ProjetRepository $repoProjet): Response
     {
         
         // Récupérer l'entreprise de l'utilisateur connecté
-        $user = $this->getUser();
-        $entreprise = $user->getEntreprise();
+        $projets = $repoProjet->findBy(['entreprise' => $this->getUser()->getEntreprise()], ['createdAt' => 'DESC']);
+
+        $projstatus = [];
+
+        foreach ($projets as $projet) {
+            $ps = $repoprojetstatus->findBy(['projet' => $projet], ['createdAt' => 'DESC'], 1);
+            $firstRecord = count($ps) > 0 ? $ps[0] : null;
+            $projstatus[] = $firstRecord;
+        }
         
-        // $employes = $repoemploye->findBy(['entreprise' => $entreprise]);
-        // $taches = $repotache->findBy(['employe' => $employes]);
-        
-        // $projets = $repoprojet->findBy(['entreprise' => $entreprise]);
-
-        // dd($projets);
-
-
-
         return $this->render('entreprise/dashboard/index.html.twig', [
-                // 'projets' => $projets,
-                // 'employes' => $employes
+            'projstatus' => $projstatus,
         ]); 
     }
     

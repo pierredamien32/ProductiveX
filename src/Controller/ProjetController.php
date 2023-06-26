@@ -57,7 +57,7 @@ class ProjetController extends AbstractController
 
                 $projetStatus = new ProjetStatus();
                 $projetStatus->setProjet($projet);
-                $projetStatus->setStatus($statusParDefaut);
+                $projetStatus->setStatus($statusParDefaut);     
                 // dd($projetStatus);
                 
                 $manager->persist($projet);

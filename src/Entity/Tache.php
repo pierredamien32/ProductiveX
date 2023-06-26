@@ -234,11 +234,26 @@ class Tache
 
     public function tempsrestant(): ?\DateInterval
     {
-        $now = new \DateTime();
-        $datefuture = $this->getCreatedAt()->add($this->getDuree());
-        $timerestant = $datefuture->diff($now);
+        $statusEnCours = null;
 
-        return $timerestant;
+        // Recherche du statut "en cours" dans la collection de TacheStatus
+        foreach ($this->getTacheStatuses() as $tacheStatus) {
+            if ($tacheStatus->getStatus() && $tacheStatus->getStatus()->getNom() === 'En cours') {
+                $statusEnCours = $tacheStatus;
+                break;
+            }
+        }
+
+        if ($statusEnCours) {
+            $now = new \DateTime();
+            $datefuture = $statusEnCours->getCreatedAt()->add($this->getDuree());
+            $timerestant = $datefuture->diff($now);
+
+            return $timerestant;
+        }
+
+        return null; // Si aucun statut "en cours" n'est trouvé
     }
+    
 
 }

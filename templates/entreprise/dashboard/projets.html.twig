@@ -397,7 +397,11 @@
                                                     <tr>
                                                         <td>{{ projstatus.projet.nom }}</td>
                                                         
-                                                        <td>{{ projstatus.projet.tempsrestant() | dateIntervalFormat}}</td>
+                                                       {% if projstatus.projet.tempsrestant() %}
+                                                            <td>{{   projstatus.projet.tempsrestant() | dateIntervalFormat }}</td>
+                                                        {% else %}
+                                                            <td>{{   projstatus.projet.duree() | dateIntervalFormat }}</td>
+                                                        {% endif %}
                                                         
                                                         {% if projstatus.status.nom == 'Terminé'  %}
                                                             <td><span class="badge bg-success" style="color:white; font-size:14px;">{{ projstatus.status.nom }}</span></td>
