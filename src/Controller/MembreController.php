@@ -4,25 +4,18 @@ namespace App\Controller;
 
 use App\Entity\Tache;
 use App\Entity\TacheStatus;
-use App\Repository\StatusRepository;
 use App\Repository\TacheRepository;
+use App\Repository\StatusRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\TacheStatusRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+#[IsGranted('ROLE_EMP')]
 class MembreController extends AbstractController
 {
-    // #[Route('/membre', name: 'app_membre')]
-    // public function index(): Response
-    // {
-    //     return $this->render('membre/index.html.twig', [
-    //         'controller_name' => 'MembreController',
-    //     ]);
-    // }
-
-    // #Route interface utilisateurs
 
     #[Route('/dashboard/compte/membre', name: 'app_dashboard_membre')]
     public function dashboard(): Response
