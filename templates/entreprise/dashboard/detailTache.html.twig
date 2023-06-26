@@ -388,7 +388,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-12">
-                                <h1 class="h3 mb-0 text-gray-800 text-center">Détail de la tâche Navbar</h1>
+                                <h1 class="h3 mb-0 text-gray-800 text-center">Détail de la tâche {{ ts.tache.nom }}</h1>
                             </div>
                         </div>
                     </div>
@@ -403,12 +403,12 @@
                             <div class="card-body">
                                 <div class="ico-sparkline">
                                     <div id="sparkline9">
-                                        <p class="fw-bold" style="font-size:18px;">Nom de la tâche</p>
-                                        <p class="fw-bold" style="font-size:18px;">Projet d'appartenance</p>
-                                        <p class="fw-bold" style="font-size:18px;">Description</p>
-                                        <p class="fw-bold" style="font-size:18px;">Assigné à </p>
-                                        <p class="fw-bold" style="font-size:18px;">Créer le </p>
-                                        <p class="fw-bold" style="font-size:18px;">Status</p>
+                                        <p class="fw-bold" style="font-size:18px;"><span class="font-weight-bold">Nom de la tâche : </span>{{ ts.tache.nom }} </p>
+                                        <p class="fw-bold" style="font-size:18px;"><span class="font-weight-bold">Projet d'appartenance : </span>{{ ts.tache.projet.nom }}</p>
+                                        <p class="fw-bold" style="font-size:18px;"><span class="font-weight-bold">Description : </span>{{ ts.tache.description }} </p>
+                                        <p class="fw-bold" style="font-size:18px;"><span class="font-weight-bold">Assigné à </span>{{ ts.tache.employe.nom }}</p>
+                                        <p class="fw-bold" style="font-size:18px;"><span class="font-weight-bold">Créer le </span> {{ ts.tache.createdAt | date('j/m/Y') }}</p>
+                                        <p class="fw-bold" style="font-size:18px;"><span class="font-weight-bold">Status : </span> {{ ts.status.nom }}</p>
                                         {# s'il autre attribut tu peux completer #}
                                     </div>
                                 </div>

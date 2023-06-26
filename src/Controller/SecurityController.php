@@ -10,48 +10,28 @@ use Symfony\Bundle\SecurityBundle\Security;
 
 class SecurityController extends AbstractController
 {
+    private $security;
     public function __construct(Security $security) {
+        $this->security = $security;
     }
 
     
      #[Route('/login', name: 'app_login')]
     public function index(AuthenticationUtils $authenticationUtils): Response
     {
-        $user = $this->getUser();
-
-        if ($user) {
-            
-            return $this->redirectToRoute('app_dashboard');
+        
+        if ($this->security->isGranted('ROLE_ENT')) {
+            return $this->redirectToRoute('app_entreprise');
+        } elseif ($this->security->isGranted('ROLE_EMP')) {
+            return $this->redirectToRoute('app_dashboard_membre');
         }
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
-
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
-
-        // Récupérer l'utilisateur connecté
-        // $user = $this->getUser();
-
-        // if ($this->isGranted('ROLE_ADMIN')) {
-            
-        //     // Redirection vers la page d'administration de l'admin
-        //     return $this->redirectToRoute('adinm');
-            
-        // }elseif ($this->isGranted('ROLE_ENT')) {
-            
-        //     // Redirection vers la page d'administration de l'entreprise
-        //     return $this->redirectToRoute('app_dashboard');
-            
-        // } elseif ($this->isGranted('ROLE_EMP')) {
-            
-        //     // Redirection vers la page utilisateur
-        //     return $this->redirectToRoute('emp_dashboard');
-            
-        // } 
-        // Redirection vers le tableau de bord
         
         return $this->render('security/login.html.twig', [
-            'last_username' => $lastUsername,
+        'last_username' => $lastUsername,
             'error'         => $error,
         ]);
     }

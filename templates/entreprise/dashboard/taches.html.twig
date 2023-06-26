@@ -427,7 +427,7 @@
                                                         
                                                         <td>{{ tachestatus.tache.employe.nom }}</td>
 
-                                                        <td><a href="{{ path('app_dashboard_viewDetail_tache_employeur') }}" class="hover-effect"> Voir plus <i class="fa-solid fa-angle-right"></i> </a></td>
+                                                        <td><a href="{{ path('app_dashboard_viewDetail_tache_employeur', { id: tachestatus.tache.id }) }}" class="hover-effect"> Voir plus <i class="fa-solid fa-angle-right"></i> </a></td>
                                                         
                                                         <td style="display: flex; gap:5px;">
                                                             {# Ceci est le lien pour modifier un enregistrement #}

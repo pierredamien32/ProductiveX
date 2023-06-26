@@ -60,14 +60,10 @@
         <div class="nav-header">
             <div class="brand-logo">
                 <a href="{{ path('app_dashboard') }}">
-                    {# <b class="logo-abbr"><img src="{{ asset('assets/images/logo.png')}}" alt=""> </b>
-                    <span class="logo-compact"><img src="{{ asset('assets/images/logo-compact.png')}}" alt=""></span>
-                    <span class="brand-title">
-                        <img src="{{ asset('assets/images/logo-text.png')}}" alt="">
-                    </span> #}
+                   
                     <span class="brand-title" style="color:white;">
                         {# ProductiveX #}
-                        Bienvenue Jean
+                        Bienvenue {{ app.user.employe.nom }}
                     </span>
                 </a>
             </div>
@@ -230,10 +226,9 @@
                         <li class="icons dropdown">
                             <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
                                 <span class="activity active"></span>
-                                {# {% if app.user.entreprise.logo %} #}
-                                    {# <img src="{{ asset('uploads/logo/'~ app.user.entreprise.logo)}}" height="40" width="40" alt="pas de données"> #}
-                                {# {% else %} #}
-                                {# {% endif %} #}
+                                {% if app.user.employe.image %}
+                                    <img src="{{ asset('uploads/image/'~ app.user.employe.image)}}" height="40" width="40" alt="pas de données">
+                                {% endif %}
                             </div>
                             <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
                                 <div class="dropdown-content-body">

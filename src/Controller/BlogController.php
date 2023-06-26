@@ -4,21 +4,27 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Routing\Annotation\Route;
 
 class BlogController extends AbstractController
 {
-    // #[Route('/blog', name: 'app_blog')]
-    // public function index(): Response
-    // {
-    //     return $this->render('blog/index.html.twig', [
-    //         'controller_name' => 'BlogController',
-    //     ]);
-    // }
+    private $security;
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
 
     #[Route('/', name: 'app_blog_home')]
     public function indexHome(): Response
     {
+
+        if ($this->security->isGranted('ROLE_ENT')) {
+            return $this->redirectToRoute('app_entreprise');
+        } elseif ($this->security->isGranted('ROLE_EMP')) {
+            return $this->redirectToRoute('app_dashboard_membre');
+        }
+        
         return $this->render('home/index.html.twig');// Cette fonction envoie vers la page home/index.html.twig
                                                     // cette page est la page d'accueil de l'app ProductiveX
     }

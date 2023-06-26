@@ -152,4 +152,15 @@ class ProjetController extends AbstractController
     }
 
     
+    // cette page est la page permet de voir tous les rappels
+    // Cette fonction envoie vers la page entreprise/dashboard/taches.html.twig
+    #[Route('/dashboard/view/detail-projet/{id}', name: 'app_dashboard_viewDetail_projet_employeur', methods: ['GET'])]
+    public function viewDetail_projet(EntityManagerInterface $manager, ProjetStatus $ps): Response
+    {
+        $ps = $manager->getRepository(ProjetStatus::class)->find($ps);
+           
+        return $this->render('entreprise/dashboard/detailProjet.html.twig',[
+            'ps'=> $ps 
+        ]);    
+    }
 }

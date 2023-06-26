@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Employe;
 use App\Form\EmployeType;
 use App\Repository\EmployeRepository;
@@ -20,17 +21,29 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class EmployeController extends AbstractController
 {
 
-    
+
     #[Route('/dashboard/view-membres', name: 'app_dashboard_viewMembres')]
     public function addlistmembre(
         Request $request,
         EntityManagerInterface $manager,
         EmployeRepository $repoEmp,
-        
+
     ): Response {
 
+
         // =============>debut du formulaire de creation 
+
+        // $roles = ['ROLE_USER', 'ROLE_ENT'];
+        // $user->setRoles($roles);
+        // $user->setRoles(['ROLE_USER', 'ROLE_ENT']);
+        // $form = $this->createForm(EntrepriseType::class, $entreprise);
+        // $form->handleRequest($request);
+
+        $user = new User();
         $employe = new Employe();
+        $employe->setUserid($user);
+        $roles = ['ROLE_USER', 'ROLE_EMP'];
+        $user->setRoles($roles);
         $entreprise = $this->getUser()->getEntreprise();
         $form = $this->createForm(EmployeType::class, $employe);
 
@@ -41,11 +54,11 @@ class EmployeController extends AbstractController
                 $employe = $form->getData();
 
                 $employe->setEntreprise($entreprise);
-                
+
                 // dd($employe);
 
                 $image = $form->get('image')->getData();
-                
+
                 if ($image) {
                     // Générez un nom de fichier unique
                     $imageName = md5(uniqid()) . '.' . $image->guessExtension();
@@ -56,13 +69,15 @@ class EmployeController extends AbstractController
                     );
                     $employe->setImage($imageName);
                 }
+                
                 $manager->persist($employe);
+                $manager->persist($user);
                 $manager->flush();
 
                 $this->addFlash(
                     'success',
                     'Votre nouveau membre a été créé avec succès !'
-            );
+                );
             } else {
                 $this->addFlash(
                     'error',
@@ -70,7 +85,7 @@ class EmployeController extends AbstractController
                 );
             }
         }
-        
+
         // =============>fin du formulaire de creation 
 
         // =============>liste des taches

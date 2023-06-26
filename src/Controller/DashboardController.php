@@ -6,9 +6,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/workspace/entreprise')]
 class DashboardController extends AbstractController
 {
+    
+    #[Route('/dashboard', name: 'app_dashboard')]
+    public function index(): Response
+    {
+        return $this->render('dashboard/index.html.twig');
+        
+    }
+    
+    
     // #[Route('/dashboard', name: 'app_dashboard')]
     // public function index(): Response
     // {
@@ -57,17 +65,17 @@ class DashboardController extends AbstractController
                                                             // cette page est la page permet de voir tous les rappels
     }
 
-    #[Route('/dashboard/view/detail-projet', name: 'app_dashboard_viewDetail_projet_employeur')]
-    public function viewDetail_projet(): Response
-    {
-        return $this->render('entreprise/dashboard/detailProjet.html.twig');// Cette fonction envoie vers la page entreprise/dashboard/taches.html.twig
-                                                            // cette page est la page permet de voir tous les rappels
-    }
+    // #[Route('/dashboard/view/detail-projet', name: 'app_dashboard_viewDetail_projet_employeur')]
+    // public function viewDetail_projet(): Response
+    // {
+    //     return $this->render('entreprise/dashboard/detailProjet.html.twig');// Cette fonction envoie vers la page entreprise/dashboard/taches.html.twig
+    //                                                         // cette page est la page permet de voir tous les rappels
+    // }
     
-    #[Route('/dashboard/view/detail-tache', name: 'app_dashboard_viewDetail_tache_employeur')]
-    public function viewDetail_tache(): Response
-    {
-        return $this->render('entreprise/dashboard/detailTache.html.twig');// Cette fonction envoie vers la page entreprise/dashboard/taches.html.twig
-                                                            // cette page est la page permet de voir tous les rappels
-    }
+    // #[Route('/dashboard/view/detail-tache', name: 'app_dashboard_viewDetail_tache_employeur')]
+    // public function viewDetail_tache(): Response
+    // {
+    //     return $this->render('entreprise/dashboard/detailTache.html.twig');// Cette fonction envoie vers la page entreprise/dashboard/taches.html.twig
+    //                                                         // cette page est la page permet de voir tous les rappels
+    // }
 }

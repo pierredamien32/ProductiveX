@@ -246,7 +246,7 @@
                                         <li>
                                             <a href="{{ asset('assets/page-lock.html')}}"><i class="icon-lock"></i> <span>Lock Screen</span></a>
                                         </li>
-                                        <li><a href="{{ asset('assets/page-login.html')}}"><i class="icon-key"></i> <span>Logout</span></a></li>
+                                        <li><a href="{{ path('app_logout') }}"><i class="icon-key"></i> <span>Logout</span></a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -333,7 +333,7 @@
                             <div class="card-body">
                                 <div class="active-member">
                                     <div class="table-responsive">
-                                        <table class="table table-xs mb-0">
+                                        <table id="myTable" class="table table-xs mb-0">
                                             <thead>
                                                 <tr>
                                                    <th>Photo</th>

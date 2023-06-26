@@ -388,7 +388,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-12">
-                                <h1 class="h3 mb-0 text-gray-800 text-center">Détail du Projet X</h1>
+                                <h1 class="h3 mb-0 text-gray-800 text-center">Détail du {{ ps.projet.nom }}</h1>
                             </div>
                         </div>
                     </div>
@@ -403,12 +403,12 @@
                             <div class="card-body">
                                 <div class="ico-sparkline">
                                     <div id="sparkline9">
-                                        <p class="fw-bold" style="font-size:18px;">Nom du projet</p>
+                                        <p class="fw-bold" style="font-size:18px;"><span class="font-weight-bold">Nom du ps:</span> {{ ps.projet.nom }}</p>
                                         <p class="fw-bold" style="font-size:18px;"></p>
-                                        <p class="fw-bold" style="font-size:18px;">Description</p>
+                                        <p class="fw-bold" style="font-size:18px;"><span class="font-weight-bold">Description :</span> {{ ps.projet.description }}</p>
                                         <p class="fw-bold" style="font-size:18px;"> </p>
-                                        <p class="fw-bold" style="font-size:18px;">Créer le </p>
-                                        <p class="fw-bold" style="font-size:18px;">Status</p>
+                                            <p class="fw-bold" style="font-size:18px;"><span class="font-weight-bold">Créer le </span>{{   ps.projet.createdAt | date('j/m/Y') }}</p>
+                                        <p class="fw-bold" style="font-size:18px;"><span class="font-weight-bold">Status : </span>{{ ps.status.nom }}</p>
                                         {# s'il autre attribut tu peux completer #}
                                     </div>
                                 </div>

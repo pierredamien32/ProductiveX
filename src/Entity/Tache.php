@@ -254,6 +254,6 @@ class Tache
 
         return null; // Si aucun statut "en cours" n'est trouvé
     }
-    
 
+   
 }

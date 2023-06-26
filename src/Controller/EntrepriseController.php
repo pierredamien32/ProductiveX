@@ -28,7 +28,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/workspace/entreprise')]
 class EntrepriseController extends AbstractController
 {
-    #[Route('/', name: 'app_dashboard')]
+    #[Route('/', name: 'app_entreprise')]
     public function index(ProjetStatusRepository $repoprojetstatus,ProjetRepository $repoProjet): Response
     {
         
@@ -43,8 +43,12 @@ class EntrepriseController extends AbstractController
             $projstatus[] = $firstRecord;
         }
         
+
+
+
         return $this->render('entreprise/dashboard/index.html.twig', [
-            'projstatus' => $projstatus,
+                // 'projets' => $projets,
+                // 'employes' => $employes
         ]); 
     }
     

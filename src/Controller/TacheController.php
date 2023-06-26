@@ -143,4 +143,16 @@ class TacheController extends AbstractController
 
         return $this->redirectToRoute('app_dashboard_addTache');
     }
+
+    // Cette fonction envoie vers la page entreprise/dashboard/taches.html.twig
+        // cette page est la page permet de voir tous les rappels
+    #[Route('/dashboard/view/detail-tache/{id}', name: 'app_dashboard_viewDetail_tache_employeur', methods: ['GET'])]
+    public function viewDetail_tache(EntityManagerInterface $manager, TacheStatus $ts): Response
+    {
+        $ts = $manager->getRepository(TacheStatus::class)->find($ts);
+
+        return $this->render('entreprise/dashboard/detailTache.html.twig',[
+            'ts' => $ts
+        ]); 
+    }
 }
