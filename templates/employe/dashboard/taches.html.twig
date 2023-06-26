@@ -320,32 +320,49 @@
 
                 <div class="container-fluid">
                 <div class="row">
-                    {# {{ dump(ts) }} #}
-                    {% for ts in ts %}
+                    {# {{ dump(tachestatus) }} #}
+                    {% for tachestatus in tachestatus %}
                         <div class="col-lg-4">
                             <div class="card">
                                 <h4 class="card-title bg-image text-center text-white fw-bold" style="font-size:30px;">Tâche</h4>
                                 <div class="card-body">
                                     <div class="ico-sparkline">
                                         <div id="sparkline9">
-                                            <p class="fw-bold" style="font-size:14px;"><span class="font-weight-bold">Nom de la tâche :</span>{{ ts.tache.nom }}</p>
-                                            <p class="fw-bold" style="font-size:14px;"><span class="font-weight-bold">Projet d'appartenance : </span>{{ ts.tache.projet.nom }}</p>
-                                            <p class="fw-bold" style="font-size:14px;"><span class="font-weight-bold">Description : </span>{{ ts.tache.description }}</p>
+                                            <p class="fw-bold" style="font-size:14px;"><span class="font-weight-bold">Nom de la tâche :</span>{{ tachestatus.tache.nom }}</p>
+                                            <p class="fw-bold" style="font-size:14px;"><span class="font-weight-bold">Projet d'appartenance : </span>{{ tachestatus.tache.projet.nom }}</p>
+                                            <p class="fw-bold" style="font-size:14px;"><span class="font-weight-bold">Description : </span>{{ tachestatus.tache.description }}</p>
+                                            <p class="fw-bold" style="font-size:14px;"><span class="font-weight-bold">Status : </span>{{ tachestatus.status.nom }}</p>
+                                            {% if tachestatus.status.nom != 'Terminé' %}
+                                                <p class="fw-bold" style="font-size:14px;"><span class="font-weight-bold">Temps restant : </span>
+                                                {% if tachestatus.tache.tempsrestant() %}
+                                                    <td>{{   tachestatus.tache.tempsrestant() | dateIntervalFormat }}</td>
+                                                {% else %}
+                                                    <td>{{   tachestatus.tache.duree() | dateIntervalFormat }}</td>
+                                                {% endif %}
+                                                </p>
+                                            {% endif %}
+                                           
                                             {# s'il autre attribut tu penses qu'on ajouter, faut ajouter alors #}
+                                        {# <a class="btn btn-primary " href="">Démarrer</a> #}
+
                                         </div>
                                     </div>
                                     <div>
-                                        <a href=""></a>
-                                        {# <div style="display: flex; justify-content: space-between;">
+                                        <div style="display: flex; justify-content: space-between;">
                                             <div style="display: flex; gap:5px;">
-                                                <input type="checkbox" id="startCheckbox">
-                                                <i></i>
-                                                <label for="startCheckbox">Démarrer</label>
+                                                {% if tachestatus.status.nom == 'A faire' %}
+                                                    <a class="btn btn-primary my-3" href="{{ path('app_change_status',{id: tachestatus.id}) }}">Démarrer</a>                                                
+                                                {% elseif tachestatus.status.nom == 'En cours' or  tachestatus.status.nom == 'En retard' %}
+                                                    <a class="btn btn-primary my-3" href="{{ path('app_change_status',{id: tachestatus.id}) }}">Terminée</a>
+                                                {% else %}
+                                                    <a class="btn btn-success my-3" href="{{ path('app_change_status',{id: tachestatus.id}) }}">Validée</a>
+                                                {% endif %}
+                                                
+                                                {# <label for="startCheckbox">Démarrer</label> #}
                                             </div>
                                             <div style="display: flex; gap:5px;">
-                                                <input type="checkbox" id="finishCheckbox">
-                                                <i></i>
-                                                <label for="finishCheckbox">Terminé</label>
+                                                
+                                                {# <label for="finishCheckbox">Terminé</label> #}
                                             </div>
                                         </div>
                                         <div class="progress">
@@ -353,7 +370,7 @@
                                             <div id="finishProgressBar" class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
                                         <div style="display: flex; justify-content: end; margin-top:15px;">
-                                            <a href="{{ path('app_dashboard_viewDetail_tache') }}"><div style="display: flex; gap:8px; align-items:center;">Commenter <i class="fa-solid fa-comment"></i></div></a> #}
+                                            <a href="{{ path('app_dashboard_viewDetail_tache') }}"><div style="display: flex; gap:8px; align-items:center;">Commenter <i class="fa-solid fa-comment"></i></div></a>
                                             {# <div></div> #}
                                         </div>
                                     </div>

@@ -2,7 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Tache;
+use App\Entity\TacheStatus;
+use App\Repository\StatusRepository;
 use App\Repository\TacheRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\TacheStatusRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -37,12 +41,58 @@ class MembreController extends AbstractController
         $user = $this->getUser()->getEmploye();
         
         $tache = $repotache->findBy(['employe' => $user]);
-        $ts = $repostatustache->findBy(['tache' => $tache]);
+
+        $tachestatus = [];
+
+        foreach ($tache as $tache) {
+            $ts = $repostatustache->findBy(['tache' => $tache], ['createdAt' => 'DESC'], 1);
+            $firstRecord = count($ts) > 0 ? $ts[0] : null;
+            $tachestatus[] = $firstRecord;
+        }
+        // $ts = $repostatustache->findBy(['tache' => $tache]);
         
         return $this->render('employe/dashboard/taches.html.twig',[
-            'ts' => $ts
+            'tachestatus' => $tachestatus
         ]);
     }
+
+    #[Route('/dashboard/compte/membre/taches/changestatus{id}', name: 'app_change_status')]
+    public function ChangeStatus(EntityManagerInterface $manager,$id,StatusRepository $repoStatus): Response
+    {
+        $ts = new TacheStatus();
+
+        $tachestatus = $manager->getRepository(TacheStatus::class)->find($id);
+        $tacheid = $tachestatus->getTache();
+        // dd($tachestatus->getStatus()->getNom());
+        if($tachestatus->getStatus()->getNom() == 'A faire'){
+            
+            $statusid = $repoStatus->findOneBy(['nom' => 'En cours']);
+            $ts->setStatus($statusid);
+            $ts->setTache($tacheid);
+            $manager->persist($ts);
+            $this->addFlash(
+                'success',
+                'Votre projet a été demarrer avec succès !'
+            );
+            
+        }elseif($tachestatus->getStatus()->getNom() == 'En cours' || $tachestatus->getStatus()->getNom() == 'En retard'){
+
+            $statusid = $repoStatus->findOneBy(['nom' => 'Terminé']);
+            $ts->setStatus($statusid);
+            $ts->setTache($tacheid);
+            $manager->persist($ts);
+            $this->addFlash(
+                'success',
+                'Votre projet est terminer !'
+            );
+            
+        }
+
+        
+        $manager->flush();
+        return $this->redirectToRoute('app_dashboard_viewTache');
+    }
+ 
 
     #[Route('/dashboard/compte/membre/taches', name: 'app_dashboard_viewNotifs_membre')]
     public function viewNotifs_membre(): Response
