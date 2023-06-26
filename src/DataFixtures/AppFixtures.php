@@ -47,18 +47,11 @@ class AppFixtures extends Fixture
         }
 // ==================================================>
 
-        //admin
-        $admin = new User();
-        $admin->SetEmail('admin@gmail.com')
-            ->setRoles(['ROLE_ADMIN'])
-            ->setPlainPassword('admin123');
-
-        $manager->persist($admin);
 
         //Utilisateur entreprise
         $entreprises = [];
 
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 1; $i++) {
 
             $width = $this->faker->numberBetween(400, 800);
             $height = $this->faker->numberBetween(300, 600);
@@ -140,22 +133,21 @@ class AppFixtures extends Fixture
         }
 
         //Projet
-        $projets = [];
-        for ($i = 0; $i < 15; $i++) {
-            $projet = new Projet();
+        // $projets = [];
+        // for ($i = 0; $i < 15; $i++) {
+        //     $projet = new Projet();
             
-            // Générer une durée aléatoire
-            $duree = new \DateInterval('P' . mt_rand(1, 10) . 'M'); // Durée de 1 à 10 mois, par exemple
+        //     // Générer une durée aléatoire
+        //     $duree = new \DateInterval('P' . mt_rand(1, 10) . 'M'); // Durée de 1 à 10 mois, par exemple
 
-            $projet->setNom('Projet '. $this->faker->word())
-                ->setDuree($duree)
-                ->setDescription($this->faker->paragraph())
-                ->setEntreprise($entreprises[mt_rand(0, count($entreprises) - 1)]);
-                // ->setStatus($statuss[mt_rand(0, count($statuss) - 1)]);
+        //     $projet->setNom('Projet '. $this->faker->word())
+        //         ->setDuree($duree)
+        //         ->setDescription($this->faker->paragraph())
+        //         ->setEntreprise($entreprises[mt_rand(0, count($entreprises) - 1)]);
 
-            $projets[] = $projet;
-            $manager->persist($projet);
-        }
+        //     $projets[] = $projet;
+        //     $manager->persist($projet);
+        // }
 
         //Projet---Status
         // $ps = [];
@@ -173,23 +165,23 @@ class AppFixtures extends Fixture
 
 
         //taches
-        $taches = [];
-        for ($i = 0; $i < 5; $i++) {
-            $tache = new Tache();
+        // $taches = [];
+        // for ($i = 0; $i < 5; $i++) {
+        //     $tache = new Tache();
 
-            // Générer une durée aléatoire
-            $duree = new \DateInterval('P' . mt_rand(1, 10) . 'M'); // Durée de 1 à 10 mois, par exemple
+        //     // Générer une durée aléatoire
+        //     $duree = new \DateInterval('P' . mt_rand(1, 10) . 'M'); // Durée de 1 à 10 mois, par exemple
 
-            $tache->setNom($this->faker->sentence())
-                ->setDuree($duree)
-                ->setDescription($this->faker->paragraph())
-                ->setProjet($projets[mt_rand(0, count($projets) - 1)])
-                ->setEmploye($employes[mt_rand(0, count($employes) - 1)])
-                ->setNote(1);
+        //     $tache->setNom($this->faker->sentence())
+        //         ->setDuree($duree)
+        //         ->setDescription($this->faker->paragraph())
+        //         ->setProjet($projets[mt_rand(0, count($projets) - 1)])
+        //         ->setEmploye($employes[mt_rand(0, count($employes) - 1)])
+        //         ->setNote(1);
 
-            $taches[] = $tache;
-            $manager->persist($tache);
-        }
+        //     $taches[] = $tache;
+        //     $manager->persist($tache);
+        // }
 
         
         

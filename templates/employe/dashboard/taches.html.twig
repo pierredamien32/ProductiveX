@@ -311,6 +311,7 @@
                 {% for flash_error in app.flashes('error') %}
                     <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
                 {% endfor %}
+                <div class="h3 mb-0 text-gray-800 text-center">Entreprise d'appartenance : {{ app.user.employe.entreprise.denomination }}</div>
                 <div class="d-sm-flex align-items-center justify-content-between mt-4">
                     <h1 class="h3 mb-0 text-gray-800">Mes tâches</h1>
                     {# <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm gradient-4" style="border: none;" data-toggle="modal" data-target="#modalLoginForm">
@@ -319,231 +320,47 @@
 
                 <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <h4 class="card-title bg-image text-center text-white fw-bold" style="font-size:30px;">Tâche</h4>
-                            <div class="card-body">
-                                <div class="ico-sparkline">
-                                    <div id="sparkline9">
-                                        <p class="fw-bold" style="font-size:14px;">Nom de la tâche</p>
-                                        <p class="fw-bold" style="font-size:14px;">Projet d'appartenance</p>
-                                        <p class="fw-bold" style="font-size:14px;">Description</p>
-                                        {# s'il autre attribut tu penses qu'on ajouter, faut ajouter alors #}
-                                    </div>
-                                </div>
-                                <div>
-                                    <div style="display: flex; justify-content: space-between;">
-                                        <div style="display: flex; gap:5px;">
-                                            <input type="checkbox" id="startCheckbox">
-                                            <i></i>
-                                            <label for="startCheckbox">Démarrer</label>
-                                        </div>
-                                        <div style="display: flex; gap:5px;">
-                                            <input type="checkbox" id="finishCheckbox">
-                                            <i></i>
-                                            <label for="finishCheckbox">Terminé</label>
+                    {# {{ dump(ts) }} #}
+                    {% for ts in ts %}
+                        <div class="col-lg-4">
+                            <div class="card">
+                                <h4 class="card-title bg-image text-center text-white fw-bold" style="font-size:30px;">Tâche</h4>
+                                <div class="card-body">
+                                    <div class="ico-sparkline">
+                                        <div id="sparkline9">
+                                            <p class="fw-bold" style="font-size:14px;"><span class="font-weight-bold">Nom de la tâche :</span>{{ ts.tache.nom }}</p>
+                                            <p class="fw-bold" style="font-size:14px;"><span class="font-weight-bold">Projet d'appartenance : </span>{{ ts.tache.projet.nom }}</p>
+                                            <p class="fw-bold" style="font-size:14px;"><span class="font-weight-bold">Description : </span>{{ ts.tache.description }}</p>
+                                            {# s'il autre attribut tu penses qu'on ajouter, faut ajouter alors #}
                                         </div>
                                     </div>
-                                    <div class="progress">
-                                        <div id="startProgressBar" class="progress-bar bg-danger" role="progressbar" style="width: 50%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
-                                        <div id="finishProgressBar" class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <div style="display: flex; justify-content: end; margin-top:15px;">
-                                        <a href="{{ path('app_dashboard_viewDetail_tache') }}"><div style="display: flex; gap:8px; align-items:center;">Commenter <i class="fa-solid fa-comment"></i></div></a>
-                                        {# <div></div> #}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <h4 class="card-title bg-image text-center text-white fw-bold" style="font-size:30px;">Tâche</h4>
-                            <div class="card-body">
-                                <div class="ico-sparkline">
-                                    <div id="sparkline9">
-                                        <p class="fw-bold" style="font-size:14px;">Nom de la tâche</p>
-                                        <p class="fw-bold" style="font-size:14px;">Projet d'appartenance</p>
-                                        <p class="fw-bold" style="font-size:14px;">Description</p>
-                                        {# s'il autre attribut tu penses qu'on ajouter, faut ajouter alors #}
-                                    </div>
-                                </div>
-                                <div>
-                                    <div style="display: flex; justify-content: space-between;">
-                                        <div style="display: flex; gap:5px;">
-                                            <input type="checkbox" id="startCheckbox">
-                                            <i></i>
-                                            <label for="startCheckbox">Démarrer</label>
+                                    <div>
+                                        <a href=""></a>
+                                        {# <div style="display: flex; justify-content: space-between;">
+                                            <div style="display: flex; gap:5px;">
+                                                <input type="checkbox" id="startCheckbox">
+                                                <i></i>
+                                                <label for="startCheckbox">Démarrer</label>
+                                            </div>
+                                            <div style="display: flex; gap:5px;">
+                                                <input type="checkbox" id="finishCheckbox">
+                                                <i></i>
+                                                <label for="finishCheckbox">Terminé</label>
+                                            </div>
                                         </div>
-                                        <div style="display: flex; gap:5px;">
-                                            <input type="checkbox" id="finishCheckbox">
-                                            <i></i>
-                                            <label for="finishCheckbox">Terminé</label>
+                                        <div class="progress">
+                                            <div id="startProgressBar" class="progress-bar bg-danger" role="progressbar" style="width: 50%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div id="finishProgressBar" class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
-                                    </div>
-                                    <div class="progress">
-                                        <div id="startProgressBar" class="progress-bar bg-danger" role="progressbar" style="width: 50%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
-                                        <div id="finishProgressBar" class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <div style="display: flex; justify-content: end; margin-top:15px;">
-                                        <a href="{{ path('app_dashboard_viewDetail_tache') }}"><div style="display: flex; gap:8px; align-items:center;">Commenter <i class="fa-solid fa-comment"></i></div></a>
-                                        {# <div></div> #}
+                                        <div style="display: flex; justify-content: end; margin-top:15px;">
+                                            <a href="{{ path('app_dashboard_viewDetail_tache') }}"><div style="display: flex; gap:8px; align-items:center;">Commenter <i class="fa-solid fa-comment"></i></div></a> #}
+                                            {# <div></div> #}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <h4 class="card-title bg-image text-center text-white fw-bold" style="font-size:30px;">Tâche</h4>
-                            <div class="card-body">
-                                <div class="ico-sparkline">
-                                    <div id="sparkline9">
-                                        <p class="fw-bold" style="font-size:14px;">Nom de la tâche</p>
-                                        <p class="fw-bold" style="font-size:14px;">Projet d'appartenance</p>
-                                        <p class="fw-bold" style="font-size:14px;">Description</p>
-                                        {# s'il autre attribut tu penses qu'on ajouter, faut ajouter alors #}
-                                    </div>
-                                </div>
-                                <div>
-                                    <div style="display: flex; justify-content: space-between;">
-                                        <div style="display: flex; gap:5px;">
-                                            <input type="checkbox" id="startCheckbox">
-                                            <i></i>
-                                            <label for="startCheckbox">Démarrer</label>
-                                        </div>
-                                        <div style="display: flex; gap:5px;">
-                                            <input type="checkbox" id="finishCheckbox">
-                                            <i></i>
-                                            <label for="finishCheckbox">Terminé</label>
-                                        </div>
-                                    </div>
-                                    <div class="progress">
-                                        <div id="startProgressBar" class="progress-bar bg-danger" role="progressbar" style="width: 50%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
-                                        <div id="finishProgressBar" class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <div style="display: flex; justify-content: end; margin-top:15px;">
-                                        <a href="{{ path('app_dashboard_viewDetail_tache') }}"><div style="display: flex; gap:8px; align-items:center;">Commenter <i class="fa-solid fa-comment"></i></div></a>
-                                        {# <div></div> #}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /# row -->
-                <div class="row">
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <h4 class="card-title bg-image text-center text-white fw-bold" style="font-size:30px;">Tâche</h4>
-                            <div class="card-body">
-                                <div class="ico-sparkline">
-                                    <div id="sparkline9">
-                                        <p class="fw-bold" style="font-size:14px;">Nom de la tâche</p>
-                                        <p class="fw-bold" style="font-size:14px;">Projet d'appartenance</p>
-                                        <p class="fw-bold" style="font-size:14px;">Description</p>
-                                        {# s'il autre attribut tu penses qu'on ajouter, faut ajouter alors #}
-                                    </div>
-                                </div>
-                                <div>
-                                    <div style="display: flex; justify-content: space-between;">
-                                        <div style="display: flex; gap:5px;">
-                                            <input type="checkbox" id="startCheckbox">
-                                            <i></i>
-                                            <label for="startCheckbox">Démarrer</label>
-                                        </div>
-                                        <div style="display: flex; gap:5px;">
-                                            <input type="checkbox" id="finishCheckbox">
-                                            <i></i>
-                                            <label for="finishCheckbox">Terminé</label>
-                                        </div>
-                                    </div>
-                                    <div class="progress">
-                                        <div id="startProgressBar" class="progress-bar bg-danger" role="progressbar" style="width: 50%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
-                                        <div id="finishProgressBar" class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <div style="display: flex; justify-content: end; margin-top:15px;">
-                                        <a href="{{ path('app_dashboard_viewDetail_tache') }}"><div style="display: flex; gap:8px; align-items:center;">Commenter <i class="fa-solid fa-comment"></i></div></a>
-                                        {# <div></div> #}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <h4 class="card-title bg-image text-center text-white fw-bold" style="font-size:30px;">Tâche</h4>
-                            <div class="card-body">
-                                <div class="ico-sparkline">
-                                    <div id="sparkline9">
-                                        <p class="fw-bold" style="font-size:14px;">Nom de la tâche</p>
-                                        <p class="fw-bold" style="font-size:14px;">Projet d'appartenance</p>
-                                        <p class="fw-bold" style="font-size:14px;">Description</p>
-                                        {# s'il autre attribut tu penses qu'on ajouter, faut ajouter alors #}
-                                    </div>
-                                </div>
-                                <div>
-                                    <div style="display: flex; justify-content: space-between;">
-                                        <div style="display: flex; gap:5px;">
-                                            <input type="checkbox" id="startCheckbox">
-                                            <i></i>
-                                            <label for="startCheckbox">Démarrer</label>
-                                        </div>
-                                        <div style="display: flex; gap:5px;">
-                                            <input type="checkbox" id="finishCheckbox">
-                                            <i></i>
-                                            <label for="finishCheckbox">Terminé</label>
-                                        </div>
-                                    </div>
-                                    <div class="progress">
-                                        <div id="startProgressBar" class="progress-bar bg-danger" role="progressbar" style="width: 50%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
-                                        <div id="finishProgressBar" class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <div style="display: flex; justify-content: end; margin-top:15px;">
-                                        <a href="{{ path('app_dashboard_viewDetail_tache') }}"><div style="display: flex; gap:8px; align-items:center;">Commenter <i class="fa-solid fa-comment"></i></div></a>
-                                        {# <div></div> #}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <h4 class="card-title bg-image text-center text-white fw-bold" style="font-size:30px;">Tâche</h4>
-                            <div class="card-body">
-                                <div class="ico-sparkline">
-                                    <div id="sparkline9">
-                                        <p class="fw-bold" style="font-size:14px;">Nom de la tâche</p>
-                                        <p class="fw-bold" style="font-size:14px;">Projet d'appartenance</p>
-                                        <p class="fw-bold" style="font-size:14px;">Description</p>
-                                        {# s'il autre attribut tu penses qu'on ajouter, faut ajouter alors #}
-                                    </div>
-                                </div>
-                                <div>
-                                    <div style="display: flex; justify-content: space-between;">
-                                        <div style="display: flex; gap:5px;">
-                                            <input type="checkbox" id="startCheckbox">
-                                            <i></i>
-                                            <label for="startCheckbox">Démarrer</label>
-                                        </div>
-                                        <div style="display: flex; gap:5px;">
-                                            <input type="checkbox" id="finishCheckbox">
-                                            <i></i>
-                                            <label for="finishCheckbox">Terminé</label>
-                                        </div>
-                                    </div>
-                                    <div class="progress">
-                                        <div id="startProgressBar" class="progress-bar bg-danger" role="progressbar" style="width: 50%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
-                                        <div id="finishProgressBar" class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <div style="display: flex; justify-content: end; margin-top:15px;">
-                                        <a href="{{ path('app_dashboard_viewDetail_tache') }}"><div style="display: flex; gap:8px; align-items:center;">Commenter <i class="fa-solid fa-comment"></i></div></a>
-                                        {# <div></div> #}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
             <!-- #/ container -->
