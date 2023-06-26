@@ -271,7 +271,7 @@
                 <ul class="metismenu" id="menu">
                     <li class="nav-label">Dashboard</li>
                     <li>
-                        <a href="{{ path('app_dashboard')}}">
+                        <a href="{{ path('app_entreprise')}}">
                             <i class="fa-solid fa-gauge"></i><span>Tableaux de bord</span>
                         </a>
                     </li>
@@ -402,51 +402,53 @@
                                             </thead>
                                             <tbody>
                                 				{% for tachestatus in tachestatus %}
-                                                    <tr>
-                                                        <td>{{ tachestatus.tache.nom }}</td>
+                                                    {% if tachestatus is not null %}
+                                                         <tr>
+                                                            <td>{{ tachestatus.tache.nom }}</td>
+                                                            
+                                                            <td>{{ tachestatus.tache.projet.nom }}</td>
+                                                            
+                                                            {# <td>{{ tachestatus.tache.duree| date("m/d/Y")  }}</td> #}
                                                         
-                                                        <td>{{ tachestatus.tache.projet.nom }}</td>
-                                                        
-                                                        {# <td>{{ tachestatus.tache.duree| date("m/d/Y")  }}</td> #}
-                                                     
-                                                        {% if tachestatus.tache.tempsrestant() %}
-                                                            <td>{{   tachestatus.tache.tempsrestant() | dateIntervalFormat }}</td>
-                                                        {% else %}
-                                                            <td>{{   tachestatus.tache.duree() | dateIntervalFormat }}</td>
-                                                        {% endif %}
-                                                        
-                                                         {% if tachestatus.status.nom == 'Terminé'  %}
-                                                            <td><span class="badge bg-success" style="color:white; font-size:14px;">{{ tachestatus.status.nom }}</span></td>
-                                                        {% elseif tachestatus.status.nom == 'En cours' %}
-                                                            <td><span class="badge bg-warning" style="color:white; font-size:14px;">{{ tachestatus.status.nom }}</span></td>
-                                                        {% elseif tachestatus.status.nom == 'A faire'%}
-                                                            <td><span class="badge bg-info" style="color:white; font-size:14px;">{{ tachestatus.status.nom }}</span></td>
-                                                        {% else %}
-                                                            <td><span class="badge bg-danger" style="color:white; font-size:14px;">{{ tachestatus.status.nom }}</span></td>
-                                                        {% endif %}
-                                                        
-                                                        <td>{{ tachestatus.tache.employe.nom }}</td>
+                                                            {% if tachestatus.tache.tempsrestant() %}
+                                                                <td>{{   tachestatus.tache.tempsrestant() | dateIntervalFormat }}</td>
+                                                            {% else %}
+                                                                <td>{{   tachestatus.tache.duree() | dateIntervalFormat }}</td>
+                                                            {% endif %}
+                                                            
+                                                            {% if tachestatus.status.nom == 'Terminé'  %}
+                                                                <td><span class="badge bg-success" style="color:white; font-size:14px;">{{ tachestatus.status.nom }}</span></td>
+                                                            {% elseif tachestatus.status.nom == 'En cours' %}
+                                                                <td><span class="badge bg-warning" style="color:white; font-size:14px;">{{ tachestatus.status.nom }}</span></td>
+                                                            {% elseif tachestatus.status.nom == 'A faire'%}
+                                                                <td><span class="badge bg-info" style="color:white; font-size:14px;">{{ tachestatus.status.nom }}</span></td>
+                                                            {% else %}
+                                                                <td><span class="badge bg-danger" style="color:white; font-size:14px;">{{ tachestatus.status.nom }}</span></td>
+                                                            {% endif %}
+                                                            
+                                                            <td>{{ tachestatus.tache.employe.nom }}</td>
 
-                                                        <td><a href="{{ path('app_dashboard_viewDetail_tache_employeur', { id: tachestatus.tache.id }) }}" class="hover-effect"> Voir plus <i class="fa-solid fa-angle-right"></i> </a></td>
-                                                        
-                                                        <td style="display: flex; gap:5px;">
-                                                            {# Ceci est le lien pour modifier un enregistrement #}
-                                                            <a href="#" class="btn btn-sm btn-primary shadow-sm gradient-4 d-flex justify-content-center align-items-center" style="border: none;" data-toggle="modal" data-target="#modalEdit">
-                                                                <i class="fa-solid fa-pen-to-square"></i>
-                                                            </a>
+                                                            <td><a href="{{ path('app_dashboard_viewDetail_tache_employeur', { id: tachestatus.tache.id }) }}" class="hover-effect"> Voir plus <i class="fa-solid fa-angle-right"></i> </a></td>
+                                                            
+                                                            <td style="display: flex; gap:5px;">
+                                                                {# Ceci est le lien pour modifier un enregistrement #}
+                                                                <a href="#" class="btn btn-sm btn-primary shadow-sm gradient-4 d-flex justify-content-center align-items-center" style="border: none;" data-toggle="modal" data-target="#modalEdit">
+                                                                    <i class="fa-solid fa-pen-to-square"></i>
+                                                                </a>
 
-                                                            {# Ceci est le bouton pour supprimer un enregistrement #}
-                                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-tache-id="{{ tachestatus.tache.id }}" data-target="#exampleModal">
-                                                                <i class="fa-sharp fa-solid fa-trash"></i>
-                                                            </button>
-                                                        </td>
-                                                        {# <td>
-                                                            <a href="{{ path('tache.edit', { id: tache.id }) }}" class="btn btn-xs btn-info">Modifier</a>
-                                                        </td>
-                                                        <td>
-                                                            <a href="{{ path('tache.delete', { id: tache.id }) }}" class="btn btn-xs btn-danger">Supprimer</a>
-                                                        </td>                                                         #}
-                                                    </tr>
+                                                                {# Ceci est le bouton pour supprimer un enregistrement #}
+                                                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-tache-id="{{ tachestatus.tache.id }}" data-target="#exampleModal">
+                                                                    <i class="fa-sharp fa-solid fa-trash"></i>
+                                                                </button>
+                                                            </td>
+                                                            {# <td>
+                                                                <a href="{{ path('tache.edit', { id: tache.id }) }}" class="btn btn-xs btn-info">Modifier</a>
+                                                            </td>
+                                                            <td>
+                                                                <a href="{{ path('tache.delete', { id: tache.id }) }}" class="btn btn-xs btn-danger">Supprimer</a>
+                                                            </td>                                                         #}
+                                                        </tr>   
+                                                    {% endif %}
 					                            {% endfor %}
                                             </tbody>
                                         </table>

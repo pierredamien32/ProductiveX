@@ -268,7 +268,7 @@
                 <ul class="metismenu" id="menu">
                     <li class="nav-label">Dashboard</li>
                     <li>
-                        <a href="{{ path('app_dashboard')}}">
+                        <a href="{{ path('app_entreprise')}}">
                             <i class="fa-solid fa-gauge"></i><span>Tableaux de bord</span>
                         </a>
                     </li>
@@ -394,47 +394,52 @@
                                             {# {{ dump(projets) }} #}
                                             {# {{ dump(ps) }} #}
                                             {# {{ dump(var) }} #}
-                                				{% for projstatus in projstatus %}
-                                                    <tr>
-                                                        <td>{{ projstatus.projet.nom }}</td>
-                                                        
-                                                       {% if projstatus.projet.tempsrestant() %}
-                                                            <td>{{   projstatus.projet.tempsrestant() | dateIntervalFormat }}</td>
-                                                        {% else %}
-                                                            <td>{{   projstatus.projet.duree() | dateIntervalFormat }}</td>
-                                                        {% endif %}
-                                                        
-                                                        {% if projstatus.status.nom == 'Terminé'  %}
-                                                            <td><span class="badge bg-success" style="color:white; font-size:14px;">{{ projstatus.status.nom }}</span></td>
-                                                        {% elseif projstatus.status.nom == 'En cours' %}
-                                                            <td><span class="badge bg-warning" style="color:white; font-size:14px;">{{ projstatus.status.nom }}</span></td>
-                                                        {% elseif projstatus.status.nom == 'A faire'%}
-                                                            <td><span class="badge bg-info" style="color:white; font-size:14px;">{{ projstatus.status.nom }}</span></td>
-                                                        {% else %}
-                                                            <td><span class="badge bg-danger" style="color:white; font-size:14px;">{{ projstatus.status.nom }}</span></td>
-                                                        {% endif %}
-                                                        
-                                                        <td><a href="{{ path('app_dashboard_viewDetail_projet_employeur',{id: projstatus.id}) }}" class="hover-effect"> Voir plus <i class="fa-solid fa-angle-right"></i> </a></td>
-                                                        
-                                                        <td style="display: flex; gap:5px;">
-                                                            {# Ceci est le lien pour modifier un enregistrement #}
-                                                            <a href="#" class="btn btn-sm btn-primary shadow-sm gradient-4 d-flex justify-content-center align-items-center" style="border: none;" data-toggle="modal" data-target="#modalEdit">
-                                                                <i class="fa-solid fa-pen-to-square"></i>
-                                                            </a>
+                                                {% for projstatus in projstatus %}
+                                                    {% if projstatus is not null %}
 
-                                                            {# Ceci est le bouton pour supprimer un enregistrement #}
-                                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-projet-id="{{ projstatus.projet.id }}" data-target="#exampleModal">
-                                                                <i class="fa-sharp fa-solid fa-trash"></i>
-                                                            </button>
-                                                        </td>
-                                                        {# <td>
-                                                            <a href="{{ path('projet.edit', { id: projet.id }) }}" class="btn btn-xs btn-info">Modifier</a>
-                                                        </td>
-                                                        <td>
-                                                            <a href="{{ path('projet.delete', { id: projet.id }) }}" class="btn btn-xs btn-danger">Supprimer</a>
-                                                        </td>                                                         #}
-                                                    </tr>
+                                                        <tr>
+                                                            <td>{{ projstatus.projet.nom }}</td>
+                                                            
+                                                        {% if projstatus.projet.tempsrestant() %}
+                                                                <td>{{   projstatus.projet.tempsrestant() | dateIntervalFormat }}</td>
+                                                            {% else %}
+                                                                <td>{{   projstatus.projet.duree() | dateIntervalFormat }}</td>
+                                                            {% endif %}
+                                                            
+                                                            {% if projstatus.status.nom == 'Terminé'  %}
+                                                                <td><span class="badge bg-success" style="color:white; font-size:14px;">{{ projstatus.status.nom }}</span></td>
+                                                            {% elseif projstatus.status.nom == 'En cours' %}
+                                                                <td><span class="badge bg-warning" style="color:white; font-size:14px;">{{ projstatus.status.nom }}</span></td>
+                                                            {% elseif projstatus.status.nom == 'A faire'%}
+                                                                <td><span class="badge bg-info" style="color:white; font-size:14px;">{{ projstatus.status.nom }}</span></td>
+                                                            {% else %}
+                                                                <td><span class="badge bg-danger" style="color:white; font-size:14px;">{{ projstatus.status.nom }}</span></td>
+                                                            {% endif %}
+                                                            
+                                                            <td><a href="{{ path('app_dashboard_viewDetail_projet_employeur',{id: projstatus.id}) }}" class="hover-effect"> Voir plus <i class="fa-solid fa-angle-right"></i> </a></td>
+                                                            
+                                                            <td style="display: flex; gap:5px;">
+                                                                {# Ceci est le lien pour modifier un enregistrement #}
+                                                                <a href="#" class="btn btn-sm btn-primary shadow-sm gradient-4 d-flex justify-content-center align-items-center" style="border: none;" data-toggle="modal" data-target="#modalEdit">
+                                                                    <i class="fa-solid fa-pen-to-square"></i>
+                                                                </a>
+
+                                                                {# Ceci est le bouton pour supprimer un enregistrement #}
+                                                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-projet-id="{{ projstatus.projet.id }}" data-target="#exampleModal">
+                                                                    <i class="fa-sharp fa-solid fa-trash"></i>
+                                                                </button>
+                                                            </td>
+                                                            {# <td>
+                                                                <a href="{{ path('projet.edit', { id: projet.id }) }}" class="btn btn-xs btn-info">Modifier</a>
+                                                            </td>
+                                                            <td>
+                                                                <a href="{{ path('projet.delete', { id: projet.id }) }}" class="btn btn-xs btn-danger">Supprimer</a>
+                                                            </td>                                                         #}
+                                                        </tr>
+                                                    {% endif %}
+
 					                            {% endfor %}
+                                				
                                             </tbody>
                                         </table>
                                     </div>

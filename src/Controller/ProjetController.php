@@ -88,8 +88,8 @@ class ProjetController extends AbstractController
             $ps = $repoprojetstatus->findBy(['projet' => $projet], ['createdAt' => 'DESC'], 1);
             $firstRecord = count($ps) > 0 ? $ps[0] : null;
             $projstatus[] = $firstRecord;    
-    
         }
+        // dd($projstatus);
         return $this->render('entreprise/dashboard/projets.html.twig', [
             'projstatus' => $projstatus,
             'form' => $form->createView()

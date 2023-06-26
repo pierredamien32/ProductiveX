@@ -11,6 +11,7 @@ use App\Entity\Status;
 use App\Entity\Employe;
 use App\Entity\Entreprise;
 use App\Entity\ProjetStatus;
+use App\Entity\TacheStatus;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\Filesystem\Filesystem;
@@ -57,7 +58,7 @@ class AppFixtures extends Fixture
         //Utilisateur entreprise
         $entreprises = [];
 
-        for ($i = 0; $i < 3; $i++) {
+        for ($i = 0; $i < 5; $i++) {
 
             $width = $this->faker->numberBetween(400, 800);
             $height = $this->faker->numberBetween(300, 600);
@@ -140,13 +141,13 @@ class AppFixtures extends Fixture
 
         //Projet
         $projets = [];
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 15; $i++) {
             $projet = new Projet();
             
             // Générer une durée aléatoire
             $duree = new \DateInterval('P' . mt_rand(1, 10) . 'M'); // Durée de 1 à 10 mois, par exemple
 
-            $projet->setNom('Project '. $this->faker->word())
+            $projet->setNom('Projet '. $this->faker->word())
                 ->setDuree($duree)
                 ->setDescription($this->faker->paragraph())
                 ->setEntreprise($entreprises[mt_rand(0, count($entreprises) - 1)]);
@@ -157,40 +158,56 @@ class AppFixtures extends Fixture
         }
 
         //Projet---Status
-        $ps = [];
+        // $ps = [];
+        // for ($i = 0; $i < 50; $i++) {
+        //     $ps = new ProjetStatus();
+        //     // Générer une durée aléatoire
+        //     $duree = new \DateInterval('P' . mt_rand(1, 10) . 'M'); // Durée de 1 à 10 mois, par exemple
+
+        //     $ps->setProjet($projets[mt_rand(0, count($projets) - 1)])
+        //         ->setStatus($statuss[mt_rand(0, count($statuss) - 1)])
+        //         ;
+        //     // $ps[] = $ps;
+        //     $manager->persist($ps);
+        // }
+
+
+        //taches
+        $taches = [];
         for ($i = 0; $i < 5; $i++) {
-            $ps = new ProjetStatus();
+            $tache = new Tache();
+
             // Générer une durée aléatoire
             $duree = new \DateInterval('P' . mt_rand(1, 10) . 'M'); // Durée de 1 à 10 mois, par exemple
 
-            $ps->setProjet($projets[mt_rand(0, count($projets) - 1)])
-                ->setStatus($statuss[mt_rand(0, count($statuss) - 1)])
-                ;
-            $ps[] = $ps;
-            $manager->persist($ps);
+            $tache->setNom($this->faker->sentence())
+                ->setDuree($duree)
+                ->setDescription($this->faker->paragraph())
+                ->setProjet($projets[mt_rand(0, count($projets) - 1)])
+                ->setEmploye($employes[mt_rand(0, count($employes) - 1)])
+                ->setNote(1);
+
+            $taches[] = $tache;
+            $manager->persist($tache);
         }
 
         
         
-        
-        //  //Taches
-        // $taches = [];
+ 
+   
+
+        //Tache---Status
+        // $ts = [];
         // for ($i = 0; $i < 50; $i++) {
-        //     $tache = new Tache();
-            
+        //     $ps = new TacheStatus();
         //     // Générer une durée aléatoire
         //     $duree = new \DateInterval('P' . mt_rand(1, 10) . 'M'); // Durée de 1 à 10 mois, par exemple
 
-        //     $tache->setNom($this->faker->sentence())
-        //         ->setDuree($duree)
-        //         ->setDescription($this->faker->paragraph())
-        //         ->setProjet($projets[mt_rand(0, count($projets) - 1)])
-        //         ->setEmploye($employes[mt_rand(0, count($employes) - 1)])
-        //         ;
-
-        //     $taches[] = $tache;
-        //     $manager->persist($tache);
-        // }      
+        //     $ps->setTache($taches[mt_rand(0, count($taches) - 1)])
+        //         ->setStatus($statuss[mt_rand(0, count($statuss) - 1)]);
+        //     // $ts[] = $ts;
+        //     $manager->persist($ps);
+        // }
         
         $manager->flush();
         
