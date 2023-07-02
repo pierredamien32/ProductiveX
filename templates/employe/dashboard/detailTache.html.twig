@@ -1,6 +1,5 @@
 {% extends 'baseDashboard.html.twig' %}
 
-
 {% block body %}
 <style>
    /* CSS pour l'animation du texte */
@@ -383,18 +382,22 @@
             <!-- #/ container -->
             <div class="container-fluid">
                 <div class="row">
+                    {# {% for ts in ts %} #}
+                    {# {{ dump(ts) }} #}
                     <div class="col-lg-6">
                         <div class="card">
                             <h4 class="card-title bg-image text-center text-white fw-bold" style="font-size:30px;">Tâche</h4>
                             <div class="card-body">
                                 <div class="ico-sparkline">
                                     <div id="sparkline9">
-                                        <p class="fw-bold" style="font-size:18px;">Nom de la tâche</p>
-                                        <p class="fw-bold" style="font-size:18px;">Projet d'appartenance</p>
-                                        <p class="fw-bold" style="font-size:18px;">Description</p>
-                                        <p class="fw-bold" style="font-size:18px;">Assigné à </p>
-                                        <p class="fw-bold" style="font-size:18px;">Créer le </p>
-                                        <p class="fw-bold" style="font-size:18px;">Status</p>
+                                        <p class="fw-bold" style="font-size:18px;"><span class="font-weight-bold">Nom de la tâche :</span>{{ ts.tache.nom }}</p>
+                                        <p class="fw-bold" style="font-size:18px;"><span class="font-weight-bold">Projet d'appartenance:</span>{{ ts.tache.projet.nom }}</p>
+                                        <p class="fw-bold" style="font-size:18px;"><span class="font-weight-bold">Description:</span>{{ ts.tache.description }}</p>
+                                        <p class="fw-bold" style="font-size:18px;"><span class="font-weight-bold">Assigné à :</span>{{ ts.tache.employe.nom }}</p>
+                                        <p class="fw-bold" style="font-size:18px;"><span class="font-weight-bold">Créer le :</span>
+                                        {{ ts.tache.createdAt | date("m/d/Y") }}
+                                        </p>
+                                        <p class="fw-bold" style="font-size:18px;"><span class="font-weight-bold">Status:</span>{{ ts.status.nom }}</p>
                                         {# s'il autre attribut tu peux completer #}
                                     </div>
                                 </div>
@@ -409,12 +412,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                     <div class="col-lg-6">
                         <div class="card">
                             <div class="card-body">
-                                <form action="#" class="form-profile">
+                                {# <form action="#" class="form-profile"> #}
+                                {{ form_start(form) }}
                                     <div class="form-group">
-                                        <textarea class="form-control" name="textarea" id="textarea" cols="30" rows="2" placeholder="Laissez un commentaire..."></textarea>
+                                        {{ form_row(form.contenu) }}   
+                                        {# <textarea class="form-control" name="textarea" id="textarea" cols="30" rows="2" placeholder="Laissez un commentaire..."></textarea> #}
                                     </div>
                                     <div class="d-flex align-items-center">
                                         <ul class="mb-0 form-profile__icons">
@@ -431,84 +436,97 @@
                                                 <button class="btn btn-transparent p-0 mr-3"><i class="fa fa-smile"></i></button>
                                             </li>
                                         </ul>
-                                        <button class="btn btn-primary px-3 ml-4">Commenter</button>
+                                        {{ form_row(form.submit) }}   
+                                        {# <button class="btn btn-primary px-3 ml-4">Commenter</button> #}
                                     </div>
-                                </form>
+                                {{ form_end(form) }}
+                                {# </form> #}
                             </div>
                         </div>
-
                         <div class="card">
-                            <div class="card-body">
-                                <div class="media media-reply">
-                                    <img class="mr-3 circle-rounded" src="{{ asset('theme/images/avatar/2.jpg') }}" width="50" height="50" alt="Generic placeholder image">
-                                    <div class="media-body">
-                                        <div class="d-sm-flex justify-content-between mb-2">
-                                            <h5 class="mb-sm-0">Milan Gbah <small class="text-muted ml-3">about 3 days ago</small></h5>
-                                            <div class="media-reply__link">
-                                                <button class="btn btn-transparent p-0 mr-3"><i class="fa fa-thumbs-up"></i></button>
-                                                <button class="btn btn-transparent p-0 mr-3"><i class="fa fa-thumbs-down"></i></button>
-                                                <button class="btn btn-transparent text-dark font-weight-bold p-0 ml-2">Reply</button>
-                                            </div>
-                                        </div>
-                                        
-                                        <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
-                                        <ul>
-                                            <li class="d-inline-block"><img class="rounded" width="60" height="60" src="{{ asset('theme/images/blog/2.jpg')}}" alt=""></li>
-                                            <li class="d-inline-block"><img class="rounded" width="60" height="60" src="{{ asset('theme/images/blog/3.jpg')}}" alt=""></li>
-                                            <li class="d-inline-block"><img class="rounded" width="60" height="60" src="{{ asset('theme/images/blog/4.jpg')}}" alt=""></li>
-                                            <li class="d-inline-block"><img class="rounded" width="60" height="60" src="{{ asset('theme/images/blog/1.jpg')}}" alt=""></li>
-                                        </ul>
+    <div class="card-body">
+        {% for comm in comm %}
+            <div class="media media-reply">
+                <img class="mr-3 circle-rounded" src="{{ asset('theme/images/avatar/2.jpg') }}" width="50" height="50" alt="Generic placeholder image">
+                <div class="media-body">
+                    <div class="d-sm-flex justify-content-between mb-2">
+                        <h5 class="mb-sm-0">{{ comm.userid.employe.nom }}<small class="text-muted ml-3">
+                            {# Calcul de la durée depuis la création du commentaire #}
+                            {% set maintenant = date() %}
+                            {% set difference = maintenant.diff(date(comm.createdAt)) %}
+                            {% set joursRestants = difference.days %}
+                            {% set heuresRestantes = difference.h %}
+                            {% set anneesRestantes = difference.y %}
+                            {% set minutesRestantes = difference.i %}
+                            {% set secondesRestantes = difference.s %}
 
-                                        <div class="media mt-3">
-                                        <img class="mr-3 circle-rounded circle-rounded" src="{{ asset('theme/images/avatar/4.jpg') }}" width="50" height="50" alt="Generic placeholder image">
-                                        <div class="media-body">
-                                            <div class="d-sm-flex justify-content-between mb-2">
-                                                <h5 class="mb-sm-0">Milan Gbah <small class="text-muted ml-3">about 3 days ago</small></h5>
-                                                <div class="media-reply__link">
-                                                    <button class="btn btn-transparent p-0 mr-3"><i class="fa fa-thumbs-up"></i></button>
-                                                    <button class="btn btn-transparent p-0 mr-3"><i class="fa fa-thumbs-down"></i></button>
-                                                    <button class="btn btn-transparent p-0 ml-3 font-weight-bold">Reply</button>
-                                                </div>
-                                            </div>
-                                            <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="media media-reply">
-                                <img class="mr-3 circle-rounded" src="{{ asset('theme/images/avatar/2.jpg')}}" width="50" height="50" alt="Generic placeholder image">
+                            {% if minutesRestantes != 0 or secondesRestantes != 0 %}
+                                {{ minutesRestantes }} min et {{ secondesRestantes }} sec.
+                            {% elseif heuresRestantes != 0 or minutesRestantes != 0 %}
+                                {{ heuresRestantes }} hrs et {{ minutesRestantes }} min.
+                            {% elseif anneesRestantes != 0 or heuresRestantes != 0 %}
+                                {{ anneesRestantes }} ans et {{ heuresRestantes }} hrs.
+                            {% endif %}
+                        </small></h5>
+                        <div class="media-reply__link">
+                            <button class="btn btn-transparent p-0 mr-3"><i class="fa fa-thumbs-up"></i></button>
+                            <button class="btn btn-transparent p-0 mr-3"><i class="fa fa-thumbs-down"></i></button>
+                            <button class="btn btn-transparent text-dark font-weight-bold p-0 ml-2">Reply</button>
+                        </div>
+                    </div>
+
+                    <p>{{ comm.contenu }}</p>
+                    
+                    {% if comm.reponses is not empty %}
+                        {% for reponse in comm.reponses %}
+                            <div class="media mt-3">
+                                <img class="mr-3 circle-rounded circle-rounded" src="{{ asset('theme/images/avatar/4.jpg') }}" width="50" height="50" alt="Generic placeholder image">
                                 <div class="media-body">
                                     <div class="d-sm-flex justify-content-between mb-2">
-                                        <h5 class="mb-sm-0">Milan Gbah <small class="text-muted ml-3">about 3 days ago</small></h5>
+                                        <h5 class="mb-sm-0">{{ reponse.userid.employe.nom }}<small class="text-muted ml-3">
+                                            {# Calcul de la durée depuis la création de la réponse #}
+                                            {% set maintenant = date() %}
+                                            {% set difference = maintenant.diff(date(reponse.createdAt)) %}
+                                            {% set joursRestants = difference.days %}
+                                            {% set heuresRestantes = difference.h %}
+                                            {% set anneesRestantes = difference.y %}
+                                            {% set minutesRestantes = difference.i %}
+                                            {% set secondesRestantes = difference.s %}
+
+                                            {% if minutesRestantes != 0 or secondesRestantes != 0 %}
+                                                {{ minutesRestantes }} min et {{ secondesRestantes }} sec.
+                                            {% elseif heuresRestantes != 0 or minutesRestantes != 0 %}
+                                                {{ heuresRestantes }} hrs et {{ minutesRestantes }} min.
+                                            {% elseif anneesRestantes != 0 or heuresRestantes != 0 %}
+                                                {{ anneesRestantes }} ans et {{ heuresRestantes }} hrs.
+                                            {% endif %}
+                                        </small></h5>
                                         <div class="media-reply__link">
                                             <button class="btn btn-transparent p-0 mr-3"><i class="fa fa-thumbs-up"></i></button>
                                             <button class="btn btn-transparent p-0 mr-3"><i class="fa fa-thumbs-down"></i></button>
                                             <button class="btn btn-transparent p-0 ml-3 font-weight-bold">Reply</button>
                                         </div>
                                     </div>
-                                    
-                                    <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
+                                    <p>{{ reponse.contenu }}</p>
                                 </div>
                             </div>
+                        {% endfor %}
+                    {% endif %}
+                    
+                    {# Formulaire pour ajouter une réponse #}
+                    <form action="{{ path('ajouter_reponse') }}" method="POST">
+                        <div class="form-group">
+                            <input type="text" name="reponse" class="form-control" placeholder="Ajouter une réponse...">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Envoyer</button>
+                    </form>
+                </div>
+            </div>                                
+        {% endfor %}
+    </div>
+</div>
 
-                            <div class="media media-reply">
-                                <img class="mr-3 circle-rounded" src="{{ asset('theme/images/avatar/2.jpg')}}" width="50" height="50" alt="Generic placeholder image">
-                                <div class="media-body">
-                                    <div class="d-sm-flex justify-content-between mb-2">
-                                        <h5 class="mb-sm-0">Milan Gbah <small class="text-muted ml-3">about 3 days ago</small></h5>
-                                        <div class="media-reply__link">
-                                            <button class="btn btn-transparent p-0 mr-3"><i class="fa fa-thumbs-up"></i></button>
-                                            <button class="btn btn-transparent p-0 mr-3"><i class="fa fa-thumbs-down"></i></button>
-                                            <button class="btn btn-transparent p-0 ml-3 font-weight-bold">Reply</button>
-                                        </div>
-                                    </div>
-                                    
-                                    <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
-                                </div>
-                            </div>
-                        </div>
-                        </div>
+
                     </div>
                 </div>
                 <!-- /# row -->
@@ -540,6 +558,7 @@
 <!--**********************************
         Scripts
     ***********************************-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="{{ asset('theme/plugins/common/common.min.js')}}"></script>
     <script src="{{ asset('theme/js/custom.min.js')}}"></script>
     <script src="{{ asset('theme/js/settings.js')}}"></script>

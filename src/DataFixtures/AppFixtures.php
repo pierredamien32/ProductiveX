@@ -49,77 +49,77 @@ class AppFixtures extends Fixture
 
 
         //Utilisateur entreprise
-        $entreprises = [];
+        // $entreprises = [];
 
-        for ($i = 0; $i < 1; $i++) {
+        // for ($i = 0; $i < 1; $i++) {
 
-            $width = $this->faker->numberBetween(400, 800);
-            $height = $this->faker->numberBetween(300, 600);
-            $category = $this->faker->randomElement(['abstract', 'animals', 'business', 'food', 'nature']);
-            $randomize = true;
-            $word = $this->faker->word;
-            $gray = false;
-            $format = $this->faker->randomElement(['png', 'jpg']);
-            $img = $this->faker->image($logoPath, $width, $height, $category, $randomize, $word, $gray, $format);
+        //     $width = $this->faker->numberBetween(400, 800);
+        //     $height = $this->faker->numberBetween(300, 600);
+        //     $category = $this->faker->randomElement(['abstract', 'animals', 'business', 'food', 'nature']);
+        //     $randomize = true;
+        //     $word = $this->faker->word;
+        //     $gray = false;
+        //     $format = $this->faker->randomElement(['png', 'jpg']);
+        //     $img = $this->faker->image($logoPath, $width, $height, $category, $randomize, $word, $gray, $format);
             
-            $filename = basename($img);
+        //     $filename = basename($img);
 
-            $entreprise = new Entreprise();
-            $entreprise->setSigle($this->faker->companySuffix())
-                ->setDenomination($this->faker->company())
-                ->setLogo($filename)
-                ->setAdresse($this->faker->address());
+        //     $entreprise = new Entreprise();
+        //     $entreprise->setSigle($this->faker->companySuffix())
+        //         ->setDenomination($this->faker->company())
+        //         ->setLogo($filename)
+        //         ->setAdresse($this->faker->address());
                 
-            $user = new User();
-            $user->setEmail($this->faker->companyEmail())
-                ->setNumtel($this->faker->phoneNumber())
-                ->setPlainPassword('123456')
-                ->setRoles(['ROLE_USER','ROLE_ENT']);
-                $entreprise->setUserid($user);
+        //     $user = new User();
+        //     $user->setEmail($this->faker->companyEmail())
+        //         ->setNumtel($this->faker->phoneNumber())
+        //         ->setPlainPassword('123456')
+        //         ->setRoles(['ROLE_USER','ROLE_ENT']);
+        //         $entreprise->setUserid($user);
 
-            $entreprises[] = $entreprise;
-            $manager->persist($entreprise);
-            $manager->persist($user);
-        }
+        //     $entreprises[] = $entreprise;
+        //     $manager->persist($entreprise);
+        //     $manager->persist($user);
+        // }
 
 
-        //Employé
-        $employes = [];
+        // //Employé
+        // $employes = [];
 
-        for ($i = 0; $i < 10; $i++) {
+        // for ($i = 0; $i < 10; $i++) {
 
-            $width = $this->faker->numberBetween(400, 800);
-            $height = $this->faker->numberBetween(300, 600);
-            $category = $this->faker->randomElement(['abstract', 'animals', 'business', 'food', 'nature']);
-            $randomize = true;
-            $word = $this->faker->word;
-            $gray = false;
-            $format = $this->faker->randomElement(['png', 'jpg']);
-            $img = $this->faker->image($imagePath, $width, $height, $category, $randomize, $word, $gray, $format);
-            $filename = basename($img);
+        //     $width = $this->faker->numberBetween(400, 800);
+        //     $height = $this->faker->numberBetween(300, 600);
+        //     $category = $this->faker->randomElement(['abstract', 'animals', 'business', 'food', 'nature']);
+        //     $randomize = true;
+        //     $word = $this->faker->word;
+        //     $gray = false;
+        //     $format = $this->faker->randomElement(['png', 'jpg']);
+        //     $img = $this->faker->image($imagePath, $width, $height, $category, $randomize, $word, $gray, $format);
+        //     $filename = basename($img);
 
-            $startDate = $this->faker->dateTimeBetween('-20 years', '+0 days');
-            $endDate = $this->faker->dateTimeBetween($startDate, '+1 year');
+        //     $startDate = $this->faker->dateTimeBetween('-20 years', '+0 days');
+        //     $endDate = $this->faker->dateTimeBetween($startDate, '+1 year');
 
-            $employe = new Employe();
-            $employe->setNom($this->faker->name())
-                ->setPoste($this->faker->jobTitle())
-                ->setDebutcontratAt($startDate)
-                ->setEntreprise($entreprises[mt_rand(0, count($entreprises) - 1)])
-                ->setFincontratAt($endDate)
-                ->setImage($filename);
+        //     $employe = new Employe();
+        //     $employe->setNom($this->faker->name())
+        //         ->setPoste($this->faker->jobTitle())
+        //         ->setDebutcontratAt($startDate)
+        //         ->setEntreprise($entreprises[mt_rand(0, count($entreprises) - 1)])
+        //         ->setFincontratAt($endDate)
+        //         ->setImage($filename);
                 
-            $user = new User();
-            $user->setEmail($this->faker->email())
-                ->setNumtel($this->faker->phoneNumber())
-                ->setPlainPassword('123456')
-                ->setRoles(['ROLE_USER','ROLE_EMP']);
-                $employe->setUserid($user);
+        //     $user = new User();
+        //     $user->setEmail($this->faker->email())
+        //         ->setNumtel($this->faker->phoneNumber())
+        //         ->setPlainPassword('123456')
+        //         ->setRoles(['ROLE_USER','ROLE_EMP']);
+        //         $employe->setUserid($user);
 
-            $employes[] = $employe;
-            $manager->persist($employe);
-            $manager->persist($user);
-        }
+        //     $employes[] = $employe;
+        //     $manager->persist($employe);
+        //     $manager->persist($user);
+        // }
 
         
         // Status
